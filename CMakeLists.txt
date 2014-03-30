@@ -55,6 +55,11 @@ if (MSVC)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif(MSVC)
 
+message("curent: " ${CMAKE_CURRENT_SOURCE_DIR})
+
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_env.bat.in ${CMAKE_CURRENT_SOURCE_DIR}/setup_env.bat @ONLY )
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_vs.bat.in  ${CMAKE_CURRENT_SOURCE_DIR}/setup_vs.bat @ONLY )
+
 # TODO get dependencies and compile them and install for ogre to find!
 ExternalProject_Add(
     ogreDeps
@@ -93,16 +98,17 @@ ADD_DEPENDENCIES(ogre ogreDeps)
 
 # add include paths of external libraries
 #include_directories(${PROJECT_SOURCE_DIR}/installed/include)
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/installed/CMake)
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/installed/CMake  ${PROJECT_SOURCE_DIR}/installed/CMake/Utils)
 
 include_directories(${PROJECT_SOURCE_DIR}/installed/include)
 
-# shall we do FindOgre here?
-find_package(OGRE)
+# shall we do FindOgre here?  Set Ogre home
+SET( OGRE_HOME ${PROJECT_SOURCE_DIR}/installed)
+find_package(OGRE) 
 if(OGRE_FOUND)
     message("Ogre found!")    
     set(OGRE_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/installed/include/OGRE)    
-    include_directories(${OGRE_INCLUDE_DIR})
+    include_directories(${OGRE_INCLUDE_DIR} ${OGRE_MEDIA_DIR})    
 else() 
 endif(OGRE_FOUND)
 

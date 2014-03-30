@@ -1,0 +1,3 @@
+@echo off
+call setup_vs.bat
+PATH=%PATH%;%~dp0installed\media;%~dp0installed\bin\Debug
