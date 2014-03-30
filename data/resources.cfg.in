@@ -1,0 +1,50 @@
+# Resources required by the sample browser and most samples.
+[Essential]
+Zip=@OGRE_MEDIA_PATH@/packs/SdkTrays.zip
+Zip=@OGRE_MEDIA_PATH@/packs/profiler.zip
+FileSystem=@OGRE_MEDIA_PATH@/thumbnails
+
+# Common sample resources needed by many of the samples.
+# Rarely used resources should be separately loaded by the
+# samples which require them.
+[Popular]
+FileSystem=@OGRE_MEDIA_PATH@/fonts
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/GLSL
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/GLSL150
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/GLSL400
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/GLSLES
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/HLSL
+FileSystem=@OGRE_MEDIA_PATH@/materials/programs/cg
+FileSystem=@OGRE_MEDIA_PATH@/materials/scripts
+FileSystem=@OGRE_MEDIA_PATH@/materials/textures
+FileSystem=@OGRE_MEDIA_PATH@/materials/textures/nvidia
+FileSystem=@OGRE_MEDIA_PATH@/models
+FileSystem=@OGRE_MEDIA_PATH@/particle
+FileSystem=@OGRE_MEDIA_PATH@/DeferredShadingMedia
+FileSystem=@OGRE_MEDIA_PATH@/PCZAppMedia
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/Cg
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/GLSL
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/GLSL150
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/GLSLES
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/HLSL
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/materials
+FileSystem=@OGRE_MEDIA_PATH@/materials/scripts/SSAO
+FileSystem=@OGRE_MEDIA_PATH@/materials/textures/SSAO
+FileSystem=@OGRE_MEDIA_PATH@/volumeTerrain
+Zip=@OGRE_MEDIA_PATH@/packs/cubemap.zip
+Zip=@OGRE_MEDIA_PATH@/packs/cubemapsJS.zip
+Zip=@OGRE_MEDIA_PATH@/packs/dragon.zip
+Zip=@OGRE_MEDIA_PATH@/packs/fresneldemo.zip
+Zip=@OGRE_MEDIA_PATH@/packs/ogretestmap.zip
+Zip=@OGRE_MEDIA_PATH@/packs/ogredance.zip
+Zip=@OGRE_MEDIA_PATH@/packs/Sinbad.zip
+Zip=@OGRE_MEDIA_PATH@/packs/skybox.zip
+Zip=@OGRE_MEDIA_PATH@/volumeTerrain/volumeTerrainBig.zip
+
+[General]
+FileSystem=@OGRE_MEDIA_PATH@
+
+# Materials for visual tests
+[Tests]
+FileSystem=@OGRE_MEDIA_PATH@/Tests

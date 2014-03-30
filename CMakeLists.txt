@@ -31,8 +31,8 @@ option(BUILD_EXAMPLES "If example applications should be build" ON)
 #set(ANT_VERSION "${ANT_VERSION_MAJOR}.${ANT_VERSION_MINOR}.${ANT_VERSION_PATCH}")
 
 # Set directory paths for data
-set( ANT_DATA_PATH "${PROJECT_SOURCE_DIR}/data")
-set( ANT_ROOT_PATH "${PROJECT_SOURCE_DIR}")
+set( RESOURCE_FILE_PATH "${PROJECT_SOURCE_DIR}/data" )
+set( OGRE_MEDIA_PATH "${PROJECT_SOURCE_DIR}/installed/media" )
 
 # Properties
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -59,6 +59,24 @@ message("curent: " ${CMAKE_CURRENT_SOURCE_DIR})
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_env.bat.in ${CMAKE_CURRENT_SOURCE_DIR}/setup_env.bat @ONLY )
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_vs.bat.in  ${CMAKE_CURRENT_SOURCE_DIR}/setup_vs.bat @ONLY )
+
+# Do configure file
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file (
+  "${PROJECT_SOURCE_DIR}/include/ant_config.hpp.in"
+  "${PROJECT_BINARY_DIR}/include/ant_config.hpp"
+  )
+
+configure_file (
+  "${PROJECT_SOURCE_DIR}/data/resources.cfg.in"
+  "${PROJECT_BINARY_DIR}/data/resources.cfg"
+  )
+
+configure_file (
+  "${PROJECT_SOURCE_DIR}/data/plugins.cfg.in"
+  "${PROJECT_BINARY_DIR}/data/plugins.cfg"
+  )
 
 # TODO get dependencies and compile them and install for ogre to find!
 ExternalProject_Add(
@@ -101,6 +119,7 @@ ADD_DEPENDENCIES(ogre ogreDeps)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/installed/CMake  ${PROJECT_SOURCE_DIR}/installed/CMake/Utils)
 
 include_directories(${PROJECT_SOURCE_DIR}/installed/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # shall we do FindOgre here?  Set Ogre home
 SET( OGRE_HOME ${PROJECT_SOURCE_DIR}/installed)

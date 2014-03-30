@@ -1,0 +1,16 @@
+/**
+ * Defines the various config elements of the ANT framework and 
+ * and various OS and memory related things
+ */
+
+#ifndef _ANT_CONFIG_HPP_
+	#define _ANT_CONFIG_HPP_
+
+////////////////////////////////////////////////////////////
+// Define the new operator
+////////////////////////////////////////////////////////////
+
+#define RESOURCE_FILE_PATH "@RESOURCE_FILE_PATH@"
+#define RESOURCE_FILE_PATH "@RESOURCE_FILE_PATH@"
+
+#endif /*ANT_CONFIG_HPP_*/

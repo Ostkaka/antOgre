@@ -41,7 +41,7 @@ BaseApplication::BaseApplication(void)
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 	m_ResourcePath = Ogre::macBundlePath() + "/Contents/Resources/";
 #else
-	m_ResourcePath = "";
+	m_ResourcePath = RESOURCE_FILE_PATH"/";
 #endif
 }
  
@@ -217,8 +217,8 @@ void BaseApplication::go(void)
 {
 #ifdef _DEBUG
 	#ifndef OGRE_STATIC_LIB	
-		mResourcesCfg = m_ResourcePath + "resources_d.cfg";
-		mPluginsCfg = m_ResourcePath + "plugins_d.cfg";
+		mResourcesCfg = m_ResourcePath + "resources.cfg";
+		mPluginsCfg = m_ResourcePath + "plugins.cfg";
 	#else
 		mResourcesCfg = "resources_d.cfg";
 		mPluginsCfg = "plugins_d.cfg";
