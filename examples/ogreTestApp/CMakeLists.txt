@@ -11,7 +11,7 @@ add_executable(ogreTestApp ${SOURCE})
 message("libs: " ${OGRE_LIBRARIES})
 
 # link dependecies
-target_link_libraries(ogreTestApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES})
+target_link_libraries(ogreTestApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${OGRE_Terrain_LIBRARIES})
 
 # properties
 SET_PROPERTY(TARGET ogreTestApp PROPERTY FOLDER "examples")

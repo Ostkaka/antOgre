@@ -1,46 +1,34 @@
 /*
 -----------------------------------------------------------------------------
-Filename:    TutorialApplication.h
+Filename:    BasicTutorial4.h
 -----------------------------------------------------------------------------
 
 This source file is part of the
-   ___                 __    __ _ _    _ 
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
+___                 __    __ _ _    _
+/___\__ _ _ __ ___  / / /\ \ (_) | _(_)
+//  // _` | '__/ _ \ \ \/  \/ / | |/ / |
 / \_// (_| | | |  __/  \  /\  /| |   <| |
 \___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/                              
-      Tutorial Framework
-      http://www.ogre3d.org/tikiwiki/
+|___/
+Tutorial Framework
+http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
 */
-#ifndef __TutorialApplication_h_
-#define __TutorialApplication_h_
+#ifndef __BasicTutorial4_h_
+#define __BasicTutorial4_h_
 
 #include "BaseApplication.h"
-#include <Terrain/OgreTerrain.h>
-#include <Terrain/OgreTerrainGroup.h>
 
-class TutorialApplication : public BaseApplication
+class BasicTutorial : public BaseApplication
 {
 public:
-    TutorialApplication(void);
-    virtual ~TutorialApplication(void);
-
-private:
-	Ogre::TerrainGlobalOptions* mTerrainGlobals;
-	Ogre::TerrainGroup* mTerrainGroup;
-	bool mTerrainsImported;
-
-	void defineTerrain(long x, long y);
-	void initBlendMaps(Ogre::Terrain* terrain);
-	void configureTerrainDefaults(Ogre::Light* light);
-
+	BasicTutorial(void);
+	virtual ~BasicTutorial(void);
 protected:
-    virtual void createScene(void);
-	virtual void createFrameListener(void);
-	virtual void destroyScene(void);
+	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+private:
+	bool processUnbufferedInput(const Ogre::FrameEvent& evt);
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif // #ifndef __BasicTutorial4_h_

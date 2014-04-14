@@ -27,6 +27,9 @@ This source file is part of the
 #include <OgreConfigFile.h>
 #include <ant_config.hpp>
  
+#define RTSHADER_SYSTEM_BUILD_CORE_SHADERS
+#define RTSHADER_SYSTEM_BUILD_EXT_SHADERS
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #  include <OIS/OISEvents.h>
 #  include <OIS/OISInputManager.h>

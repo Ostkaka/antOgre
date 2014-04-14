@@ -23,6 +23,7 @@ FileSystem=@OGRE_MEDIA_PATH@/models
 FileSystem=@OGRE_MEDIA_PATH@/particle
 FileSystem=@OGRE_MEDIA_PATH@/DeferredShadingMedia
 FileSystem=@OGRE_MEDIA_PATH@/PCZAppMedia
+FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/cache
 FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/Cg
 FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/GLSL
 FileSystem=@OGRE_MEDIA_PATH@/RTShaderLib/GLSL150
