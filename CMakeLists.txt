@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 2.8)
 project(antOgre)
 
 # Include the macros file for this project
-#include(${PROJECT_SOURCE_DIR}/cmake/antMacros.cmake)
-#include(${PROJECT_SOURCE_DIR}/cmake/HandleDependencies.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/antMacros.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/HandleDependencies.cmake)
 
 # Enable ExternalProject CMake module
 INCLUDE(ExternalProject)
@@ -32,7 +32,7 @@ set(ANT_VERSION_PATCH 4)
 set(ANT_VERSION "${ANT_VERSION_MAJOR}.${ANT_VERSION_MINOR}.${ANT_VERSION_PATCH}")
 
 # Set directory paths for data
-set( RESOURCE_FILE_PATH "${PROJECT_SOURCE_DIR}/data" )
+set( ANT_DATA_PATH "${PROJECT_SOURCE_DIR}/data" )
 set( OGRE_MEDIA_PATH "${PROJECT_SOURCE_DIR}/installed/media" )
 
 # Properties
@@ -55,6 +55,11 @@ if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif(MSVC)
+
+# Set project targets
+SET( ANTCORE_TARGET_NAME "antCore")
+
+set(ANT_LIBS ${ANT_LIBS} ${ANTCORE_TARGET_NAME} ${ANTTILE_TARGET_NAME})
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_env.bat.in ${CMAKE_CURRENT_SOURCE_DIR}/setup_env.bat @ONLY )
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_vs.bat.in  ${CMAKE_CURRENT_SOURCE_DIR}/setup_vs.bat @ONLY )
@@ -111,4 +116,10 @@ ADD_SUBDIRECTORY(src)
 if(BUILD_EXAMPLES)
   message("Configuring examples...")
     add_subdirectory(examples)
+endif()
+
+# add the unittest subdirectory
+if(BUILD_UNITTESTS)
+  message("Configuring unittests...")
+    add_subdirectory(unittests)
 endif()
