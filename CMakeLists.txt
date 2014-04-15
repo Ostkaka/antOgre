@@ -93,22 +93,46 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 SET( OGRE_HOME ${PROJECT_SOURCE_DIR}/installed)
 find_package(OGRE) 
 if(OGRE_FOUND)
-    message("Ogre found!")        
+  message("Ogre found!")        
+  set(OGRE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/installed/include/OGRE)
+  include_directories( 
+    ${OGRE_INCLUDE_DIRS}  
+    ${OGRE_Overlay_INCLUDE_DIRS}
+  )
 else() 
+  message("Ogre not found!")      
 endif(OGRE_FOUND)
 
 find_package(OIS REQUIRED)
 if(NOT OIS_FOUND)
     message(SEND_ERROR "Failed to find OIS.")
+    include_directories( 
+      ${OIS_INCLUDE_DIRS}  
+    )
 endif()
 
-set(OGRE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/installed/include/OGRE)
+# TinyXML
+set(TINYXML_TARGET_NAME "TinyXml")
+include_directories(${ANT_DEPENDENCIES_DIR}/tinyxml)
+add_subdirectory(${ANT_DEPENDENCIES_DIR}/tinyxml)
 
-include_directories( 
-  ${OIS_INCLUDE_DIRS}  
-  ${OGRE_INCLUDE_DIRS}  
-  ${OGRE_Overlay_INCLUDE_DIRS}
-)
+# luaplusplus
+set( LUAPLUSPLUS_TARGET_NAME "luaplusplus" )
+include_directories(${ANT_DEPENDENCIES_DIR}/luaplusplus)
+add_subdirectory(${ANT_DEPENDENCIES_DIR}/luaplusplus)
+
+# find fastdelegate
+set(ENV{FASTDELEGATE_DIR} ${ANT_DEPENDENCIES_DIR}/FastDelegate)
+find_package(FASTDELEGATE)
+if(FASTDELEGATE_FOUND)
+  message("FASTDELEGATET: FOUND")  
+else()
+  message(FATAL_ERROR "FASTDELEGATE: NOT FOUND")
+endif(FASTDELEGATE_FOUND)
+include_directories(${FASTDELEGATE_INCLUDE_DIR})
+
+# add the ANT subdirectory
+message("Configuring ANT...")
 
 ADD_SUBDIRECTORY(src)
 
