@@ -23,12 +23,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules/)
 
 # Build options
 option(BUILD_EXAMPLES "If example applications should be build" ON)
+option(BUILD_UNITTESTS "If unit tests should be buildt" ON)
 
 # setup version numbers - This is not really needed
-#set(ANT_VERSION_MAJOR 0)
-#set(ANT_VERSION_MINOR 22)
-#set(ANT_VERSION_PATCH 4)
-#set(ANT_VERSION "${ANT_VERSION_MAJOR}.${ANT_VERSION_MINOR}.${ANT_VERSION_PATCH}")
+set(ANT_VERSION_MAJOR 0)
+set(ANT_VERSION_MINOR 22)
+set(ANT_VERSION_PATCH 4)
+set(ANT_VERSION "${ANT_VERSION_MAJOR}.${ANT_VERSION_MINOR}.${ANT_VERSION_PATCH}")
 
 # Set directory paths for data
 set( RESOURCE_FILE_PATH "${PROJECT_SOURCE_DIR}/data" )
@@ -55,8 +56,6 @@ if (MSVC)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif(MSVC)
 
-message("curent: " ${CMAKE_CURRENT_SOURCE_DIR})
-
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_env.bat.in ${CMAKE_CURRENT_SOURCE_DIR}/setup_env.bat @ONLY )
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_vs.bat.in  ${CMAKE_CURRENT_SOURCE_DIR}/setup_vs.bat @ONLY )
 
@@ -80,7 +79,7 @@ configure_file (
 
 # add include paths of external libraries
 #include_directories(${PROJECT_SOURCE_DIR}/installed/include)
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/installed/CMake  ${PROJECT_SOURCE_DIR}/installed/CMake/Utils)
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/installed/CMake ${PROJECT_SOURCE_DIR}/installed/CMake/Utils)
 
 include_directories(${PROJECT_SOURCE_DIR}/installed/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -89,9 +88,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 SET( OGRE_HOME ${PROJECT_SOURCE_DIR}/installed)
 find_package(OGRE) 
 if(OGRE_FOUND)
-    message("Ogre found!")    
-    set(OGRE_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/installed/include/OGRE)    
-    include_directories(${OGRE_INCLUDE_DIR} ${OGRE_MEDIA_DIR})    
+    message("Ogre found!")        
 else() 
 endif(OGRE_FOUND)
 
@@ -100,4 +97,18 @@ if(NOT OIS_FOUND)
     message(SEND_ERROR "Failed to find OIS.")
 endif()
 
-ADD_SUBDIRECTORY(examples)
+set(OGRE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/installed/include/OGRE)
+
+include_directories( 
+  ${OIS_INCLUDE_DIRS}  
+  ${OGRE_INCLUDE_DIRS}  
+  ${OGRE_Overlay_INCLUDE_DIRS}
+)
+
+ADD_SUBDIRECTORY(src)
+
+# add the examples subdirectory
+if(BUILD_EXAMPLES)
+  message("Configuring examples...")
+    add_subdirectory(examples)
+endif()

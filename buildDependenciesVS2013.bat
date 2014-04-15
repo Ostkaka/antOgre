@@ -9,5 +9,3 @@ call setup_vs.bat
 ::devenv antDependencies.sln /REBUILD RelWithDebInfo /project ogreDeps /projectconfig "RelWithDebInfo|x64" 
 devenv antDependencies.sln /BUILD Release /project ogreDeps /projectconfig "Release|x64" 
 devenv antDependencies.sln /BUILD RelWithDebInfo /project ogre /projectconfig "RelWithDebInfo|x64" 
-devenv antDependencies.sln /BUILD RelWithDebInfo /project INSTALL 
-
