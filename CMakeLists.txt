@@ -9,7 +9,6 @@ project(antOgre)
 
 # Include the macros file for this project
 include(${PROJECT_SOURCE_DIR}/cmake/antMacros.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/HandleDependencies.cmake)
 
 # Enable ExternalProject CMake module
 INCLUDE(ExternalProject)
@@ -32,8 +31,9 @@ set(ANT_VERSION_PATCH 4)
 set(ANT_VERSION "${ANT_VERSION_MAJOR}.${ANT_VERSION_MINOR}.${ANT_VERSION_PATCH}")
 
 # Set directory paths for data
-set( ANT_DATA_PATH "${PROJECT_SOURCE_DIR}/data" )
-set( OGRE_MEDIA_PATH "${PROJECT_SOURCE_DIR}/installed/media" )
+set( ANT_DATA_PATH        "${PROJECT_SOURCE_DIR}/data" )
+set( OGRE_MEDIA_PATH      "${PROJECT_SOURCE_DIR}/installed/media" )
+set( ANT_DEPENDENCIES_DIR "${PROJECT_SOURCE_DIR}/dependencies" )
 
 # Properties
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -48,6 +48,10 @@ set(INSTALL_BIN_DIR bin PATH "Installation directory for executables")
 set(INSTALL_DATA_DIR bin PATH "Installation directory for data")
 set(INSTALL_INCLUDE_DIR include PATH  "Installation directory for header files")
 
+# Set project targets
+SET( ANTCORE_TARGET_NAME "antCore")
+SET( ANTLUA_TARGET_NAME "antLua")
+
 # Visual studio specific
 if (MSVC)
 	#add_definitions(-DUNICODE -D_UNICODE)
@@ -55,11 +59,6 @@ if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif(MSVC)
-
-# Set project targets
-SET( ANTCORE_TARGET_NAME "antCore")
-
-set(ANT_LIBS ${ANT_LIBS} ${ANTCORE_TARGET_NAME} ${ANTTILE_TARGET_NAME})
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_env.bat.in ${CMAKE_CURRENT_SOURCE_DIR}/setup_env.bat @ONLY )
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/configuration/setup_vs.bat.in  ${CMAKE_CURRENT_SOURCE_DIR}/setup_vs.bat @ONLY )
@@ -93,7 +92,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 SET( OGRE_HOME ${PROJECT_SOURCE_DIR}/installed)
 find_package(OGRE) 
 if(OGRE_FOUND)
-  message("Ogre found!")        
   set(OGRE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/installed/include/OGRE)
   include_directories( 
     ${OGRE_INCLUDE_DIRS}  
@@ -109,6 +107,7 @@ if(NOT OIS_FOUND)
     include_directories( 
       ${OIS_INCLUDE_DIRS}  
     )
+    set( OGRE_LIBS ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${OGRE_Terrain_LIBRARIES} ) 
 endif()
 
 # TinyXML
@@ -145,5 +144,5 @@ endif()
 # add the unittest subdirectory
 if(BUILD_UNITTESTS)
   message("Configuring unittests...")
-    add_subdirectory(unittests)
+  add_subdirectory(unittests)
 endif()
