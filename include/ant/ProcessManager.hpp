@@ -3,9 +3,11 @@
 
 #include <ant/core_types.hpp>
 #include <ant/ant_std.hpp>
+#include <ant/IProcess.hpp>
 
 namespace ant 
 {
+	ANT_DECLARE_POINTER_TYPES(ProcessManager)
 
 	/*
 	* This class manages the processes in the framework

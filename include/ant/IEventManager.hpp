@@ -4,8 +4,8 @@
 #include <strstream>
 #include <FastDelegate.h>
 #include <ant/core_types.hpp>
-#include <ant/interfaces/ISerializable.hpp>
-#include <ant/interfaces/GenericObjectFactory.hpp>
+#include <ant/ISerializable.hpp>
+#include <ant/GenericObjectFactory.hpp>
 
 namespace ant
 {
@@ -14,7 +14,7 @@ namespace ant
 	 * Typedefs
 	 */
 	typedef unsigned long EventType;
-	typedef shared_ptr<IEventData> IEventDataStrongPtr;
+	ANT_DECLARE_POINTER_TYPES(IEventData);
 	typedef fastdelegate::FastDelegate1<IEventDataStrongPtr> EventListenerDelegate;
 //	typedef concurrent_queue<IEventDataStrongPtr> ThreadSafeEventQueue;
 

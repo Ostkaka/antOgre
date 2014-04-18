@@ -3,21 +3,20 @@
 
 #include <string>
 #include <ant/core_types.hpp>
+#include <actors/ActorComponent.hpp>
 
 // Forward declaration
 class TiXmlElement;
 
 namespace ant
 {
-	class ActorComponent;
-	class Actor;
-}
-
-namespace ant
-{
 	// Declare some typedefs
 	typedef std::string ActorType;
+	ANT_DECLARE_POINTER_TYPES(Actor)
 
+	/**
+	* Base object for the actor object that consists of components. 
+	*/
 	class Actor
 	{
 		friend class ActorFactory;

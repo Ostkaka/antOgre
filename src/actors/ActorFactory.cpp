@@ -1,14 +1,10 @@
-#include <ant/actors/ActorFactory.hpp>
-#include <ant/actors/ActorComponent.hpp>
-#include <ant/actors/Actor.hpp>
-#include <ant/resources/XmlResource.hpp>
-#include <ant/resources/ResourceLoaders.hpp>
-#include <ant/actors/BaseScriptComponent.hpp>
-#include <ant/actors/TransformComponent.hpp>
-#include <ant/graphicsSFML/SFMLRenderComponent.hpp>
-#include <ant/2DPhysics/PhysicsComponent.hpp>
-#include <ant/actors/AnimationComponent.hpp>
-#include <ant/gccUtils/templates.hpp>
+#include <ant/ActorFactory.hpp>
+#include <ant/ActorComponent.hpp>
+#include <ant/Actor.hpp>
+#include <ant/XmlResource.hpp>
+#include <ant/ResourceLoaders.hpp>
+#include <antLua/BaseScriptComponent.hpp>
+#include <ant/GenericObjectFactory.hpp>
 
 #include <tinyxml.h>
 
@@ -19,15 +15,7 @@ ant::ActorFactory::ActorFactory( void )
 	m_lastActorId = INVALID_ACTOR_ID;
 	
 	m_componentFactory.Register<BaseScriptComponent>(ActorComponent::getIdFromName(BaseScriptComponent::g_Name));
-	m_componentFactory.Register<TransformComponent>(ActorComponent::getIdFromName(TransformComponent::g_Name));	
-	m_componentFactory.Register<PhysicsComponent>(ActorComponent::getIdFromName(PhysicsComponent::g_Name));
 
-	m_componentFactory.Register<SFMLSpriteComponent>(ActorComponent::getIdFromName(SFMLSpriteComponent::g_Name));
-	m_componentFactory.Register<SFMLAnimatedSpriteComponent>(ActorComponent::getIdFromName(SFMLAnimatedSpriteComponent::g_Name));
-	m_componentFactory.Register<SFMLBackgroundSpriteComponent>(ActorComponent::getIdFromName(SFMLBackgroundSpriteComponent::g_Name));	
-	m_componentFactory.Register<SFMLRectanglePrimitiveComponent>(ActorComponent::getIdFromName(SFMLRectanglePrimitiveComponent::g_Name));	
-	m_componentFactory.Register<SFMLCirclePrimitiveComponent>(ActorComponent::getIdFromName(SFMLCirclePrimitiveComponent::g_Name));
-	m_componentFactory.Register<AnimationComponent>(ActorComponent::getIdFromName(AnimationComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()
@@ -41,7 +29,7 @@ ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, Ti
 	TiXmlElement* pRoot = XmlResourceLoader::loadAndReturnXmlElement(actorResource);
 	if (!pRoot)
 	{
-		GCC_ERROR("Failed to create actor from resource: " + std::string(actorResource));
+		ANT_ERROR("Failed to create actor from resource: " + std::string(actorResource));
 		return ActorStrongPtr();
 	}
 
@@ -51,11 +39,11 @@ ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, Ti
 	{
 		nextActorId = getNextActorId();
 	}
-	ActorStrongPtr pActor(GCC_NEW Actor(nextActorId));
+	ActorStrongPtr pActor(ANT_NEW Actor(nextActorId));
 
 	if (!pActor->init(pRoot))
 	{
-		GCC_ERROR("Failed to initialize actor: " + std::string(actorResource));
+		ANT_ERROR("Failed to initialize actor: " + std::string(actorResource));
 		return ActorStrongPtr();
 	}
 
@@ -141,13 +129,13 @@ ant::ActorComponentStrongPtr ant::ActorFactory::createComponent( TiXmlElement *p
 	{
 		if (!pComponent->init(pData))
 		{
-			GCC_ERROR("Component failed to initialize: " + std::string(name));
+			ANT_ERROR("Component failed to initialize: " + std::string(name));
 			return ActorComponentStrongPtr();
 		}
 	}
 	else
 	{
-		GCC_ERROR("Couldn't find ActorComponent named " + std::string(name));
+		ANT_ERROR("Couldn't find ActorComponent named " + std::string(name));
 		return ActorComponentStrongPtr();  // fail
 	}
 

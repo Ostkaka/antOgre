@@ -1,11 +1,10 @@
 #ifndef EVENTS_HPP_
 	#define EVENTS_HPP_
 
-#include <ant/eventsystem/IEventManager.hpp>
-#include <ant/luascripting/ScriptEvent.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
+#include <ant/IEventManager.hpp>
+#include <antLua/ScriptEvent.hpp>
+#include <antLua/LuaStateManager.hpp>
 #include <ant/core_types.hpp>
-#include <sfml/Graphics.hpp>
 
 namespace ant
 {
@@ -32,12 +31,12 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy() const
 		{
-			return IEventDataStrongPtr (GCC_NEW EvtData_Update_Tick ( m_deltaTime ) );
+			return IEventDataStrongPtr (ANT_NEW EvtData_Update_Tick ( m_deltaTime ) );
 		}
 
 		virtual void serialize( std::ostrstream & out )
 		{
-			GCC_ERROR("You should not be serializing update ticks!");
+			ANT_ERROR("You should not be serializing update ticks!");
 		}
 
 		virtual std::string getName(void) const
@@ -73,7 +72,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const
 		{
-			return IEventDataStrongPtr(GCC_NEW EvtData_New_Actor(m_actorId, m_viewId));
+			return IEventDataStrongPtr(ANT_NEW EvtData_New_Actor(m_actorId, m_viewId));
 		}
 
 		virtual const EventType& getEventType(void) const
@@ -125,7 +124,7 @@ namespace ant
 		
 		virtual IEventDataStrongPtr copy(void) const
 		{ 
-			return IEventDataStrongPtr( GCC_NEW EvtData_Environment_Loaded( ) ); 
+			return IEventDataStrongPtr( ANT_NEW EvtData_Environment_Loaded( ) ); 
 		}
 		
 		virtual std::string getName(void) const  
@@ -156,7 +155,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const
 		{
-			return IEventDataStrongPtr ( GCC_NEW EvtData_Destroy_Actor ( m_id ) );
+			return IEventDataStrongPtr ( ANT_NEW EvtData_Destroy_Actor ( m_id ) );
 		}
 
 		virtual void serialize(std::ostrstream &out) const
@@ -178,182 +177,7 @@ namespace ant
 	};
 
 	//////////////////////////////////////////////////////////////////////////
-	// EvtData_New_SFMLRender_Component - Event that is sent when a new render component was created
-	//////////////////////////////////////////////////////////////////////////
-	class EvtData_New_SFMLRender_Component : public BaseEventData
-	{
-		ActorId m_actorId;
-		SFMLSceneNodeStrongPtr m_pSceneNode;
-
-	public:
-		static const EventType sk_EventType;
-
-		EvtData_New_SFMLRender_Component(void) 
-		{
-			m_actorId = INVALID_ACTOR_ID;
-		}
-
-		explicit EvtData_New_SFMLRender_Component(ActorId actorId, SFMLSceneNodeStrongPtr pSceneNode) 
-			: m_actorId(actorId),
-			m_pSceneNode(pSceneNode)
-		{
-		}
-
-		virtual void serialize(std::ostrstream& out) const 
-		{
-			GCC_ERROR(getName() + std::string(" should not be serialzied!"));
-		}
-
-		virtual void deserialize(std::istrstream& in) 
-		{
-			GCC_ERROR(getName() + std::string(" should not be serialzied!"));
-		}
-
-		virtual const EventType& getEventType(void) const
-		{
-			return sk_EventType;
-		}
-
-		virtual IEventDataStrongPtr copy(void) const
-		{
-			return IEventDataStrongPtr(GCC_NEW EvtData_New_SFMLRender_Component(m_actorId, m_pSceneNode));
-		}
-
-		virtual std::string getName(void) const 
-		{
-			return "EvtData_New_Render_Component";
-		}
-
-		const ActorId getActorId(void) const
-		{
-			return m_actorId;
-		}
-
-		SFMLSceneNodeStrongPtr getSceneNode(void) const
-		{
-			return m_pSceneNode;
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// EvtData_New_SFMLRender_Component - Event that is sent when a new render component was created
-	//////////////////////////////////////////////////////////////////////////
-	class EvtData_Modified_SFMLRender_Component : public BaseEventData
-	{
-		ActorId m_id;
-
-	public:
-		static const EventType sk_EventType;
-
-		virtual const EventType& getEventType(void) const
-		{
-			return sk_EventType;
-		}
-
-		EvtData_Modified_SFMLRender_Component(void)
-		{
-			m_id = INVALID_ACTOR_ID;
-		}
-
-		EvtData_Modified_SFMLRender_Component(ActorId id)
-			: m_id(id)
-		{
-		}
-
-		virtual void serialize(std::ostrstream &out) const
-		{
-			out << m_id;
-		}
-
-		virtual void deserialize(std::istrstream& in)
-		{
-			in >> m_id;
-		}
-
-		virtual IEventDataStrongPtr copy() const
-		{
-			return IEventDataStrongPtr(GCC_NEW EvtData_Modified_SFMLRender_Component(m_id));
-		}
-
-		virtual std::string getName(void) const
-		{
-			return "EvtData_Modified_Render_Component";
-		}
-
-		ActorId getActorId(void) const
-		{
-			return m_id;
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// EvtData_Move_Actor - Event that is sent when a new render component was created
-	//////////////////////////////////////////////////////////////////////////
-	class EvtData_Move_SFMLActor : public BaseEventData
-	{
-		ActorId m_id;
-		sf::Vector2f m_pos;
-		ant::Real m_rot;
-
-	public:
-		static const EventType sk_EventType;
-
-		virtual const EventType& getEventType(void) const
-		{
-			return sk_EventType;
-		}
-
-		EvtData_Move_SFMLActor(void)
-		{
-			m_id = INVALID_ACTOR_ID;
-		}
-
-		EvtData_Move_SFMLActor(ActorId id, const sf::Vector2f& pos, const ant::Real& rot)
-			: m_id(id), m_pos(pos), m_rot(rot)
-		{
-			//
-		}
-
-		virtual void serialize(std::ostrstream &out) const
-		{
-			GCC_ERROR(getName() + std::string(" should not be serialzied!"));
-		}
-
-		virtual void deserialize(std::istrstream& in)
-		{
-			GCC_ERROR(getName() + std::string(" should not be deserialzied!"));
-		}
-
-		virtual IEventDataStrongPtr copy() const
-		{
-			return IEventDataStrongPtr(GCC_NEW EvtData_Move_SFMLActor(m_id, m_pos, m_rot));
-		}
-
-		virtual std::string getName(void) const
-		{
-			return "EvtData_Move_SFMLActor";
-		}
-
-		ActorId getId(void) const
-		{
-			return m_id;
-		}
-
-		const sf::Vector2f& getPosition(void) const
-		{
-			return m_pos;
-		}
-
-		const ant::Real& getRotation(void) const
-		{
-			return m_rot;
-		}
-	};
-
-	
-
-	//////////////////////////////////////////////////////////////////////////
-	// EvtData_New_SFMLRender_Component - Event that is sent when a new render component was created
+	// EvtData_ReloadLevel 
 	//////////////////////////////////////////////////////////////////////////
 	class EvtData_ReloadLevel : public BaseEventData
 	{
@@ -367,12 +191,12 @@ namespace ant
 
 		virtual void serialize(std::ostrstream& out) const 
 		{
-			GCC_ERROR(getName() + std::string(" should not be serialzied!"));
+			ANT_ERROR(getName() + std::string(" should not be serialzied!"));
 		}
 
 		virtual void deserialize(std::istrstream& in) 
 		{
-			GCC_ERROR(getName() + std::string(" should not be serialzied!"));
+			ANT_ERROR(getName() + std::string(" should not be serialzied!"));
 		}
 
 		virtual const EventType& getEventType(void) const
@@ -382,7 +206,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const
 		{
-			return IEventDataStrongPtr(GCC_NEW EvtData_ReloadLevel());
+			return IEventDataStrongPtr(ANT_NEW EvtData_ReloadLevel());
 		}
 
 		virtual std::string getName(void) const 
@@ -420,7 +244,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const ANT_OVERRIDE
 		{
-			return IEventDataStrongPtr ( GCC_NEW EvtData_TestExecute ( ) );
+			return IEventDataStrongPtr ( ANT_NEW EvtData_TestExecute ( ) );
 		}
 
 		virtual void serialize(std::ostrstream &out) const ANT_OVERRIDE
@@ -485,7 +309,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const ANT_OVERRIDE
 		{
-			return IEventDataStrongPtr ( GCC_NEW EvtData_TestToLua ( ) );
+			return IEventDataStrongPtr ( ANT_NEW EvtData_TestToLua ( ) );
 		}
 
 		virtual void serialize(std::ostrstream &out) const ANT_OVERRIDE
@@ -540,7 +364,7 @@ namespace ant
 
 		virtual IEventDataStrongPtr copy(void) const ANT_OVERRIDE
 		{
-			return IEventDataStrongPtr ( GCC_NEW EvtData_TestToLua ( ) );
+			return IEventDataStrongPtr ( ANT_NEW EvtData_TestToLua ( ) );
 		}
 
 		virtual void serialize(std::ostrstream &out) const ANT_OVERRIDE

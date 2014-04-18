@@ -50,21 +50,31 @@ class type;                                         \
 	typedef shared_ptr< type > type ## StrongPtr;           \
 	typedef weak_ptr< type > type ## WeakPtr; 
 
-class GCC_noncopyable 
-{  
+class NonCopyable
+{
+public:
+	NonCopyable() {}; // Default constructor  
+
 private:  
-	GCC_noncopyable(const GCC_noncopyable& x);  
-	GCC_noncopyable& operator=(const GCC_noncopyable& x);  
-public:  
-	GCC_noncopyable() {}; // Default constructor  
+	NonCopyable(const NonCopyable& x);
+	NonCopyable& operator=(const NonCopyable& x);
 };  
+
+class Singleton 
+{
+protected:
+	Singleton() {}; // Default constructor  
+	virtual ~Singleton() {}
+	Singleton(const Singleton& x);
+	Singleton& operator=(const Singleton& x);
+};
 
 
 // Game Code Complete - Chapter 12, page 446-447
 #if defined(_DEBUG)
-#	define GCC_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)
+#	define ANT_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)
 #else
-#	define GCC_NEW new
+#	define ANT_NEW new
 #endif
 
 #include <tinyxml.h>
@@ -75,11 +85,10 @@ using fastdelegate::MakeDelegate;
 
 #pragma warning( disable : 4996 ) // 'function' declared deprecated - gets rid of all those 2005 warnings....
 
-
 // GameCode #includes
-#include <ant/gccDebug/Logger.hpp>  // this should be the first of the gcc includes since it defines GCC_ASSERT()
-#include <ant/gccUtils/types.hpp>	
-#include <ant/interfaces/GenericObjectFactory.hpp>
+#include <ant/debug.hpp>  // this should be the first of the gcc includes since it defines ANT_ASSERT()
+//#include <ant/gccUtils/types.hpp>	
+#include <ant/GenericObjectFactory.hpp>
 
 //  AppMsg				- Chapter 9, page 248
 

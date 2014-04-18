@@ -36,10 +36,10 @@
 //
 //========================================================================
 #include <ant/ant_std.hpp>
-#include <ant/gccDebug/Logger.hpp>
+#include <ant/Logger.hpp>
 
-#include <ant/gccDebug/CriticalSection.h>
-#include <ant/gccUtils/String.hpp>
+#include <ant/CriticalSection.h>
+#include <ant/String.hpp>
 
 
 using std::string;
@@ -369,7 +369,7 @@ void Init(const char* loggingConfigFilename)
 {
 	if (!s_pLogMgr)
     {
-		s_pLogMgr = GCC_NEW LogMgr;
+		s_pLogMgr = ANT_NEW LogMgr;
         s_pLogMgr->Init(loggingConfigFilename);
     }
 }
@@ -382,13 +382,13 @@ void Destroy(void)
 
 void Log(const string& tag, const string& message, const char* funcName, const char* sourceFile, unsigned int lineNum)
 {
-	GCC_ASSERT(s_pLogMgr);
+	ANT_ASSERT(s_pLogMgr);
     s_pLogMgr->Log(tag, message, funcName, sourceFile, lineNum);
 }
 
 void SetDisplayFlags(const std::string& tag, unsigned char flags)
 {
-	GCC_ASSERT(s_pLogMgr);
+	ANT_ASSERT(s_pLogMgr);
 	s_pLogMgr->SetDisplayFlags(tag, flags);
 }
 

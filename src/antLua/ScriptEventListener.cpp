@@ -30,7 +30,7 @@ ant::EventListenerDelegate ant::ScriptEventListener::getDelegate( void )
 
 void ant::ScriptEventListener::scriptEventDelegate( IEventDataStrongPtr pEvent )
 {
-	GCC_ASSERT(m_scriptCallbackFunction.IsFunction());
+	ANT_ASSERT(m_scriptCallbackFunction.IsFunction());
 
 	// Call the lua function
 	ScriptEventStrongPtr pScriptEvent = static_pointer_cast<ScriptEvent>(pEvent);	
@@ -67,6 +67,6 @@ void ant::ScriptEventListenerManager::destroyListener( ScriptEventListener* pLis
 	}
 	else
 	{
-		GCC_ERROR("Couldn't find script listener in set; this will probably cause a memory leak");
+		ANT_ERROR("Couldn't find script listener in set; this will probably cause a memory leak");
 	}
 }

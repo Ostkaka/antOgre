@@ -58,15 +58,15 @@ ScriptEventListenerManager* InternalLuaScriptExports::s_ScriptEventListenerMgrIn
 
 bool ant::InternalLuaScriptExports::init( void )
 {
-	GCC_ASSERT(s_ScriptEventListenerMgrInstance == NULL);
-	s_ScriptEventListenerMgrInstance = GCC_NEW ScriptEventListenerManager;
+	ANT_ASSERT(s_ScriptEventListenerMgrInstance == NULL);
+	s_ScriptEventListenerMgrInstance = ANT_NEW ScriptEventListenerManager;
 
 	return true;
 }
 
 void ant::InternalLuaScriptExports::destroy( void )
 {
-	GCC_ASSERT(s_ScriptEventListenerMgrInstance != NULL);
+	ANT_ASSERT(s_ScriptEventListenerMgrInstance != NULL);
 	SAFE_DELETE(s_ScriptEventListenerMgrInstance);
 }
 
@@ -75,7 +75,7 @@ bool ant::InternalLuaScriptExports::loadAndExecutreScriptResource( const char* s
 	// Check if cache is loaded
 	if (!ResourceCacheManager::instance()->getResourceCache())
 	{
-		GCC_WARNING("Tried to access cache in CacheManager, but it was a bad pointer");
+		ANT_WARNING("Tried to access cache in CacheManager, but it was a bad pointer");
 		return false;
 	}
 	
@@ -111,7 +111,7 @@ void ant::InternalLuaScriptExports::attachScriptProcess( LuaPlus::LuaObject scri
 	}
 	else
 	{
-		GCC_ERROR("Could not find __object in script proces");
+		ANT_ERROR("Could not find __object in script proces");
 	}
 }
 
@@ -169,12 +169,12 @@ ant::ScriptEventStrongPtr ant::InternalLuaScriptExports::buildEvent( EventType e
 
 ant::Ulong ant::InternalLuaScriptExports::registerEventListener( EventType eventType, LuaPlus::LuaObject callbackFunction )
 {
-	GCC_ASSERT(s_ScriptEventListenerMgrInstance);
+	ANT_ASSERT(s_ScriptEventListenerMgrInstance);
 
 	if (callbackFunction.IsFunction())
 	{
 		// Create the C++ listener proxy and set it to listen for the event
-		ScriptEventListener* pListener = GCC_NEW ScriptEventListener(eventType, callbackFunction);
+		ScriptEventListener* pListener = ANT_NEW ScriptEventListener(eventType, callbackFunction);
 		s_ScriptEventListenerMgrInstance->addListener(pListener);
 		IEventManager::instance()->addListener(pListener->getDelegate(), eventType);
 
@@ -183,14 +183,14 @@ ant::Ulong ant::InternalLuaScriptExports::registerEventListener( EventType event
 		return handle;
 	}
 
-	GCC_ERROR("Attempting to register script event listener with invalid callback function");
+	ANT_ERROR("Attempting to register script event listener with invalid callback function");
 	return 0;
 }
 
 void ant::InternalLuaScriptExports::removeEventListener( ant::Ulong listenerId )
 {
-	GCC_ASSERT(s_ScriptEventListenerMgrInstance);
-	GCC_ASSERT(listenerId != 0);
+	ANT_ASSERT(s_ScriptEventListenerMgrInstance);
+	ANT_ASSERT(listenerId != 0);
 
 	// Convert the listener id back to a pointer
 	ScriptEventListener* pListener = reinterpret_cast<ScriptEventListener*>(listenerId);
@@ -204,13 +204,13 @@ int ant::InternalLuaScriptExports::createActor( const char* actorArchetype, LuaP
 {
 	if (!luaPosition.IsTable())
 	{
-		GCC_ERROR("Invalid object passed to createActor(); type = " + std::string(luaPosition.TypeName()));
+		ANT_ERROR("Invalid object passed to createActor(); type = " + std::string(luaPosition.TypeName()));
 		return INVALID_ACTOR_ID;
 	}
 
 	if (!luaRotation.IsNumber())
 	{
-		GCC_ERROR("Invalid object passed to createActor(); type = " + std::string(luaRotation.TypeName()));
+		ANT_ERROR("Invalid object passed to createActor(); type = " + std::string(luaRotation.TypeName()));
 		return INVALID_ACTOR_ID;
 	}
 
@@ -222,7 +222,7 @@ int ant::InternalLuaScriptExports::createActor( const char* actorArchetype, LuaP
 
 	if (actor)
 	{
-		shared_ptr<EvtData_New_Actor> pNewActorEvent(GCC_NEW EvtData_New_Actor(actor->getId()));
+		shared_ptr<EvtData_New_Actor> pNewActorEvent(ANT_NEW EvtData_New_Actor(actor->getId()));
 		IEventManager::instance()->queueEvent(pNewActorEvent);
 		return actor->getId();
 	}

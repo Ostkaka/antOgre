@@ -4,15 +4,16 @@
 #include <string>
 #include <ant/ant_std.hpp>
 #include <ant/core_types.hpp>
-#include <ant/actors/Actor.hpp>
-#include <ant/gccUtils/String.hpp>
+#include <ant/String.hpp>
 
 // Forward declarations
 class TiXmlElement;
 
 namespace ant 
 {
-
+	class Actor;
+	ANT_DECLARE_POINTER_TYPES(ActorComponent)
+	ANT_DECLARE_POINTER_TYPES(Actor)
 	/**
 	 * This class describes an actor component that can be coupled to an actor, such as physics, sound, AI, etc....
 	 */

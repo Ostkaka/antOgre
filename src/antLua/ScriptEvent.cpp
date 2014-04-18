@@ -39,8 +39,8 @@ void ant::ScriptEvent::registerEventTypeWithScript( const char* key, EventType t
 	}
 
 	// error checking
-	GCC_ASSERT(eventTypeTable.IsTable());
-//	GCC_ASSERT(eventTypeTable[key].IsNil());
+	ANT_ASSERT(eventTypeTable.IsTable());
+//	ANT_ASSERT(eventTypeTable[key].IsNil());
 
 	// add the entry
 	eventTypeTable.SetNumber(key, (double)type);
@@ -48,8 +48,8 @@ void ant::ScriptEvent::registerEventTypeWithScript( const char* key, EventType t
 
 void ant::ScriptEvent::addCreationFunction( EventType type, CreateEventForScriptFunctionType pCreationFunctionPtr )
 {
-	//GCC_ASSERT(s_creationFunctions.find(type) == s_creationFunctions.end());
-	GCC_ASSERT(pCreationFunctionPtr != NULL);
+	//ANT_ASSERT(s_creationFunctions.find(type) == s_creationFunctions.end());
+	ANT_ASSERT(pCreationFunctionPtr != NULL);
 	s_creationFunctions.insert(std::make_pair(type, pCreationFunctionPtr));
 }
 
@@ -63,7 +63,7 @@ ScriptEvent* ant::ScriptEvent::createEventFromScript( EventType type )
 	}
 	else
 	{
-		GCC_ERROR("Could not find event type");
+		ANT_ERROR("Could not find event type");
 		return NULL;
 	}
 }

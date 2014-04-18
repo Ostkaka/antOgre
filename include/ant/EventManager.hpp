@@ -1,7 +1,7 @@
 #ifndef EVENTMANAGER_HPP_
 	#define EVENTMANAGER_HPP_
 
-#include <ant/eventsystem/IEventManager.hpp>
+#include <ant/IEventManager.hpp>
 #include <ant/core_types.hpp>
 
 namespace ant

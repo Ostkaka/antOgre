@@ -6,7 +6,7 @@
 
 namespace ant
 {
-
+	ANT_DECLARE_POINTER_TYPES(IProcess)
 	/*
 	Interface class for handling different game processes
 	*/
@@ -97,12 +97,12 @@ namespace ant
 	ANT_INLINE void IProcess::onInit() { m_state = RUNNING;}
 
   ANT_INLINE void IProcess::succeedAndStop() {
-		GCC_ASSERT(isAlive());
+		ANT_ASSERT(isAlive());
 		m_state = SUCCEEDED;
 	}
 
 	ANT_INLINE void IProcess::failAndStop() {
-		GCC_ASSERT(isAlive());
+		ANT_ASSERT(isAlive());
 		m_state = FAILED;
 	}
 
@@ -111,7 +111,7 @@ namespace ant
 		if (m_state == RUNNING)
 			m_state = PAUSED;
 		else
-			GCC_WARNING("Attempt to pause a process that is not running! Behave yourself!");
+			ANT_WARNING("Attempt to pause a process that is not running! Behave yourself!");
 	}
 
 	ANT_INLINE void IProcess::unPause()
@@ -119,7 +119,7 @@ namespace ant
 		if (m_state == PAUSED)
 			m_state = RUNNING;
 		else
-			GCC_WARNING("Attempt to unpause a process that is not paused! Behave yourself!");
+			ANT_WARNING("Attempt to unpause a process that is not paused! Behave yourself!");
 	}
 	
 	ANT_INLINE bool IProcess::isAlive() const{ return m_state == RUNNING || m_state == PAUSED;}

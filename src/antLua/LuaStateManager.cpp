@@ -10,11 +10,11 @@ bool ant::LuaStateManager::create( void )
 {
 	if (s_pInstance)
 	{
-		GCC_ERROR("Overwriting LuaStateManager singleton");
+		ANT_ERROR("Overwriting LuaStateManager singleton");
 		SAFE_DELETE(s_pInstance);
 	}
 
-	s_pInstance = GCC_NEW LuaStateManager;
+	s_pInstance = ANT_NEW LuaStateManager;
 	if (s_pInstance)
 		return s_pInstance->init();
 
@@ -23,7 +23,7 @@ bool ant::LuaStateManager::create( void )
 
 void ant::LuaStateManager::destroy( void )
 {
-	GCC_ASSERT(s_pInstance);
+	ANT_ASSERT(s_pInstance);
 	SAFE_DELETE(s_pInstance);
 }
 
@@ -103,7 +103,7 @@ LuaPlus::LuaObject ant::LuaStateManager::createPath( const std::string& path, bo
 		// Is the context valid?
 		if (context.IsNil())
 		{
-			GCC_ERROR("Something broke in CreatePath(); bailing out (element == " + (*it) + ")");
+			ANT_ERROR("Something broke in CreatePath(); bailing out (element == " + (*it) + ")");
 			return context;  // this will be nil
 		}
 
@@ -116,7 +116,7 @@ LuaPlus::LuaObject ant::LuaStateManager::createPath( const std::string& path, bo
 			// if the element is not a table and not nil, we clobber it
 			if (!curr.IsNil())
 			{
-				GCC_WARNING("Overwriting element '" + element + "' in table");
+				ANT_WARNING("Overwriting element '" + element + "' in table");
 				context.SetNil(element.c_str());
 			}
 
@@ -148,7 +148,7 @@ void ant::LuaStateManager::setError( int errorNum )
 		m_lastError = "Unkown Lua parse error";
 	}
 
-	GCC_ERROR(m_lastError);
+	ANT_ERROR(m_lastError);
 }
 
 void ant::LuaStateManager::clearStack( void )
@@ -158,7 +158,7 @@ void ant::LuaStateManager::clearStack( void )
 
 LuaPlus::LuaObject ant::LuaStateManager::getGlobalVars( void )
 {
-	GCC_ASSERT(m_pLuaState);
+	ANT_ASSERT(m_pLuaState);
 	return m_pLuaState->GetGlobals();
 }
 

@@ -1,4 +1,4 @@
-#include <ant/interfaces/IProcess.hpp>
+#include <ant/IProcess.hpp>
 
 using namespace ant;
 

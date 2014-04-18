@@ -1,5 +1,5 @@
-#include <ant/classes/ProcessManagerSingleton.hpp>
-#include <ant/classes/ProcessManager.hpp>
+#include <ant/ProcessManagerSingleton.hpp>
+#include <ant/ProcessManager.hpp>
 
 using namespace ant;
 
@@ -7,35 +7,31 @@ ProcessManagerSingleton* ProcessManagerSingleton::s_instance = NULL;
 
 ant::ProcessManagerSingleton::ProcessManagerSingleton()
 {
-	m_processManager = NULL;
 }
 
-ant::ProcessManagerSingleton::~ProcessManagerSingleton()
-{
-	clearProcessManager();
-}
-
-void ant::ProcessManagerSingleton::clearProcessManager( void )
-{
-	if (m_processManager)
-	{
-		SAFE_DELETE(m_processManager);
-	}
-}
-
-void ant::ProcessManagerSingleton::create( void )
+void ant::ProcessManagerSingleton::startup(void)
 {
 	if (s_instance)
 	{
-		GCC_WARNING("Overwriting ProcessManagerSingleton singleton");
+		ANT_WARNING("Overwriting ProcessManagerSingleton singleton");
 		SAFE_DELETE(s_instance);
 	}
-	s_instance = GCC_NEW ProcessManagerSingleton;
+	s_instance = ANT_NEW ProcessManagerSingleton;
+
+	if (s_instance->getProcessManager())
+	{
+		ANT_WARNING("Overwriting process manager on ProcessmangerSingleton");
+		SAFE_DELETE(s_instance->m_processManager);
+	}
+	s_instance->m_processManager = ANT_NEW ProcessManager;
 }
 
-void ant::ProcessManagerSingleton::destroy( void )
+void ant::ProcessManagerSingleton::shutdown(void)
 {
-	GCC_ASSERT(s_instance);
+	ANT_ASSERT(s_instance->m_processManager);
+	SAFE_DELETE(s_instance->m_processManager);
+
+	ANT_ASSERT(s_instance);
 	SAFE_DELETE(s_instance);
 }
 
@@ -47,14 +43,4 @@ ProcessManagerSingleton* ant::ProcessManagerSingleton::instance( void )
 ProcessManager* ant::ProcessManagerSingleton::getProcessManager( void )
 {
 	return m_processManager;
-}
-
-void ant::ProcessManagerSingleton::init( void )
-{
-	if (m_processManager)
-	{
-		GCC_WARNING("Overwriting process manager on ProcessmangerSingleton");
-		SAFE_DELETE(m_processManager);
-	}
-	m_processManager = GCC_NEW ProcessManager;
 }

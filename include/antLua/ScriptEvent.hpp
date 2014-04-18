@@ -1,7 +1,7 @@
 #ifndef SCRIPTEVENT_HPP_
 	#define SCRIPTEVENT_HPP_
 
-#include <ant/eventsystem/EventManager.hpp>
+#include <ant/EventManager.hpp>
 #include <LuaPlus.h>
 
 namespace ant

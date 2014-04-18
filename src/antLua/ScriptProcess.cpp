@@ -36,7 +36,7 @@ bool ant::IScriptProcess::buildCppDataFromScript( LuaPlus::LuaObject scriptClass
 		}
 		else
 		{
-			GCC_ERROR("No onUpdate() found in the script process; type = " + std::string(temp.TypeName()));
+			ANT_ERROR("No onUpdate() found in the script process; type = " + std::string(temp.TypeName()));
 			return false;
 		}
 
@@ -63,7 +63,7 @@ bool ant::IScriptProcess::buildCppDataFromScript( LuaPlus::LuaObject scriptClass
 	}
 	else
 	{
-		GCC_ERROR("scriptClass is not a table in ScriptProcess::BuildCppDataFromScript()");
+		ANT_ERROR("scriptClass is not a table in ScriptProcess::BuildCppDataFromScript()");
 		return false;
 	}
 
@@ -151,17 +151,17 @@ void ant::IScriptProcess::scriptAttachChild( LuaPlus::LuaObject child )
 			// Casting a raw ptr to a smart ptr is generally bad, but Lua has no concept of what a shared_ptr 
 			// is.  There's no easy way around it.
 			shared_ptr<IProcess> pProcess(static_cast<IProcess*>(obj.GetLightUserData()));
-			GCC_ASSERT(pProcess);
+			ANT_ASSERT(pProcess);
 			attachChild(pProcess);
 		}
 		else
 		{
-			GCC_ERROR("Attempting to attach child to ScriptProcess with no valid __object");
+			ANT_ERROR("Attempting to attach child to ScriptProcess with no valid __object");
 		}
 	}
 	else
 	{
-		GCC_ERROR("Invalid object type passed into ScriptProcess::ScriptAttachChild(); type = " + std::string(child.TypeName()));
+		ANT_ERROR("Invalid object type passed into ScriptProcess::ScriptAttachChild(); type = " + std::string(child.TypeName()));
 	}
 }
 
@@ -181,13 +181,13 @@ LuaPlus::LuaObject ant::IScriptProcess::createFromScript( LuaPlus::LuaObject sel
 	// Create().  The Lua version of this function needs self.
 	GCC_LOG("Script", std::string("Creating instance of ") + SCRIPT_PROCESS_NAME);
 
-	IScriptProcess* pObj = GCC_NEW IScriptProcess;
+	IScriptProcess* pObj = ANT_NEW IScriptProcess;
 
 	pObj->m_self.AssignNewTable(LuaStateManager::instance()->getLuaState());
 	if (pObj->buildCppDataFromScript(originalSubClass, constructionData))
 	{
 		LuaPlus::LuaObject metaTableObj = LuaStateManager::instance()->getGlobalVars().Lookup(SCRIPT_PROCESS_NAME);
-		GCC_ASSERT(!metaTableObj.IsNil());
+		ANT_ASSERT(!metaTableObj.IsNil());
 
 		pObj->m_self.SetLightUserData("__object", pObj);
 		pObj->m_self.SetMetaTable(metaTableObj);

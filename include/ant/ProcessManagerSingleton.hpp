@@ -5,36 +5,27 @@
 
 namespace ant
 {
+	// Forward declaration
+	class ProcessManager;
+
 	/**
 	 * Class that wraps the main process manager into a singleton. Might not be a long term solution
 	 */
-	class ProcessManagerSingleton
+	class ProcessManagerSingleton : Singleton
 	{
 	public:
 
 		/// Creates an instance of the ResourceCacheManager
-		static void create(void);
+		static void startup(void);
 
 		/// Destroys the instance and all resource caches inside
-		static void destroy(void);
+		static void shutdown(void);
 
 		/// Get instance
 		static ProcessManagerSingleton* instance(void);
 
-		/// Init the singleton and create internal process manager
-		void init(void);
-
-		/// Returns the cache used by the manager
+	    /// Returns the cache used by the manager
 		ProcessManager* getProcessManager(void);
-
-	protected:
-
-	private:
-		// Clear all ProcessManagers
-		void clearProcessManager(void);
-
-		explicit ProcessManagerSingleton();
-		~ProcessManagerSingleton();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Variables
@@ -44,7 +35,6 @@ namespace ant
 		ProcessManager *m_processManager;
 
 		static ProcessManagerSingleton* s_instance;
-
 	};
 }
 

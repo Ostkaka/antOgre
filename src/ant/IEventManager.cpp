@@ -1,5 +1,5 @@
-#include <ant/eventsystem/IEventManager.hpp>
 #include <ant/core_types.hpp>
+#include <ant/IEventManager.hpp>
 
 using namespace ant;
 
@@ -13,7 +13,7 @@ ant::IEventManager::IEventManager( const std::string& name, bool setGlobal )
 	{
 		if (g_eventManager)
 		{
-			GCC_WARNING("Attempting to create two global event managers! The old one is destroyed.");
+			ANT_WARNING("Attempting to create two global event managers! The old one is destroyed.");
 			delete g_eventManager;
 		}
 		g_eventManager = this;
@@ -30,7 +30,7 @@ ant::IEventManager::~IEventManager( void )
 
 IEventManager* ant::IEventManager::instance( void )
 {
-	GCC_ASSERT(g_eventManager);
+	ANT_ASSERT(g_eventManager);
 	return g_eventManager;
 }
 

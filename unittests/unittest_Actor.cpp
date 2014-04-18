@@ -33,7 +33,7 @@ namespace
 		{
 			// Setup logger
 			Logger::Init(ANT_DATA_PATH"\\default_logging.xml");
-			m_file = GCC_NEW DevelopmentResourceZipFile(L"Assets.zip", DevelopmentResourceZipFile::Editor);
+			m_file = ANT_NEW DevelopmentResourceZipFile(L"Assets.zip", DevelopmentResourceZipFile::Editor);
 
 			// Resource manager
 			ResourceCacheManager::create();
@@ -69,7 +69,7 @@ namespace
 
 			registerEngineScriptEvents();
 
-			mActorFactory.reset(GCC_NEW ActorFactory());
+			mActorFactory.reset(ANT_NEW ActorFactory());
 
 			std::cout << "Set up" << std::endl;
 		}

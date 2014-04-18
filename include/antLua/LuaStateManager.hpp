@@ -2,8 +2,7 @@
 	#define LUASTATEMANAGER_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/luascripting/IScriptManager.hpp>
-#include <SFML/Graphics.hpp>
+#include <antLua/IScriptManager.hpp>
 #include <LuaPlus.h>
 
 namespace ant
@@ -42,9 +41,6 @@ namespace ant
 		/// Helper functions
 		LuaPlus::LuaObject createPath(const std::string& path, bool ignoreLastElement = false);
 
-		// TODO - Vec2
-		void convertVec2ToTable(const sf::Vector2f& vec, LuaPlus::LuaObject& vec2Table);
-
 	private:
 		void setError(int errorNum);
 		void clearStack(void);
@@ -65,7 +61,7 @@ namespace ant
 	/* Implementation */
 	ANT_INLINE LuaStateManager * LuaStateManager::instance()
 	{
-		GCC_ASSERT(s_pInstance);
+		ANT_ASSERT(s_pInstance);
 		return s_pInstance;
 	}
 }

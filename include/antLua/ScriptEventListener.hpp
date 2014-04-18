@@ -2,7 +2,7 @@
 	#define SCRIPTEVENTLISTENER_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/eventsystem/IEventManager.hpp>
+#include <ant/IEventManager.hpp>
 #include <set>
 #include <LuaPlus.h>
 

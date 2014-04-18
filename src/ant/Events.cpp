@@ -1,4 +1,5 @@
-#include <ant/eventsystem/Events.hpp>
+#include <ant/Events.hpp>
+#include <antLua/ScriptEventListener.hpp>
 
 using namespace ant;
 
@@ -9,9 +10,6 @@ const EventType EvtData_Update_Tick::sk_EventType(0xf0f5d183);
 const EventType EvtData_Environment_Loaded::sk_EventType(0x3673e27e);
 const EventType EvtData_Destroy_Actor::sk_EventType(0x372cc986);
 const EventType EvtData_New_Actor::sk_EventType(0x50a51f52);
-const EventType EvtData_New_SFMLRender_Component::sk_EventType(0xdd4a0c71);
-const EventType EvtData_Modified_SFMLRender_Component::sk_EventType(0x1412e9ed);
-const EventType EvtData_Move_SFMLActor::sk_EventType(0x53c1a89);
 const EventType EvtData_ReloadLevel::sk_EventType(0x53c1a87);
 	
 /**

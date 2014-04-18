@@ -1,5 +1,5 @@
-#include <ant/actors/Actor.hpp>
-#include <ant/actors/ActorComponent.hpp>
+#include <actors/Actor.hpp>
+#include <actors/ActorComponent.hpp>
 #include <ant/core_types.hpp>
 #include <tinyxml.h>
 
@@ -12,13 +12,13 @@ ant::Actor::Actor( ActorId id )
 
 ant::Actor::~Actor()
 {
-	GCC_LOG("Actor", std::string("Destroying Actor ") + ToStr(m_id));
-	GCC_ASSERT(m_components.empty());  
+	ANT_LOG("Actor", std::string("Destroying Actor ") + ToStr(m_id));
+	ANT_ASSERT(m_components.empty());  
 }
 
 bool ant::Actor::init( TiXmlElement* pData )
 {
-	GCC_LOG("Actor", std::string("Initializing Actor ") + ToStr(m_id));
+	ANT_LOG("Actor", std::string("Initializing Actor ") + ToStr(m_id));
 
 	m_type = pData->Attribute("type");
 	m_resource = pData->Attribute("resource");
@@ -51,7 +51,7 @@ std::string ant::Actor::toXML()
 	TiXmlDocument outDoc;
 
 	// Actor element
-	TiXmlElement* pActorElement = GCC_NEW TiXmlElement("Actor");
+	TiXmlElement* pActorElement = ANT_NEW TiXmlElement("Actor");
 	pActorElement->SetAttribute("type", m_type.c_str());
 	pActorElement->SetAttribute("resource", m_resource.c_str());
 
@@ -73,6 +73,6 @@ std::string ant::Actor::toXML()
 void ant::Actor::addComponent( ActorComponentStrongPtr pComponent )
 {
 	std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->getId(), pComponent));
-	GCC_ASSERT(success.second);
+	ANT_ASSERT(success.second);
 }
 
