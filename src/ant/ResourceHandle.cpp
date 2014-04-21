@@ -1,5 +1,5 @@
-#include <ant/resources/ResourceHandle.hpp>
-#include <ant/resources/ResourceCache.hpp>
+#include <ant/ResourceHandle.hpp>
+#include <ant/ResourceCache.hpp>
 
 using namespace ant;
 

@@ -2,6 +2,7 @@
 	#define IRESOURCEFILE_HPP_
 
 #include <ant/core_types.hpp>
+#include <ant/Resource.hpp>
 
 namespace ant
 {

@@ -41,7 +41,7 @@ BaseApplication::BaseApplication(void)
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 	m_ResourcePath = Ogre::macBundlePath() + "/Contents/Resources/";
 #else
-	m_ResourcePath = RESOURCE_FILE_PATH"/";
+	m_ResourcePath = ANT_DATA_PATH"/";
 #endif
 }
  

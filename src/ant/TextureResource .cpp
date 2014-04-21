@@ -1,6 +1,6 @@
-#include <ant/resources/TextureResource.hpp>
-#include <ant/resources/IResourceLoader.hpp>
-#include <SFML/Graphics.hpp>
+#include <ant/TextureResource.hpp>
+#include <ant/IResourceLoader.hpp>
+#include <ant\ResourceHandle.hpp>
 
 using namespace ant;
 
@@ -12,17 +12,15 @@ ant::UInt ant::SFMLTextureResourceLoader::getLoadedResourceSize( char* rawBuffer
 bool ant::SFMLTextureResourceLoader::loadResource( char *rawBuffer, unsigned int rawSize, ResourceHandleStrongPtr handle )
 {
 	// Cheat here and use sf::Texture to load it from memory first to see if it works
-	sf::Texture tex;
-	bool loadedTexture=false;
-	return (tex.loadFromMemory(rawBuffer,rawSize));
+	return false;
 }
 
 IResourceLoaderStrongPtr CreatePNGResourceLoader()
 {
-	return IResourceLoaderStrongPtr(GCC_NEW PngResourceLoader());
+	return IResourceLoaderStrongPtr(ANT_NEW PngResourceLoader());
 }
 
 IResourceLoaderStrongPtr CreateJPGResourceLoader()
 {
-	return IResourceLoaderStrongPtr(GCC_NEW JpgResourceLoader());
+	return IResourceLoaderStrongPtr(ANT_NEW JpgResourceLoader());
 }

@@ -1,29 +1,29 @@
-#include <ant/resources/ResourceCacheManager.hpp>
-#include <ant/resources/ResourceCache.hpp>
+#include <ant/ResourceCacheManager.hpp>
+#include <ant/ResourceCache.hpp>
 
 using namespace ant;
 
 ResourceCacheManager* ResourceCacheManager::s_instance = NULL;
 
-void ant::ResourceCacheManager::create(void)
+void ant::ResourceCacheManager::startUp(void)
 {
 	if (s_instance)
 	{
-		GCC_WARNING("Overwriting ResourceCacheManager singleton");
+		ANT_WARNING("Overwriting ResourceCacheManager singleton");
 		SAFE_DELETE(s_instance);
 	}
-	s_instance = GCC_NEW ResourceCacheManager;
+	s_instance = ANT_NEW ResourceCacheManager;
 }
 
-void ant::ResourceCacheManager::destroy(void)
+void ant::ResourceCacheManager::shutDown(void)
 {	
-	GCC_ASSERT(s_instance);
+	ANT_ASSERT(s_instance);
 	SAFE_DELETE(s_instance);
 }
 
 ResourceCacheManager* ant::ResourceCacheManager::instance(void)
 {
-	GCC_ASSERT(s_instance);
+	ANT_ASSERT(s_instance);
 	return s_instance;
 }
 
@@ -39,12 +39,12 @@ ant::ResourceCacheManager::~ResourceCacheManager(void)
 
 bool ant::ResourceCacheManager::initResourceCache( const unsigned int sizeInMb, IResourceFile *file )
 {
-	GCC_ASSERT(file);
+	ANT_ASSERT(file);
 	m_resourceCache = new ResourceCache(sizeInMb,file);
 
 	if (!m_resourceCache->init())
 	{
-		GCC_ERROR("Failed to initialize resource cache!  Are your paths set up correctly?");
+		ANT_ERROR("Failed to initialize resource cache!  Are your paths set up correctly?");
 		return false;
 	}
 

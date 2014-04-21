@@ -2,8 +2,8 @@
 	#define XMLRESOURCE_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/resources/Resource.hpp>
-#include <ant/resources/IResourceLoader.hpp>
+#include <ant/Resource.hpp>
+#include <ant/IResourceLoader.hpp>
 #include <tinyxml.h>
 
 namespace ant

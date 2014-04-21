@@ -2,10 +2,11 @@
 	#define IRESOURCELOADER_HPP_
 
 #include <ant/core_types.hpp>
+#include <ant\ResourceHandle.hpp>
 
 namespace ant
 {
-
+	ANT_DECLARE_POINTER_TYPES(IResourceLoader)
 	/**
 	 * Class that loads resources of a specific types
 	 */

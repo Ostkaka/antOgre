@@ -2,6 +2,9 @@
 	#define RESOURCECACHE_HPP_
 
 #include <ant/core_types.hpp>
+#include <ant/ResourceHandle.hpp>
+#include <ant\IResourceLoader.hpp>
+#include <ant\IResourceFile.hpp>
 
 namespace ant
 {

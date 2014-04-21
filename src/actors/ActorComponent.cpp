@@ -1,4 +1,4 @@
-#include <ant/actors/ActorComponent.hpp>
+#include <actors/ActorComponent.hpp>
 
 using namespace ant;
 

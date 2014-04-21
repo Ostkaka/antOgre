@@ -2,7 +2,7 @@
 	#define RESOURCEHANDLE_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/resources/Resource.hpp>
+#include <ant/Resource.hpp>
 
 // Forward declaration
 namespace ant
@@ -15,7 +15,7 @@ namespace ant
 {
 
 	typedef shared_ptr<IResourceExtraData> ResourceExtraDataStrongPtr;
-
+	ANT_DECLARE_POINTER_TYPES(ResourceHandle)
 	/**
 	 * Class that couples loaded resource data with an resource identifier Resource
 	 */

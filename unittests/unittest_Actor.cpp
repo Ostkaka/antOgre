@@ -1,18 +1,18 @@
 #include <unittests.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
-#include <ant/eventsystem/Events.hpp>
-#include <ant/resources/ResourceCacheManager.hpp>
-#include <ant/resources/ResourceCache.hpp>
-#include <ant/resources/IResourceFile.hpp>
-#include <ant/actors/ActorFactory.hpp>
-#include <ant/actors/Actor.hpp>
-#include <ant/resources/XmlResource.hpp>
-#include <ant/actors/BaseScriptComponent.hpp>
-#include <ant/resources/Resource.hpp>
-#include <ant/resources/ResourceFiles.hpp>
-#include <ant/luascripting/LuaScriptExports.hpp>
-#include <ant/luascripting/ScriptProcess.hpp>
-#include <ant/classes/ProcessManagerSingleton.hpp>
+#include <antLua/LuaStateManager.hpp>
+#include <ant/Events.hpp>
+#include <ant/ResourceCacheManager.hpp>
+#include <ant/ResourceCache.hpp>
+#include <ant/IResourceFile.hpp>
+#include <actors/ActorFactory.hpp>
+#include <actors/Actor.hpp>
+#include <ant/XmlResource.hpp>
+#include <antLua/BaseScriptComponent.hpp>
+#include <ant/Resource.hpp>
+#include <ant/ResourceFiles.hpp>
+#include <antLua/LuaScriptExports.hpp>
+#include <antLua/ScriptProcess.hpp>
+#include <ant/ProcessManagerSingleton.hpp>
 
 using namespace ant;
 
@@ -36,12 +36,11 @@ namespace
 			m_file = ANT_NEW DevelopmentResourceZipFile(L"Assets.zip", DevelopmentResourceZipFile::Editor);
 
 			// Resource manager
-			ResourceCacheManager::create();
+			ResourceCacheManager::startUp();
 			ASSERT_TRUE(ResourceCacheManager::instance()->initResourceCache(50,m_file));	
 
 			// init the global process manager
-			ProcessManagerSingleton::create();
-			ProcessManagerSingleton::instance()->init();
+			ProcessManagerSingleton::startUp();
 
 			// Init lua stuff
 			ASSERT_TRUE(LuaStateManager::create());
@@ -80,7 +79,7 @@ namespace
 			//LuaStateManager::destroy();
 			//ResourceCacheManager::destroy();
 			LuaScriptExports::unregisterScripts();
-			ProcessManagerSingleton::destroy();
+			ProcessManagerSingleton::shutDown();
 			ScriptEvent::clearAllRegisterdScriptEvents();
 			Logger::Destroy();
 			std::cout << "Tear down" << std::endl;
@@ -104,7 +103,7 @@ TEST_F(Test_Actor, initActors)
 {
 	// Try to load actor .xml.
 	ActorId id = 1;
-	ActorStrongPtr pActor = mActorFactory->createActor("actors\\testActor.xml",NULL,NULL,NULL,id);
+	ActorStrongPtr pActor = mActorFactory->createActor("actors\\testActor.xml",NULL,id);
 
 	// Verify
 	ASSERT_TRUE(pActor);

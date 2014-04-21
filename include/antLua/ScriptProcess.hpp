@@ -1,7 +1,7 @@
 #ifndef SCRIPTPROCESS_HPP_
 	#define SCRIPTPROCESS_HPP_
 
-#include <ant/interfaces/IProcess.hpp>
+#include <ant/IProcess.hpp>
 #include <LuaPlus.h>
 
 namespace ant

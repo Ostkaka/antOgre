@@ -2,11 +2,10 @@
 	#define RESOURCELOADERS_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/resources/IResourceLoader.hpp>
+#include <ant/IResourceLoader.hpp>
 
 namespace ant
 {
-
 	/**
 	 * Default resource loader the loads files from a resource file as-is
 	 */

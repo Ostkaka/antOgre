@@ -1,6 +1,7 @@
-#include <ant/luascripting/ScriptProcess.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
+#include <antLua/ScriptProcess.hpp>
+#include <antLua/LuaStateManager.hpp>
 #include <ant/core_types.hpp>
+#include <ant/IProcess.hpp>
 
 const char* SCRIPT_PROCESS_NAME = "ScriptProcess";
 
@@ -179,7 +180,7 @@ LuaPlus::LuaObject ant::IScriptProcess::createFromScript( LuaPlus::LuaObject sel
 {
 	// Note: The self parameter is not use in this function, but it allows us to be consistent when calling
 	// Create().  The Lua version of this function needs self.
-	GCC_LOG("Script", std::string("Creating instance of ") + SCRIPT_PROCESS_NAME);
+	ANT_LOG("Script", std::string("Creating instance of ") + SCRIPT_PROCESS_NAME);
 
 	IScriptProcess* pObj = ANT_NEW IScriptProcess;
 

@@ -1,9 +1,9 @@
-#include <ant/actors/BaseScriptComponent.hpp>
-#include <ant/actors/TransformComponent.hpp>
-#include <ant/gccUtils/templates.hpp>
+#include <antLua/BaseScriptComponent.hpp>
+#include <ant/templates.hpp>
+#include <actors/Actor.hpp>
 #include <ant/core_types.hpp>
-#include <ant/gccUtils/String.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
+#include <ant/String.hpp>
+#include <antLua/LuaStateManager.hpp>
 
 using namespace ant;
 
@@ -40,13 +40,13 @@ ant::BaseScriptComponent::~BaseScriptComponent( void )
 bool ant::BaseScriptComponent::init( TiXmlElement* pData )
 {
 	LuaStateManager * stateMgr = LuaStateManager::instance();
-	GCC_ASSERT(stateMgr);
+	ANT_ASSERT(stateMgr);
 
 	// Load the <ScriptObject> tag and validate it
 	TiXmlElement* pScriptObjectElement = pData->FirstChildElement("ScriptObject");
 	if (!pScriptObjectElement)
 	{
-		GCC_ERROR("No <ScriptObject> tag in XML.");
+		ANT_ERROR("No <ScriptObject> tag in XML.");
 		return true;
 	}
 
@@ -111,7 +111,7 @@ bool ant::BaseScriptComponent::init( TiXmlElement* pData )
 	{
 		if (m_scriptObject.IsNil())
 		{
-			GCC_ERROR("m_scriptObject cannot be nil when ScriptData is defined");
+			ANT_ERROR("m_scriptObject cannot be nil when ScriptData is defined");
 		}
 
 		for (TiXmlAttribute* pAttribute = pDataElement->FirstAttribute(); pAttribute != NULL; pAttribute = pAttribute->Next())
@@ -135,9 +135,9 @@ void ant::BaseScriptComponent::postInit( void )
 
 TiXmlElement* ant::BaseScriptComponent::generateXml( void )
 {
-	TiXmlElement* pBaseElement = GCC_NEW TiXmlElement(getName());
+	TiXmlElement* pBaseElement = ANT_NEW TiXmlElement(getName());
 
-	TiXmlElement* pScriptObjectElement = GCC_NEW TiXmlElement("ScriptObject");
+	TiXmlElement* pScriptObjectElement = ANT_NEW TiXmlElement("ScriptObject");
 	if (!m_scriptObjectName.empty())
 		pScriptObjectElement->SetAttribute("var", m_scriptObjectName.c_str());
 	if (!m_constructorName.empty())
@@ -152,11 +152,11 @@ TiXmlElement* ant::BaseScriptComponent::generateXml( void )
 void ant::BaseScriptComponent::createScriptObject( void )
 {
 	LuaStateManager* pStateMgr = LuaStateManager::instance();
-	GCC_ASSERT(pStateMgr);
-	GCC_ASSERT(!m_scriptObject.IsNil());
+	ANT_ASSERT(pStateMgr);
+	ANT_ASSERT(!m_scriptObject.IsNil());
 
 	LuaPlus::LuaObject metaTableObj = pStateMgr->getGlobalVars().Lookup(BASESCRIPTCOMPONENT_METATABLE_NAME);
-	GCC_ASSERT(!metaTableObj.IsNil());
+	ANT_ASSERT(!metaTableObj.IsNil());
 
 	LuaPlus::LuaObject boxedPtr = pStateMgr->getLuaState()->BoxPointer(this);
 	boxedPtr.SetMetaTable(metaTableObj);
@@ -192,12 +192,13 @@ void ant::BaseScriptComponent::unregisterScriptFunctions( void )
 LuaPlus::LuaObject ant::BaseScriptComponent::getPos(void)
 {
 	LuaPlus::LuaObject ret;
+	// TODO fix pos
 
-	shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<TransformComponent>(TransformComponent::g_Name));
+	/*shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<TransformComponent>(TransformComponent::g_Name));
 	if (pTransformComponent)
 		LuaStateManager::instance()->convertVec2ToTable(pTransformComponent->getPostion(), ret);
 	else
-		ret.AssignNil(LuaStateManager::instance()->getLuaState());
+		ret.AssignNil(LuaStateManager::instance()->getLuaState());*/
 
 	return ret;
 }

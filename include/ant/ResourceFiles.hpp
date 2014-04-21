@@ -2,8 +2,9 @@
 	#define RESOURCEFILES_HPP_
 
 #include <ant/core_types.hpp>
-#include <ant/resources/IResourceFile.hpp>
-#include <ant/resources/ZipFile.hpp>
+#include <ant/IResourceFile.hpp>
+#include <ant/Resource.hpp>
+#include <ant/ZipFile.hpp>
 
 namespace ant
 {
@@ -101,14 +102,10 @@ namespace ant
 		//////////////////////////////////////////////////////////////////////////
 	protected:
 
-		Mode m_mode;
-
-		std::wstring m_AssetsDir;
-
+		Mode                         m_mode;
+		std::wstring                 m_AssetsDir;
 		std::vector<WIN32_FIND_DATA> m_AssetFileInfo;
-
-		ZipContentsMap m_DirectoryContentsMap;
-
+		ZipContentsMap               m_DirectoryContentsMap;
 	};
 }
 

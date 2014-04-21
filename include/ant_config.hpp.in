@@ -10,7 +10,7 @@
 // Define the new operator
 ////////////////////////////////////////////////////////////
 
-#define RESOURCE_FILE_PATH "@RESOURCE_FILE_PATH@"
-#define RESOURCE_FILE_PATH "@RESOURCE_FILE_PATH@"
+#define ANT_DATA_PATH "@ANT_DATA_PATH@"
+#define OGRE_MEDIA_PATH "@OGRE_MEDIA_PATH@"
 
 #endif /*ANT_CONFIG_HPP_*/

@@ -1,8 +1,9 @@
 #ifndef LUASCRIPTEXPORTS_HPP_
 	#define LUASCRIPTEXPORTS_HPP_
 
-#include <ant/eventsystem/EventManager.hpp>
-#include <ant/luascripting/ScriptEventListener.hpp>
+#include <ant/EventManager.hpp>
+#include <antLua/ScriptEventListener.hpp>
+#include <antLua/ScriptEvent.hpp>
 #include <LuaPlus.h>
 
 namespace ant

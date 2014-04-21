@@ -1,7 +1,7 @@
 #ifndef BASESCRIPTCOMPONENT_HPP_
 	#define BASESCRIPTCOMPONENT_HPP_
 
-#include <ant/actors/IScriptComponent.hpp>
+#include <antLua/IScriptComponent.hpp>
 #include <LuaPlus.h>
 //#include <ant/luascripting///.hpp>
 
@@ -59,9 +59,6 @@ namespace ant
 		LuaPlus::LuaObject m_scriptConstructorObject;
 		LuaPlus::LuaObject m_scriptDestructorObject;
 	};
-
-	/// Implementation
-	//ANT_INLINE const std::string& BaseScriptComponent::getName() const { return g_Name; }
 }
 
 #endif

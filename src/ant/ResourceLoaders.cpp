@@ -1,5 +1,5 @@
-#include <ant/resources/ResourceLoaders.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
+#include <ant/ResourceLoaders.hpp>
+#include <antLua/LuaStateManager.hpp>
 
 using namespace ant;
 
@@ -63,5 +63,5 @@ bool ant::ScriptResourceLoader::loadResource( char *rawBuffer, unsigned int rawS
 
 IResourceLoaderStrongPtr CreateScriptResourceLoader()
 {
-	return IResourceLoaderStrongPtr(GCC_NEW ScriptResourceLoader());
+	return IResourceLoaderStrongPtr(ANT_NEW ScriptResourceLoader());
 }

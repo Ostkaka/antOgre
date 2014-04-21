@@ -1,9 +1,10 @@
-#include <ant/resources/ResourceFiles.hpp>
-#include <ant/resources/Resource.hpp>
-#include <ant/resources/ZipFile.hpp>
-#include <ant/gccUtils/String.hpp>
-#include <ant/gccUtils/templates.hpp>
+#include <ant/ResourceFiles.hpp>
+#include <ant/Resource.hpp>
+#include <ant/ZipFile.hpp>
+#include <ant/String.hpp>
 #include <cctype>			// for std::tolower
+#include <ant/templates.hpp>
+#include <ant_config.hpp>
 
 using namespace ant;
 
@@ -20,7 +21,7 @@ ant::ResourceZipFile::~ResourceZipFile()
 
 bool ant::ResourceZipFile::open()
 {
-	m_pZipFile = GCC_NEW ZipFile;
+	m_pZipFile = ANT_NEW ZipFile;
 	if (m_pZipFile)
 	{
 		return m_pZipFile->init(m_resFileName.c_str());
@@ -119,7 +120,7 @@ bool ant::DevelopmentResourceZipFile::open()
 		// FUTURE WORK - iterate through the ZipFile contents and go grab WIN32_FIND_DATA 
 		//   elements for each one. Then it would be possible to compare the dates/times of the
 		//   asset in the Zip file with the source asset.
-		GCC_ASSERT(0 && "Not implemented yet");
+		ANT_ASSERT(0 && "Not implemented yet");
 	}
 
 	return true;

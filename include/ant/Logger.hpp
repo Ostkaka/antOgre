@@ -49,7 +49,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // LOGGING:
 // 
-// Calling  GCC_LOG("tag", "Log message") will print:
+// Calling  ANT_LOG("tag", "Log message") will print:
 //  [tag] Log Message
 // To enable these logs, you need to either manually call Logger::SetDisplayFlags() or set up a logging.xml file.
 // logging.xml should follow this form:
@@ -80,7 +80,7 @@ const unsigned char LOGFLAG_WRITE_TO_DEBUGGER =		1 << 1;
 //---------------------------------------------------------------------------------------------------------------------
 // This is the public Logger interface.  You must call Init() before any logging can take place and Destroy() when
 // you're done to clean it up.  Call SetDisplayFlags() to set the display flags for a particular logging tag.  By 
-// default, they are all off.  Although you can, you probably shouldn't call Log() directly.  Use the GCC_LOG() macro 
+// default, they are all off.  Although you can, you probably shouldn't call Log() directly.  Use the ANT_LOG() macro 
 // instead since it can be stripped out by the compiler for Release builds.
 //---------------------------------------------------------------------------------------------------------------------
 namespace Logger

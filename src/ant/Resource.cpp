@@ -1,4 +1,4 @@
-#include <ant/resources/Resource.hpp>
+#include <ant/Resource.hpp>
 #include <ant/ant_std.hpp>
 #include <list>
 #include <map>

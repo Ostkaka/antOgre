@@ -1,6 +1,6 @@
 #include <unittests.hpp>
-#include <ant/classes/ProcessManager.hpp>
-#include <ant/interfaces/IProcess.hpp>
+#include <ant/ProcessManager.hpp>
+#include <ant/IProcess.hpp>
 
 using namespace ant;
 

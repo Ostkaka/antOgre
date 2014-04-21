@@ -5,11 +5,7 @@ using namespace ant;
 
 ProcessManagerSingleton* ProcessManagerSingleton::s_instance = NULL;
 
-ant::ProcessManagerSingleton::ProcessManagerSingleton()
-{
-}
-
-void ant::ProcessManagerSingleton::startup(void)
+void ant::ProcessManagerSingleton::startUp(void)
 {
 	if (s_instance)
 	{
@@ -26,7 +22,7 @@ void ant::ProcessManagerSingleton::startup(void)
 	s_instance->m_processManager = ANT_NEW ProcessManager;
 }
 
-void ant::ProcessManagerSingleton::shutdown(void)
+void ant::ProcessManagerSingleton::shutDown(void)
 {
 	ANT_ASSERT(s_instance->m_processManager);
 	SAFE_DELETE(s_instance->m_processManager);

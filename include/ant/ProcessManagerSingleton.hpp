@@ -16,10 +16,10 @@ namespace ant
 	public:
 
 		/// Creates an instance of the ResourceCacheManager
-		static void startup(void);
+		static void startUp(void);
 
 		/// Destroys the instance and all resource caches inside
-		static void shutdown(void);
+		static void shutDown(void);
 
 		/// Get instance
 		static ProcessManagerSingleton* instance(void);
@@ -27,13 +27,14 @@ namespace ant
 	    /// Returns the cache used by the manager
 		ProcessManager* getProcessManager(void);
 
+	protected:
+		virtual ~ProcessManagerSingleton() {}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Variables
 	//////////////////////////////////////////////////////////////////////////
 	protected:
-
-		ProcessManager *m_processManager;
-
+		ProcessManager                 *m_processManager;
 		static ProcessManagerSingleton* s_instance;
 	};
 }

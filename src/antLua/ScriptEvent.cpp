@@ -1,5 +1,5 @@
-#include <ant/luascripting/ScriptEvent.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
+#include <antLua/ScriptEvent.hpp>
+#include <antLua/LuaStateManager.hpp>
 #include <ant/ant_std.hpp>
 
 using namespace ant;

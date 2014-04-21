@@ -1,4 +1,4 @@
-#include <ant/resources/ZipFIle.hpp>
+#include <ant/ZipFIle.hpp>
 #include <cctype>
 #include <zlib.h>
 #include <string.h>
@@ -141,7 +141,7 @@ bool ZipFile::init(const std::wstring &resFileName)
 	fseek(m_pFile, dhOffset - dh.dirSize, SEEK_SET);
 
 	// Allocate the data buffer, and read the whole thing.
-	m_pDirData = GCC_NEW char[dh.dirSize + dh.nDirEntries*sizeof(*m_papDir)];
+	m_pDirData = ANT_NEW char[dh.dirSize + dh.nDirEntries*sizeof(*m_papDir)];
 	if (!m_pDirData)
 		return false;
 	memset(m_pDirData, 0, dh.dirSize + dh.nDirEntries*sizeof(*m_papDir));
@@ -287,7 +287,7 @@ bool ZipFile::readFile(int i, void *pBuf)
 		return false;
 
 	// Alloc compressed data buffer and read the whole stream
-	char *pcData = GCC_NEW char[h.cSize];
+	char *pcData = ANT_NEW char[h.cSize];
 	if (!pcData)
 		return false;
 
@@ -361,7 +361,7 @@ bool ZipFile::readLargeFile(int i, void *pBuf, void (*progressCallback)(int, boo
 		return false;
 
 	// Alloc compressed data buffer and read the whole stream
-	char *pcData = GCC_NEW char[h.cSize];
+	char *pcData = ANT_NEW char[h.cSize];
 	if (!pcData)
 		return false;
 
@@ -397,7 +397,7 @@ bool ZipFile::readLargeFile(int i, void *pBuf, void (*progressCallback)(int, boo
 			}
 			else if (err != Z_OK)
 			{
-				GCC_ASSERT(0 && "Something happened.");
+				ANT_ASSERT(0 && "Something happened.");
 				break;
 			}
 

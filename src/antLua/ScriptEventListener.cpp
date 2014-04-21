@@ -1,6 +1,6 @@
-#include <ant/luascripting/ScriptEventListener.hpp>
-#include <ant/luascripting/ScriptEvent.hpp>
-#include <ant/eventsystem/IEventManager.hpp>
+#include <antLua/ScriptEventListener.hpp>
+#include <antLua/ScriptEvent.hpp>
+#include <ant/IEventManager.hpp>
 
 using namespace ant;
 

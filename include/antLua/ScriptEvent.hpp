@@ -20,6 +20,8 @@ namespace ant
 				return new eventClass; \
 			}
 
+	ANT_DECLARE_POINTER_TYPES(ScriptEvent)
+
 	class ScriptEvent : public BaseEventData
 	{
 		typedef std::map<EventType, CreateEventForScriptFunctionType> CreationFunctions;

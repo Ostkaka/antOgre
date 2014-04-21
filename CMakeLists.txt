@@ -54,7 +54,7 @@ SET( ANTLUA_TARGET_NAME "antLua")
 
 # Visual studio specific
 if (MSVC)
-	#add_definitions(-DUNICODE -D_UNICODE)
+	add_definitions(-DUNICODE -D_UNICODE)
 	set(CMAKE_DEBUG_POSTFIX "d")
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
@@ -104,11 +104,14 @@ endif(OGRE_FOUND)
 find_package(OIS REQUIRED)
 if(NOT OIS_FOUND)
     message(SEND_ERROR "Failed to find OIS.")
+else()
     include_directories( 
       ${OIS_INCLUDE_DIRS}  
     )
     set( OGRE_LIBS ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${OGRE_Overlay_LIBRARIES} ${OGRE_Terrain_LIBRARIES} ) 
 endif()
+
+
 
 # TinyXML
 set(TINYXML_TARGET_NAME "TinyXml")
@@ -129,6 +132,16 @@ else()
   message(FATAL_ERROR "FASTDELEGATE: NOT FOUND")
 endif(FASTDELEGATE_FOUND)
 include_directories(${FASTDELEGATE_INCLUDE_DIR})
+
+# find zlib
+set(ENV{ZLIB_DIR} ${PROJECT_BINARY_DIR}/installed)
+find_package(ZLIB)
+if(ZLIB_FOUND)
+  message("ZLIB: FOUND")  
+  include_directories(${ZLIB_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "ZLIB: NOT FOUND")
+endif(ZLIB_FOUND)
 
 # add the ANT subdirectory
 message("Configuring ANT...")

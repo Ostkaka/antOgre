@@ -1,18 +1,27 @@
-#include <ant/resources/ResourceCache.hpp>
-#include <ant/resources/ResourceLoaders.hpp>
-#include <ant/resources/IResourceFile.hpp>
-#include <ant/resources/ResourceFiles.hpp>
-#include <ant/resources/ResourceHandle.hpp>
-#include <ant/resources/Resource.hpp>
-#include <ant/gccUtils/String.hpp>
-#include <ant/utils/DataUtils.hpp>
+#include <ant/ResourceCache.hpp>
+#include <ant/ResourceLoaders.hpp>
+#include <ant/IResourceFile.hpp>
+#include <ant/ResourceFiles.hpp>
+#include <ant/ResourceHandle.hpp>
+#include <ant/Resource.hpp>
+#include <ant/String.hpp>
 #include <cctype>			// for std::tolower
 
 using namespace ant;
 
+ant::Real convertByte2MB(ant::UInt bytes)
+{
+	return (ant::Real(bytes) / ant::Real(1024.0 * 1014.0));
+}
+
+ant::UInt convertMB2Byte(ant::UInt MB)
+{
+	return (MB * 1024 * 1014);
+}
+
 ant::ResourceCache::ResourceCache( const unsigned int sizeInMb, IResourceFile *file )
 {
-	m_cacheSize = dataUtils::convertMB2Byte(sizeInMb); // total memory size
+	m_cacheSize = convertMB2Byte(sizeInMb); // total memory size
 	m_allocated = 0;														// total memory allocated
 	m_file = file;
 }
@@ -30,7 +39,7 @@ bool ant::ResourceCache::init()
 	bool retVal = false;
 	if (m_file->open())
 	{
-		registerLoader(IResourceLoaderStrongPtr(GCC_NEW DefaultResourceLoader()));
+		registerLoader(IResourceLoaderStrongPtr(ANT_NEW DefaultResourceLoader()));
 		retVal = true;
 	}
 	return retVal;
@@ -48,7 +57,7 @@ ResourceHandleStrongPtr ant::ResourceCache::getResourceHandle( Resource *r )
 	if (handle == NULL)
 	{
 		handle = load(r);
-		GCC_ASSERT(handle);
+		ANT_ASSERT(handle);
 	}
 	else
 	{
@@ -77,7 +86,7 @@ ant::ResourceHandleStrongPtr ant::ResourceCache::load( Resource *r )
 	// Check the loader
 	if (!loader)
 	{
-		GCC_ASSERT(loader && _T("Default resource loader not found"));
+		ANT_ASSERT(loader && _T("Default resource loader not found"));
 		return handle;
 	}
 
@@ -86,13 +95,13 @@ ant::ResourceHandleStrongPtr ant::ResourceCache::load( Resource *r )
 	if (rawSize < 0)
 	{
 		std::string errormsg = "Resource size returned -1 - Resource: " + r->getName() + " is not found?";
-		GCC_ASSERT(rawSize > 0 && errormsg.c_str());
+		ANT_ASSERT(rawSize > 0 && errormsg.c_str());
 		return ResourceHandleStrongPtr();
 	}
 
 	// Allocate memory
 	int allocSize = rawSize + ((loader->addNULLZero()) ? (1) : (0));
-	char *rawBuffer = loader->useRawFile() ? allocateMemoery(allocSize) : GCC_NEW char[allocSize];
+	char *rawBuffer = loader->useRawFile() ? allocateMemoery(allocSize) : ANT_NEW char[allocSize];
 	memset(rawBuffer, 0, allocSize);
 
 	if (rawBuffer==NULL || m_file->getRawResource(*r, rawBuffer)==0)
@@ -105,7 +114,7 @@ ant::ResourceHandleStrongPtr ant::ResourceCache::load( Resource *r )
 	if (loader->useRawFile())
 	{
 		buffer = rawBuffer;
-		handle = ResourceHandleStrongPtr(GCC_NEW ResourceHandle(*r,buffer,rawSize,this));
+		handle = ResourceHandleStrongPtr(ANT_NEW ResourceHandle(*r,buffer,rawSize,this));
 	}
 	else
 	{
@@ -117,7 +126,7 @@ ant::ResourceHandleStrongPtr ant::ResourceCache::load( Resource *r )
 			// The resource cache is out of memory
 			return ResourceHandleStrongPtr();
 		}
-		handle = ResourceHandleStrongPtr(GCC_NEW ResourceHandle(*r,buffer,size,this));
+		handle = ResourceHandleStrongPtr(ANT_NEW ResourceHandle(*r,buffer,size,this));
 		bool success = loader->loadResource(rawBuffer,rawSize,handle);
 
 		/**
@@ -142,7 +151,7 @@ ant::ResourceHandleStrongPtr ant::ResourceCache::load( Resource *r )
 		m_resourceHandleMap[r->getName()] = handle;
 	}
 
-	GCC_ASSERT(loader && _T("Default resource loader not found"));
+	ANT_ASSERT(loader && _T("Default resource loader not found"));
 	return handle;
 }
 
@@ -246,7 +255,7 @@ char* ant::ResourceCache::allocateMemoery( ant::UInt size )
 		return NULL;
 	}
 
-	char* mem = GCC_NEW char[size];
+	char* mem = ANT_NEW char[size];
 	if (mem)
 	{
 		m_allocated += size;
@@ -285,7 +294,7 @@ void ant::ResourceCache::memoryHasBeenFreed( ant::UInt size )
 
 bool ant::ResourceCache::isUsingDevelopmentDirectories( void ) const
 {
-	GCC_ASSERT(m_file); 
+	ANT_ASSERT(m_file); 
 	return m_file->isUsingDevelopmentDirectories(); 
 }
 

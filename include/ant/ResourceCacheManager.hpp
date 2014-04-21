@@ -2,6 +2,8 @@
 	#define RESOURCECACHEMANAGER_HPP_
 
 #include <ant/core_types.hpp>
+#include <ant/IResourceFile.hpp>
+#include <ant/ResourceCache.hpp>
 
 namespace ant
 {
@@ -9,16 +11,16 @@ namespace ant
 	 * Singleton class that handles the management of resource cache
 	 * This will act as sample manager for handling resource caches now. Not a long term solution.
 	 */
-	class ResourceCacheManager
+	class ResourceCacheManager : Singleton
 	{
 
 	public:
 
 		/// Creates an instance of the ResourceCacheManager
-		static void create(void);
+		static void startUp(void);
 
 		/// Destroys the instance and all resource caches inside
-		static void destroy(void);
+		static void shutDown(void);
 
 		/// Get instance
 		static ResourceCacheManager* instance(void);
@@ -35,7 +37,7 @@ namespace ant
 		void clearCaches(void);
 
 		// Make these private due to Singleton
-		explicit ResourceCacheManager(void);
+		ResourceCacheManager(void);
 		virtual ~ResourceCacheManager(void);
 
 		//////////////////////////////////////////////////////////////////////////

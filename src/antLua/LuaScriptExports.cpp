@@ -1,20 +1,18 @@
-#include <ant/luascripting/LuaScriptExports.hpp>
-#include <ant/luascripting/LuaStateManager.hpp>
-#include <ant/resources/ResourceCacheManager.hpp>
-#include <ant/classes/ProcessManagerSingleton.hpp>
-#include <ant/classes/ProcessManager.hpp>
-#include <ant/interfaces/IProcess.hpp>
-#include <ant/resources/ResourceCache.hpp>
-#include <ant/luascripting/ScriptEventListener.hpp>
-#include <ant/luascripting/ScriptEvent.hpp>
-#include <ant/resources/Resource.hpp>
+#include <antLua/LuaScriptExports.hpp>
+#include <antLua//LuaStateManager.hpp>
+#include <ant/ResourceCacheManager.hpp>
+#include <ant/ProcessManagerSingleton.hpp>
+#include <ant/ProcessManager.hpp>
+#include <ant/IProcess.hpp>
+#include <ant/ResourceCache.hpp>
+#include <antLua/ScriptEventListener.hpp>
+#include <antLua/ScriptEvent.hpp>
+#include <ant/Resource.hpp>
 #include <ant/core_types.hpp>
 #include <ant/ant_std.hpp>
-#include <SFML/Graphics.hpp>
-#include <ant/interfaces/ISFMLApp.hpp>
-#include <ant/eventsystem/Events.hpp>
-#include <ant/interfaces/IGameLogic.hpp>
-#include <ant/actors/Actor.hpp>
+#include <ant/Events.hpp>
+//#include <ant/IGameLogic.hpp>
+#include <actors/Actor.hpp>
 #include <LuaPlus.h>
 
 using namespace ant;
@@ -141,11 +139,11 @@ void ant::InternalLuaScriptExports::lualog( LuaPlus::LuaObject text )
 {
 	if (text.IsConvertibleToString())
 	{
-		GCC_LOG("Lua",text.ToString());
+		ANT_LOG("Lua",text.ToString());
 	}
 	else
 	{
-		GCC_LOG("Lua","<" + std::string(text.TypeName()) + ">");
+		ANT_LOG("Lua","<" + std::string(text.TypeName()) + ">");
 	}
 }
 
@@ -214,7 +212,9 @@ int ant::InternalLuaScriptExports::createActor( const char* actorArchetype, LuaP
 		return INVALID_ACTOR_ID;
 	}
 
-	sf::Vector2f pos(luaPosition["x"].GetFloat(), luaPosition["y"].GetFloat());
+	// TODO - fix this. How to handle the active Game Logic?
+
+	/*sf::Vector2f pos(luaPosition["x"].GetFloat(), luaPosition["y"].GetFloat());
 	ant::Real rot = luaRotation.GetFloat();
 
 	TiXmlElement *overloads = NULL;
@@ -226,6 +226,7 @@ int ant::InternalLuaScriptExports::createActor( const char* actorArchetype, LuaP
 		IEventManager::instance()->queueEvent(pNewActorEvent);
 		return actor->getId();
 	}
+	*/
 
 	return INVALID_ACTOR_ID;
 }

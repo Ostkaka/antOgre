@@ -1,7 +1,7 @@
 #ifndef ISCRIPTCOMPONENT_HPP_
 	#define ISCRIPTCOMPONENT_HPP_
 
-#include <ant/actors/ActorComponent.hpp>
+#include <actors/ActorComponent.hpp>
 
 namespace ant
 {

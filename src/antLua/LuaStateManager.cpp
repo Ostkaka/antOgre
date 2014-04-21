@@ -1,6 +1,6 @@
-#include <ant/luascripting/LuaStateManager.hpp>
-#include <ant/resources/Resource.hpp>
-#include <ant/gccUtils/String.hpp>
+#include <antLua/LuaStateManager.hpp>
+#include <ant/Resource.hpp>
+#include <ant/String.hpp>
 
 using namespace ant;
 
@@ -167,10 +167,3 @@ LuaPlus::LuaState* ant::LuaStateManager::getLuaState( void ) const
 	return m_pLuaState;
 }
 
-
-void ant::LuaStateManager::convertVec2ToTable(const sf::Vector2f& vec, LuaPlus::LuaObject& vec2Table)
-{
-	vec2Table.AssignNewTable(getLuaState());
-	vec2Table.SetNumber("x", vec.x);
-	vec2Table.SetNumber("y", vec.y);
-}

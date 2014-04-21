@@ -1,10 +1,11 @@
-#include <ant/ActorFactory.hpp>
-#include <ant/ActorComponent.hpp>
-#include <ant/Actor.hpp>
+#include <actors/ActorFactory.hpp>
+#include <actors/ActorComponent.hpp>
+#include <actors/Actor.hpp>
 #include <ant/XmlResource.hpp>
 #include <ant/ResourceLoaders.hpp>
 #include <antLua/BaseScriptComponent.hpp>
 #include <ant/GenericObjectFactory.hpp>
+#include <ant/templates.hpp>
 
 #include <tinyxml.h>
 
@@ -23,7 +24,7 @@ ant::ActorFactory::~ActorFactory()
 
 }
 
-ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, TiXmlElement* overrides, const sf::Vector2f* initPos, const ant::Real* initRot, const ActorId serversActorId)
+ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, TiXmlElement* overrides, const ActorId serversActorId)
 {
 	// Grab the root XML node
 	TiXmlElement* pRoot = XmlResourceLoader::loadAndReturnXmlElement(actorResource);
@@ -74,7 +75,7 @@ ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, Ti
 
 	// This is a bit of a hack to get the initial transform of the transform component set before the 
 	// other components (like PhysicsComponent) read it.
-	shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(pActor->getComponent<TransformComponent>(TransformComponent::g_Name));
+	/*shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(pActor->getComponent<TransformComponent>(TransformComponent::g_Name));
 	if (pTransformComponent)
 	{
 		if (initPos)
@@ -86,7 +87,7 @@ ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, Ti
 		{
 			pTransformComponent->setRotation(*initRot);
 		}
-	}
+	}*/
 
 	// Now that the actor has been fully created, run the post init phase
 	pActor->postInit();
