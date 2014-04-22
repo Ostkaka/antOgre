@@ -1,5 +1,6 @@
 #include <actors/ActorFactory.hpp>
 #include <actors/ActorComponent.hpp>
+#include <actors/TransformComponent.hpp>
 #include <actors/Actor.hpp>
 #include <ant/XmlResource.hpp>
 #include <ant/ResourceLoaders.hpp>
@@ -8,6 +9,7 @@
 #include <ant/templates.hpp>
 
 #include <tinyxml.h>
+#include <actors\TransformComponent.hpp>
 
 using namespace ant;
 
@@ -16,7 +18,7 @@ ant::ActorFactory::ActorFactory( void )
 	m_lastActorId = INVALID_ACTOR_ID;
 	
 	m_componentFactory.Register<BaseScriptComponent>(ActorComponent::getIdFromName(BaseScriptComponent::g_Name));
-
+	m_componentFactory.Register<TransformComponent>(ActorComponent::getIdFromName(TransformComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()
@@ -24,7 +26,7 @@ ant::ActorFactory::~ActorFactory()
 
 }
 
-ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, TiXmlElement* overrides, const ActorId serversActorId)
+ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, TiXmlElement* overrides, const Mat4 * initialTransform, const ActorId serversActorId)
 {
 	// Grab the root XML node
 	TiXmlElement* pRoot = XmlResourceLoader::loadAndReturnXmlElement(actorResource);
@@ -75,19 +77,14 @@ ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, Ti
 
 	// This is a bit of a hack to get the initial transform of the transform component set before the 
 	// other components (like PhysicsComponent) read it.
-	/*shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(pActor->getComponent<TransformComponent>(TransformComponent::g_Name));
+	shared_ptr<TransformComponent> pTransformComponent = MakeStrongPtr(pActor->getComponent<TransformComponent>(TransformComponent::g_Name));
 	if (pTransformComponent)
 	{
-		if (initPos)
+		if (initialTransform)
 		{
-			pTransformComponent->setPosition(*initPos);
+			pTransformComponent->setTransform(*initialTransform);
 		}
-
-		if (initRot)
-		{
-			pTransformComponent->setRotation(*initRot);
-		}
-	}*/
+	}
 
 	// Now that the actor has been fully created, run the post init phase
 	pActor->postInit();

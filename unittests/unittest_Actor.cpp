@@ -103,7 +103,7 @@ TEST_F(Test_Actor, initActors)
 {
 	// Try to load actor .xml.
 	ActorId id = 1;
-	ActorStrongPtr pActor = mActorFactory->createActor("actors\\testActor.xml",NULL,id);
+	ActorStrongPtr pActor = mActorFactory->createActor("actors\\testActor.xml",NULL,NULL,id);
 
 	// Verify
 	ASSERT_TRUE(pActor);

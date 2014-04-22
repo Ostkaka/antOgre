@@ -30,7 +30,7 @@ namespace ant
 
 		/// Create and actor from a resource
 		ActorStrongPtr createActor(const char* actorResource, 
-			TiXmlElement* overrides, 
+			TiXmlElement* overrides, const Mat4 * initialTransform,
 			const ActorId serversActorId=INVALID_ACTOR_ID);
 
 		/// Modifies Actors based on an XML file

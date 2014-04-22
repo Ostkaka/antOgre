@@ -16,6 +16,10 @@
 #include <ant_config.hpp>
 #include <ant/ant_std.hpp>
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 //define the resource dir
 //#define _RELEASE_GAME
 #ifndef _RELEASE_GAME
@@ -40,6 +44,11 @@ namespace ant
 	typedef float TimeStamp;
 	typedef std::vector<std::string> StringVector;
 
+	/// Declare matrix and vector types from glm types
+	typedef glm::mat4 Mat4;
+	typedef glm::vec3 Vec3;
+	typedef glm::vec4 Vec4;
+	
 	// TODO format forward declarations
 	// Forward declarations for new framework
 
