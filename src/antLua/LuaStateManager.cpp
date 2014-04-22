@@ -6,7 +6,7 @@ using namespace ant;
 
 LuaStateManager* LuaStateManager::s_pInstance = NULL;
 
-bool ant::LuaStateManager::create( void )
+bool ant::LuaStateManager::startUp(void)
 {
 	if (s_pInstance)
 	{
@@ -21,7 +21,7 @@ bool ant::LuaStateManager::create( void )
 	return false;
 }
 
-void ant::LuaStateManager::destroy( void )
+void ant::LuaStateManager::shutDown(void)
 {
 	ANT_ASSERT(s_pInstance);
 	SAFE_DELETE(s_pInstance);

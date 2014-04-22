@@ -28,6 +28,8 @@ namespace ant
 		ProcessManager* getProcessManager(void);
 
 	protected:
+		ProcessManagerSingleton();
+
 		virtual ~ProcessManagerSingleton() {}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -24,10 +24,10 @@ namespace ant
 		virtual void executeString(const char* str) ANT_OVERRIDE;
 		
 		/// Create the internal lua state
-		static bool create(void);
+		static bool startUp(void);
 
 		/// Clear the internal lua state
-		static void destroy(void);
+		static void shutDown(void);
 
 		/// Gets the instance 
 		static LuaStateManager* instance(void);

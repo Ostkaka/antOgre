@@ -43,7 +43,7 @@ namespace
 			ProcessManagerSingleton::startUp();
 
 			// Init lua stuff
-			ASSERT_TRUE(LuaStateManager::create());
+			ASSERT_TRUE(LuaStateManager::startUp());
 			LuaScriptExports::registerScripts();
 			IScriptProcess::registerScriptClass(); // Should this not be in the register scripts function?
 			BaseScriptComponent::registerScriptFunctions();
