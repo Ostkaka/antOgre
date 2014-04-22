@@ -112,7 +112,6 @@ else()
 endif()
 
 
-
 # TinyXML
 set(TINYXML_TARGET_NAME "TinyXml")
 include_directories(${ANT_DEPENDENCIES_DIR}/tinyxml)
@@ -133,15 +132,25 @@ else()
 endif(FASTDELEGATE_FOUND)
 include_directories(${FASTDELEGATE_INCLUDE_DIR})
 
-# find zlib
-set(ENV{ZLIB_DIR} ${PROJECT_BINARY_DIR}/installed)
-find_package(ZLIB)
-if(ZLIB_FOUND)
-  message("ZLIB: FOUND")  
-  include_directories(${ZLIB_INCLUDE_DIR})
+# find fastdelegate
+set(ENV{FASTDELEGATE_DIR} ${ANT_DEPENDENCIES_DIR}/FastDelegate)
+find_package(FASTDELEGATE)
+if(FASTDELEGATE_FOUND)
+  message("FASTDELEGATET: FOUND")  
 else()
-  message(FATAL_ERROR "ZLIB: NOT FOUND")
-endif(ZLIB_FOUND)
+  message(FATAL_ERROR "FASTDELEGATE: NOT FOUND")
+endif(FASTDELEGATE_FOUND)
+include_directories(${FASTDELEGATE_INCLUDE_DIR})
+
+# find glm
+set(GLM_ROOT_DIR ${INSTALLED_DIR})
+find_package(GLM)
+if(GLM_FOUND)
+  message("GLM: FOUND")  
+  include_directories(${GLM_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "GLM: NOT FOUND")
+endif(GLM_FOUND)
 
 # add the ANT subdirectory
 message("Configuring ANT...")
