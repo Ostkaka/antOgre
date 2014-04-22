@@ -54,7 +54,7 @@ ExternalProject_Add(
     TIMEOUT 10  
     # Force separate output paths for debug and release builds to allow easy
     # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
-   	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${INSTALLED_DIR}
+   	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${INSTALLED_DIR} -DOGRE_DEPENDENCIES_DIR:PATH=${INSTALLED_DIR}
     # Wrap download, configure and build steps in a script to log output	    
     UPDATE_COMMAND ""
     LOG_DOWNLOAD ON
@@ -78,6 +78,25 @@ ExternalProject_Add(
     LOG_BUILD ON)
 
 SET_PROPERTY(TARGET zlib PROPERTY FOLDER "external")
+
+# Add glm
+ExternalProject_Add(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    TIMEOUT 10  
+    # Force separate output paths for debug and release builds to allow easy
+    # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${INSTALLED_DIR} -DGLM_TEST_ENABLE=ON
+    # Wrap download, configure and build steps in a script to log output
+    # Disable install step
+    BUILD_COMMAND ""
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON)
+
+SET_PROPERTY(TARGET zlib PROPERTY FOLDER "external")
+
+ADD_DEPENDENCIES(ogre glm)
 
 ADD_DEPENDENCIES(ogre zlib)
 

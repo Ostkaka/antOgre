@@ -9,5 +9,5 @@ call setup_vs.bat
 devenv antDependencies.sln /BUILD Debug /project ogreDeps /projectconfig "Debug|x64" 
 devenv antDependencies.sln /BUILD Debug /project ogre /projectconfig "Debug|x64" 
 
-devenv antDependencies.sln /BUILD Release /project ogreDeps /projectconfig "Debug|x64" 
-devenv antDependencies.sln /BUILD Release /project ogre /projectconfig "Debug|x64" 
+devenv antDependencies.sln /BUILD Release /project ogreDeps /projectconfig "Release|x64" 
+devenv antDependencies.sln /BUILD Release /project ogre /projectconfig "Release|x64" 
