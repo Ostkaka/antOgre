@@ -37,3 +37,4 @@ install(FILES ${ANT_INCLUDE_DIR}/ant_config.hpp
 
 # add the modules subdirectories
 add_subdirectory(antLua)
+add_subdirectory(antOgre)

@@ -51,6 +51,7 @@ set(INSTALL_INCLUDE_DIR include PATH  "Installation directory for header files")
 # Set project targets
 SET( ANTCORE_TARGET_NAME "antCore")
 SET( ANTLUA_TARGET_NAME "antLua")
+SET( ANTOGRE_TARGET_NAME "antOgre")
 
 # Visual studio specific
 if (MSVC)
