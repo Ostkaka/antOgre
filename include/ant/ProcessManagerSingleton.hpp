@@ -29,7 +29,6 @@ namespace ant
 
 	protected:
 		ProcessManagerSingleton();
-
 		virtual ~ProcessManagerSingleton() {}
 
 	//////////////////////////////////////////////////////////////////////////

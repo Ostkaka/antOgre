@@ -5,7 +5,6 @@ using namespace ant;
 
 ProcessManagerSingleton* ProcessManagerSingleton::s_instance = nullptr;
 
-
 ProcessManagerSingleton::ProcessManagerSingleton() : m_processManager(nullptr)
 {
 }
