@@ -22,8 +22,11 @@ const char* SCRIPT_PREINIT_FILE = "lua\\PreInit.lua";
 IOgreApp* IOgreApp::g_App = NULL;
 
 ant::IOgreApp::IOgreApp(const std::string theTitle /*= "Ant Application"*/)
-: m_gameLogic(NULL),
-m_eventManager(NULL),
+: m_gameLogic(nullptr),
+m_eventManager(nullptr),
+m_renderWindow(nullptr),
+m_ogreRoot(nullptr),
+m_pInputMgr(nullptr),
 m_running(false),
 m_updateRate(0.016),
 m_initialized(false),
@@ -200,11 +203,38 @@ void ant::IOgreApp::initRenderer()
 {
 	ANT_LOG("IOgreApp", "Init Renderer");
 
+	m_ogreRoot = new Ogre::Root();
+
+	if (!m_ogreRoot->showConfigDialog())
+		ANT_ERROR("Could not show ogre config dialog!");
+
+	m_renderWindow = m_ogreRoot->initialise(true, m_title);
+
+	m_viewport = m_renderWindow->addViewport(0);
+	m_viewport->setBackgroundColour(Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f));
+
+	m_viewport->setCamera(0);
+
+	m_renderWindow->setActive(true);
 }
 
 void ant::IOgreApp::processInput()
 {
-	
+	// Capture events here!
+		
+}
+
+void IOgreApp::initInputSystem()
+{
+	ANT_ASSERT(m_renderWindow);
+	size_t hWnd = 0;
+	OIS::ParamList paramList;
+	m_renderWindow->getCustomAttribute("WINDOW", &hWnd);
+
+	paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
+
+	m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
+
 }
 
 void ant::IOgreApp::renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt)
@@ -217,6 +247,9 @@ void ant::IOgreApp::renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt)
 			(*it)->onRender(fTime, dt);
 		}
 	}
+
+	// Render once !
+	m_ogreRoot->renderOneFrame();
 
 	// TODO - g_pApp->m_pGame->VRenderDiagnostics();
 }

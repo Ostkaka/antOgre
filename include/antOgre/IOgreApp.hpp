@@ -8,6 +8,9 @@
 #include <ant/core_types.hpp>
 #include <ant_config.hpp>
 #include <ant\BaseGameLogic.hpp>
+#include <OIS\OISInputManager.h>
+#include <OGRE\OgreRenderWindow.h>
+#include <OGRE\OgreRoot.h>
 
 namespace ant
 {
@@ -135,6 +138,11 @@ namespace ant
 		void initRenderer();
 
 		/**
+		* Inits the input system
+		*/
+		void initInputSystem();
+
+		/**
 		* Renders the frame for the game, given that human views are connected to it
 		*/
 		void renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt);
@@ -188,6 +196,14 @@ namespace ant
 
 		// EventManager
 		EventManager*				 m_eventManager;
+
+		// OIS Input Manager
+		OIS::InputManager*			m_pInputMgr;
+
+		// Ogre stuff
+		Ogre::Root*					m_ogreRoot;
+		Ogre::RenderWindow*			m_renderWindow;
+		Ogre::Viewport*				m_viewport;
 
 	private:
 		/// Static instance variables assigned at creation
