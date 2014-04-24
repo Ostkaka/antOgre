@@ -213,11 +213,6 @@ namespace ant
 		// OIS Input Manager
 		OIS::InputManager*			m_pInputMgr;
 
-		// Ogre stuff
-		Ogre::Root*					m_ogreRoot;
-		Ogre::RenderWindow*			m_renderWindow;
-		Ogre::Viewport*				m_viewport;
-
 	private:
 		/// Static instance variables assigned at creation
 		static IOgreApp*        g_App;

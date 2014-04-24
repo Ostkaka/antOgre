@@ -16,6 +16,7 @@
 #include <OGRE\OgreConfigFile.h>
 #include <OGRE\OgreSceneNode.h>
 #include <OGRE\OgreWindowEventUtilities.h>
+#include <antOgre\RenderManager.hpp>
 
 using namespace ant;
 
@@ -27,8 +28,6 @@ IOgreApp* IOgreApp::g_App = NULL;
 ant::IOgreApp::IOgreApp(const std::string theTitle /*= "Ant Application"*/)
 : m_gameLogic(nullptr),
 m_eventManager(nullptr),
-m_renderWindow(nullptr),
-m_ogreRoot(nullptr),
 m_pInputMgr(nullptr),
 m_running(false),
 m_updateRate(0.016),
@@ -269,45 +268,9 @@ void ant::IOgreApp::initRenderer()
 {
 	ANT_LOG("IOgreApp", "Init Renderer");
 
-	std::string plugins(ANT_DATA_PATH"/plugins.cfg");
+	antOgre::RenderManager::startUp();
 
-	m_ogreRoot = new Ogre::Root(plugins);
-
-	//if (!m_ogreRoot->showConfigDialog())
-	//	ANT_ERROR("Could not show ogre config dialog!");
-
-	Ogre::RenderSystem *rs = m_ogreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
-	rs->setConfigOption("Full Screen", "No");
-	rs->setConfigOption("Video Mode", "800 x 600 @ 32-bit colour");
-
-	// or use "OpenGL Rendering Subsystem"
-	m_ogreRoot->setRenderSystem(rs);
-	
-	m_renderWindow = m_ogreRoot->initialise(true, m_title);
-
-	// Get the SceneManager, in this case a generic one
-	m_ogreRoot->createSceneManager(Ogre::ST_GENERIC,"main");
-
-	// Create one viewport, entire window
-	Ogre::Camera* camera = m_ogreRoot->getSceneManager("main")->createCamera("MainCamera");
-	m_viewport = m_renderWindow->addViewport(camera);
-
-	// Alter the camera aspect ratio to match the viewport
-	camera->setAspectRatio(Ogre::Real(m_viewport->getActualWidth()) / Ogre::Real(m_viewport->getActualHeight()));
-
-	// Position it at 500 in Z direction
-	camera->setPosition(Ogre::Vector3(0, 0, 80));
-
-	// Look back along -Z
-	camera->lookAt(Ogre::Vector3(0, 0, -300));
-	camera->setNearClipDistance(5);
-	
-	m_viewport->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 0.0f));
-
-	m_renderWindow->setActive(true);
-
-	// Set default mipmap level (NB some APIs ignore this)
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	antOgre::RenderManager::instance()->getRenderWindow()->setActive(true);
 }
 
 void ant::IOgreApp::processInput()
@@ -317,15 +280,14 @@ void ant::IOgreApp::processInput()
 
 void IOgreApp::initInputSystem()
 {
-	ANT_ASSERT(m_renderWindow);
+	ANT_ASSERT(antOgre::RenderManager::instance()->getRenderWindow());
 	size_t hWnd = 0;
 	OIS::ParamList paramList;
-	m_renderWindow->getCustomAttribute("WINDOW", &hWnd);
+	antOgre::RenderManager::instance()->getRenderWindow()->getCustomAttribute("WINDOW", &hWnd);
 
 	paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
 
 	m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
-
 }
 
 void ant::IOgreApp::renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt)
@@ -339,8 +301,8 @@ void ant::IOgreApp::renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt)
 		}
 	}
 
-	// Render once !
-	m_ogreRoot->renderOneFrame();
+	// Render once after all scene objects in the gameviews has been updated
+	antOgre::RenderManager::instance()->renderFrame();
 
 	// TODO - g_pApp->m_pGame->VRenderDiagnostics();
 }
