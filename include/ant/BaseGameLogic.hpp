@@ -115,7 +115,7 @@ namespace ant
 		std::string getActorXml(const ActorId id);
 
 		// Get active actors in the scene
-		ActorMap* getActiveActors(void);
+		ActorMap* getActiveActors(void) ANT_OVERRIDE;
 
 		// Set active level in the game logic
 		virtual void setActiveLevel(const std::string& level);

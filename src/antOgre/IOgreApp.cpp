@@ -13,6 +13,9 @@
 #include <antLua/BaseScriptComponent.hpp>
 #include <ant/GenericObjectFactory.hpp>
 #include <OGRE/OgreTimer.h>
+#include <OGRE\OgreConfigFile.h>
+#include <OGRE\OgreSceneNode.h>
+#include <OGRE\OgreWindowEventUtilities.h>
 
 using namespace ant;
 
@@ -33,6 +36,62 @@ m_initialized(false),
 m_title(theTitle)
 {
 	g_App = this;
+}
+
+void IOgreApp::setupResources()
+{
+
+	std::string mResourcesCfg = ANT_DATA_PATH"/resources.cfg";
+
+	// Load resource paths from config file
+	Ogre::ConfigFile cf;
+	cf.load(mResourcesCfg);
+
+	// Go through all sections & settings in the file
+	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+	Ogre::String secName, typeName, archName;
+	while (seci.hasMoreElements())
+	{
+		secName = seci.peekNextKey();
+		Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+		Ogre::ConfigFile::SettingsMultiMap::iterator i;
+		for (i = settings->begin(); i != settings->end(); ++i)
+		{
+			typeName = i->first;
+			archName = i->second;
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+			// OS X does not set the working directory relative to the app,
+			// In order to make things portable on OS X we need to provide
+			// the loading with it's own bundle path location
+			if (!Ogre::StringUtil::startsWith(archName, "/", false)) // only adjust relative dirs
+				archName = Ogre::String(Ogre::macBundlePath() + "/" + archName);
+#endif
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+				archName, typeName, secName);
+		}
+	}
+
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+void IOgreApp::createScene()
+{
+	// Set the scene's ambient light
+	m_ogreRoot->getSceneManager("main")->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
+
+	// Create an Entity
+	Ogre::Entity* ogreHead = m_ogreRoot->getSceneManager("main")->createEntity("Head", "ogrehead.mesh");
+
+	// Create a SceneNode and attach the Entity to it
+	Ogre::SceneNode* headNode = m_ogreRoot->getSceneManager("main")->getRootSceneNode()->createChildSceneNode("HeadNode");
+	headNode->attachObject(ogreHead);
+
+	headNode->setPosition(0, 0, 0);
+
+	// Create a Light and set its position
+	Ogre::Light* light = m_ogreRoot->getSceneManager("main")->createLight("MainLight");
+	light->setPosition(20.0f, 80.0f, 50.0f);
 }
 
 ant::IOgreApp::~IOgreApp()
@@ -103,6 +162,10 @@ bool ant::IOgreApp::init()
 	// Init renderer and application window
 	initRenderer();
 
+	setupResources();
+
+	createScene();
+
 	// Init the game logic and the views from a virtual function create by child class
 	m_gameLogic = initGameLogicAndView();
 	if (!m_gameLogic)
@@ -148,18 +211,21 @@ void ant::IOgreApp::gameLoop()
 	updateClock.reset();
 
 	// When do we update next?
-	int updateNext = updateClock.getMilliseconds();
+	int updateNext = updateClock.getMillisecondsCPU();
 
 	// Begin the main loop
-	while (isRunning())
+	while (isRunning() && m_renderWindow->isActive())
 	{
 		// Get the current time
-		ant::DeltaTime updateTime = ant::Real(updateClock.getMilliseconds() * 1000.0);
+		ant::DeltaTime updateTime = ant::Real(updateClock.getMillisecondsCPU() * 1000.0);
 
 		// Is it time to update yet?
-		ant::DeltaTime dt = ant::Real(frameClock.getMilliseconds() * 1000.0);
+		ant::DeltaTime dt = ant::Real(frameClock.getMillisecondsCPU() * 1000.0);
 		if (dt > m_updateRate)
 		{
+			// just pump so that the window is ok
+			Ogre::WindowEventUtilities::messagePump();
+
 			// Process input and get it to the game logic and it's views
 			processInput();
 
@@ -196,32 +262,57 @@ void ant::IOgreApp::setUpdateRate(float rate)
 void ant::IOgreApp::quit(int exitCode /*= 1*/)
 {
 	m_exitCode = exitCode;
-	m_running = false;
+	m_running  = false;
 }
 
 void ant::IOgreApp::initRenderer()
 {
 	ANT_LOG("IOgreApp", "Init Renderer");
 
-	m_ogreRoot = new Ogre::Root();
+	std::string plugins(ANT_DATA_PATH"/plugins.cfg");
 
-	if (!m_ogreRoot->showConfigDialog())
-		ANT_ERROR("Could not show ogre config dialog!");
+	m_ogreRoot = new Ogre::Root(plugins);
 
+	//if (!m_ogreRoot->showConfigDialog())
+	//	ANT_ERROR("Could not show ogre config dialog!");
+
+	Ogre::RenderSystem *rs = m_ogreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
+	rs->setConfigOption("Full Screen", "No");
+	rs->setConfigOption("Video Mode", "800 x 600 @ 32-bit colour");
+
+	// or use "OpenGL Rendering Subsystem"
+	m_ogreRoot->setRenderSystem(rs);
+	
 	m_renderWindow = m_ogreRoot->initialise(true, m_title);
 
-	m_viewport = m_renderWindow->addViewport(0);
-	m_viewport->setBackgroundColour(Ogre::ColourValue(0.5f, 0.5f, 0.5f, 1.0f));
+	// Get the SceneManager, in this case a generic one
+	m_ogreRoot->createSceneManager(Ogre::ST_GENERIC,"main");
 
-	m_viewport->setCamera(0);
+	// Create one viewport, entire window
+	Ogre::Camera* camera = m_ogreRoot->getSceneManager("main")->createCamera("MainCamera");
+	m_viewport = m_renderWindow->addViewport(camera);
+
+	// Alter the camera aspect ratio to match the viewport
+	camera->setAspectRatio(Ogre::Real(m_viewport->getActualWidth()) / Ogre::Real(m_viewport->getActualHeight()));
+
+	// Position it at 500 in Z direction
+	camera->setPosition(Ogre::Vector3(0, 0, 80));
+
+	// Look back along -Z
+	camera->lookAt(Ogre::Vector3(0, 0, -300));
+	camera->setNearClipDistance(5);
+	
+	m_viewport->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f, 0.0f));
 
 	m_renderWindow->setActive(true);
+
+	// Set default mipmap level (NB some APIs ignore this)
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 }
 
 void ant::IOgreApp::processInput()
 {
-	// Capture events here!
-		
+	// Capture events here!		
 }
 
 void IOgreApp::initInputSystem()

@@ -12,6 +12,15 @@
 #include <OGRE\OgreRenderWindow.h>
 #include <OGRE\OgreRoot.h>
 
+#include <OgreCamera.h>
+#include <OgreEntity.h>
+#include <OgreLogManager.h>
+#include <OgreRoot.h>
+#include <OgreViewport.h>
+#include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
+#include <OgreConfigFile.h>
+
 namespace ant
 {
 	struct GameSettings
@@ -170,6 +179,10 @@ namespace ant
 		* of our Singleton class are not allowed. Intentionally undefined.
 		*/
 		IOgreApp& operator=(const IOgreApp&);
+
+		void createScene();
+
+		void setupResources();
 
 	public:
 		///CONSTANTS

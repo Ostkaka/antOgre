@@ -1,1 +1,2 @@
 add_subdirectory(ogreTestApp)
+add_subdirectory(ogreApp)
