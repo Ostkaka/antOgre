@@ -2,14 +2,15 @@
 	#define IOGRERENDERCOMPONENT_HPP
 
 #include <actors/ActorComponent.hpp>
-#include <OGRE\OgreSceneNode.h>
+#include <OGRE/OgreSceneNode.h>
 
-namespace ant
+namespace antOgre
 {
-	class IOGRERenderComponent : public ActorComponent
+	class IOGRERenderComponent : public ant::ActorComponent
 	{
+	public:
 		// Should this return a render component?	
-		virtual Ogre::SceneNode* getSceneNode(void) = 0;
+		virtual Ogre::SceneNode* getSceneNode(Ogre::SceneManager* mgr) = 0;
 	};
 }
 

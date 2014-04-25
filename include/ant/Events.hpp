@@ -2,6 +2,7 @@
 	#define EVENTS_HPP_
 
 #include <ant/IEventManager.hpp>
+#include <antOgre/IOGRERenderComponent.hpp>
 #include <antLua/ScriptEvent.hpp>
 #include <antLua/LuaStateManager.hpp>
 #include <ant/core_types.hpp>
@@ -212,6 +213,65 @@ namespace ant
 		virtual std::string getName(void) const 
 		{
 			return "EvtData_ReloadLevel";
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// EvtData_New_SFMLRender_Component - Event that is sent when a new render component was created
+	//////////////////////////////////////////////////////////////////////////
+	class EvtData_New_RenderComponent : public BaseEventData
+	{
+		ActorId                         m_actorId;
+		antOgre::IOGRERenderComponent*  m_renderComponent;
+
+	public:
+		static const EventType sk_EventType;
+
+		EvtData_New_RenderComponent(void)
+		{
+			m_actorId         = INVALID_ACTOR_ID;
+			m_renderComponent = nullptr;
+		}
+
+		explicit EvtData_New_RenderComponent(ActorId actorId, antOgre::IOGRERenderComponent* pSceneNode)
+			: m_actorId(actorId),
+			m_renderComponent(pSceneNode)
+		{
+		}
+
+		virtual void serialize(std::ostrstream& out) const
+		{
+			ANT_ERROR(getName() + std::string(" should not be serialzied!"));
+		}
+
+		virtual void deserialize(std::istrstream& in)
+		{
+			ANT_ERROR(getName() + std::string(" should not be serialzied!"));
+		}
+
+		virtual const EventType& getEventType(void) const
+		{
+			return sk_EventType;
+		}
+
+		virtual IEventDataStrongPtr copy(void) const
+		{
+			return IEventDataStrongPtr(ANT_NEW EvtData_New_RenderComponent(m_actorId, m_renderComponent));
+		}
+
+		virtual std::string getName(void) const
+		{
+			return "EvtData_New_RenderComponent";
+		}
+
+		const ActorId getActorId(void) const
+		{
+			return m_actorId;
+		}
+
+		antOgre::IOGRERenderComponent* getRenderComponent(void) const
+		{
+			return m_renderComponent;
 		}
 	};
 

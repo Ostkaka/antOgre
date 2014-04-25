@@ -1,4 +1,5 @@
 #include <actors/TransformComponent.hpp>
+#include <iostream>
 
 using namespace ant;
 
@@ -45,4 +46,14 @@ bool TransformComponent::init(TiXmlElement* pData)
 TiXmlElement* TransformComponent::generateXml()
 {
 	return NULL;
+}
+
+ant::Vec3 TransformComponent::getPosition()
+{
+	// Try to extract the position from the matrix
+	ant::Vec3 vec3 = ant::Vec3(m_transform[0][4], m_transform[1][4], m_transform[2][4]);
+
+	std::cout << "Position: " << vec3.x << " " << vec3.y << " " << vec3.z << std::endl;
+
+	return vec3;
 }

@@ -6,6 +6,8 @@
 
 namespace ant
 {
+	ANT_DECLARE_POINTER_TYPES(TransformComponent)
+
 	class TransformComponent : public ActorComponent
 	{
 	public:
@@ -22,6 +24,7 @@ namespace ant
 		virtual const char* getName() const ANT_OVERRIDE { return g_Name; }
 		
 		// TODO - fix the get/set position stuff
+		ant::Vec3 getPosition();
 
 		//////////////////////////////////////////////////////////////////////////
 		// Variables

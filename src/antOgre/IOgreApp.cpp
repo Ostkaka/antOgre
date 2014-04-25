@@ -76,21 +76,6 @@ void IOgreApp::setupResources()
 
 void IOgreApp::createScene()
 {
-	// Set the scene's ambient light
-	m_ogreRoot->getSceneManager("main")->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
-
-	// Create an Entity
-	Ogre::Entity* ogreHead = m_ogreRoot->getSceneManager("main")->createEntity("Head", "ogrehead.mesh");
-
-	// Create a SceneNode and attach the Entity to it
-	Ogre::SceneNode* headNode = m_ogreRoot->getSceneManager("main")->getRootSceneNode()->createChildSceneNode("HeadNode");
-	headNode->attachObject(ogreHead);
-
-	headNode->setPosition(0, 0, 0);
-
-	// Create a Light and set its position
-	Ogre::Light* light = m_ogreRoot->getSceneManager("main")->createLight("MainLight");
-	light->setPosition(20.0f, 80.0f, 50.0f);
 }
 
 ant::IOgreApp::~IOgreApp()
@@ -213,7 +198,7 @@ void ant::IOgreApp::gameLoop()
 	int updateNext = updateClock.getMillisecondsCPU();
 
 	// Begin the main loop
-	while (isRunning() && m_renderWindow->isActive())
+	while (isRunning() && antOgre::RenderManager::instance()->getRenderWindow()->isActive())
 	{
 		// Get the current time
 		ant::DeltaTime updateTime = ant::Real(updateClock.getMillisecondsCPU() * 1000.0);
