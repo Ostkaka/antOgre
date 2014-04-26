@@ -11,6 +11,7 @@ const EventType EvtData_Environment_Loaded::sk_EventType(0x3673e27e);
 const EventType EvtData_Destroy_Actor::sk_EventType(0x372cc986);
 const EventType EvtData_New_Actor::sk_EventType(0x50a51f52);
 const EventType EvtData_ReloadLevel::sk_EventType(0x53c1a87);
+const EventType EvtData_New_RenderComponent::sk_EventType(0x53d1b87);
 	
 /**
  * Unit-test events

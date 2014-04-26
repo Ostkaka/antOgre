@@ -26,6 +26,8 @@ namespace ant
 		// TODO - fix the get/set position stuff
 		ant::Vec3 getPosition();
 
+		void setPosition(Vec3 pos);
+
 		//////////////////////////////////////////////////////////////////////////
 		// Variables
 		//////////////////////////////////////////////////////////////////////////
@@ -40,6 +42,15 @@ namespace ant
 	ANT_INLINE Mat4 TransformComponent::getTransform(void) const { return m_transform; }
 
 	ANT_INLINE void TransformComponent::setTransform(const Mat4& newTransform) { m_transform = newTransform; }
+
+	ANT_INLINE void TransformComponent::setPosition(Vec3 pos)
+	{		
+		m_transform[0][3] = pos.x;
+		m_transform[1][3] = pos.y;
+		m_transform[2][3] = pos.z;
+	}
+
+#define ANT_VEC3_TO_OGRE_VEC3(vec3) Ogre::Vector3(vec3.x,vec3.y,vec3.z)
 }
 
 #endif

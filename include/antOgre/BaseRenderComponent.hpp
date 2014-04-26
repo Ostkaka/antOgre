@@ -12,6 +12,9 @@ namespace antOgre
 	class BaseOGRERenderComponent: public antOgre::IOGRERenderComponent
 	{
 	public:
+
+		BaseOGRERenderComponent();
+
 		/// Inits component from XML data
 		virtual bool init(TiXmlElement* pData);
 

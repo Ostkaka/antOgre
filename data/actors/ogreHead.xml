@@ -1,6 +1,7 @@
 <Actor type="ogreHead" resource="actors\ogreHead">
 	<TransformComponent>
-		<Position x="0" y="0" z="0+"/>		
+		<Position x="0" y="0" z="-100"/>
+		<!--<YawPitchRoll x="0" y="0" z="1"/>	-->
 	</TransformComponent>
 	<BaseEntityRenderComponent>
 		<Entity>ogrehead.mesh</Entity>

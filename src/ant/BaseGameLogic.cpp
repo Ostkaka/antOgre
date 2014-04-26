@@ -11,6 +11,7 @@
 #include <ant/templates.hpp>
 
 #include <iostream>
+#include <antOgre\OGREHumanView.hpp>
 
 using namespace ant;
 
@@ -101,15 +102,15 @@ bool ant::BaseGameLogic::loadGame( const char* levelResource )
 	}
 
 	// init all game views - TODO fix this for OGRE
-	/*for (auto it = m_gameViews.begin() ; it != m_gameViews.end() ; ++it)
+	for (auto it = m_gameViews.begin() ; it != m_gameViews.end() ; ++it)
 	{
 		shared_ptr<IGameView> pView = *it;
 		if (pView->getType() == GameView_Human)
 		{
-			shared_ptr<SFMLHumanView> pHumanView = static_pointer_cast<SFMLHumanView, IGameView>(pView);
+			shared_ptr<antOgre::OGREHumanView> pHumanView = static_pointer_cast<antOgre::OGREHumanView, IGameView>(pView);
 			pHumanView->loadGame(root);
 		}
-	}*/
+	}
 
 	if (!loadGameDelegate(root))
 	{
@@ -152,7 +153,7 @@ void ant::BaseGameLogic::addGameView( IGameViewStrongPtr pView, ActorId actorid 
 	int viewId = static_cast<int>(m_gameViews.size());
 	m_gameViews.push_back(pView);
 	pView->onAttach(viewId,actorid);
-	pView->onRestore();
+	//pView->onRestore();
 }
 
 void ant::BaseGameLogic::removeGameView( IGameViewStrongPtr pView )

@@ -1,5 +1,8 @@
 #include <antOgre/OgreScene.hpp>
 #include <ant\Events.hpp>
+#include <antOgre\IOgreApp.hpp>
+#include <ant\templates.hpp>
+#include <actors\TransformComponent.hpp>
 
 using namespace antOgre;
 
@@ -35,11 +38,41 @@ bool OgreScene::onUpdate(ant::DeltaTime const dt)
 	return true;
 }
 
-void OgreScene::onRender()
+void OgreScene::onRender(DeltaTime fTime, DeltaTime fElapsedTime)
 {
-	// Update all render information
-	
+	// Mess with the trans component here
 	// sync all actors transformation components with their scene nodes
+	int k = 0;
+	for (auto& i : m_sceneActorMap)
+	{
+		ActorStrongPtr actor = MakeStrongPtr(ant::IOgreApp::getApp()->getGameLogic()->getActor(i.first));
+		if (actor)
+		{
+			TransformComponentStrongPtr pTrans = MakeStrongPtr(actor->getComponent<TransformComponent>(TransformComponent::g_Name));
+			if (pTrans)
+			{
+				Real val = std::sin(fTime - ant::Real(k) * 0.200);
+				Vec3 pos = Vec3( (val ) * 50, 0, k * 50.0 -300.0);
+
+				pTrans->setPosition(pos);
+				k++;
+			}
+		}
+	}
+
+	// sync all actors transformation components with their scene nodes
+	for (auto& i : m_sceneActorMap )
+	{
+		ActorStrongPtr actor = MakeStrongPtr( ant::IOgreApp::getApp()->getGameLogic()->getActor(i.first));
+		if (actor)
+		{
+			TransformComponentStrongPtr pTrans = MakeStrongPtr(actor->getComponent<TransformComponent>(TransformComponent::g_Name));
+			if (pTrans)
+			{
+				i.second->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTrans->getPosition()));				
+			}
+		}
+	}
 }
 
 Ogre::SceneNode* OgreScene::findActor(ant::ActorId actor)
@@ -60,7 +93,10 @@ bool OgreScene::addChild(ant::ActorId id, Ogre::SceneNode* node)
 		m_sceneActorMap[id] = node;
 	}
 
-	m_sceneMgr->getRootSceneNode()->addChild(node);
+	if (m_sceneMgr->getRootSceneNode() != node->getParent())
+	{
+		m_sceneMgr->getRootSceneNode()->addChild(node);
+	}
 
 	return true;
 }
@@ -95,6 +131,7 @@ void OgreScene::newRenderComponentDelegate(IEventDataStrongPtr eventData)
 
 	Ogre::SceneNode* node = comp->getSceneNode(m_sceneMgr);
 	
+	// The node is already a child of the scenemanager root node. Maybe we should generate entities instead?
 	addChild(actorId, node);
 }
 

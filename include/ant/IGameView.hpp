@@ -22,11 +22,11 @@ namespace ant
 	class IGameView
 	{
 	public:
-		virtual bool onRestore() = 0;
+		//virtual bool onRestore() = 0;
 
 		virtual void onRender(ant::DeltaTime fTime, ant::DeltaTime fElapsedTime) = 0;
 
-		virtual bool onLostDevice() = 0;
+		//virtual bool onLostDevice() = 0;
 
 		virtual GameViewType getType() = 0;
 

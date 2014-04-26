@@ -10,6 +10,14 @@
 
 const char* antOgre::BaseEntityRenderComponent::g_Name = "BaseEntityRenderComponent";
 
+int createEntities = 0;
+
+antOgre::BaseOGRERenderComponent::BaseOGRERenderComponent()
+{
+	m_color     = Ogre::ColourValue(1, 1, 1, 1);
+	m_sceneNode = nullptr;
+}
+
 bool antOgre::BaseOGRERenderComponent::init(TiXmlElement* pData)
 {
 	// Color
@@ -80,9 +88,14 @@ Ogre::SceneNode* antOgre::BaseEntityRenderComponent::createSceneNode(Ogre::Scene
 	// Try to get the transform component here. Is this an ugly hack?
 	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
 	
-	Ogre::Entity* entity  = mgr->createEntity("Head", m_entityName);
-	Ogre::SceneNode* node = mgr->getRootSceneNode()->createChildSceneNode(m_entityName + std::string("Node"));
+	createEntities++;
+	
+	std::string generatename = m_entityName + ToStr(createEntities);
+
+	Ogre::Entity* entity = mgr->createEntity(generatename, m_entityName);
+	Ogre::SceneNode* node = mgr->getRootSceneNode()->createChildSceneNode(generatename + std::string("Node"));
 	node->attachObject(entity);
+	node->setScale(Ogre::Vector3(0.5));
 
 	if (pTransformComponent)
 	{

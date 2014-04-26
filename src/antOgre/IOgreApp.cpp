@@ -201,10 +201,10 @@ void ant::IOgreApp::gameLoop()
 	while (isRunning() && antOgre::RenderManager::instance()->getRenderWindow()->isActive())
 	{
 		// Get the current time
-		ant::DeltaTime updateTime = ant::Real(updateClock.getMillisecondsCPU() * 1000.0);
+		ant::DeltaTime updateTime = ant::Real(updateClock.getMillisecondsCPU() / 1000.0);
 
 		// Is it time to update yet?
-		ant::DeltaTime dt = ant::Real(frameClock.getMillisecondsCPU() * 1000.0);
+		ant::DeltaTime dt = ant::Real(frameClock.getMillisecondsCPU() / 1000.0);
 		if (dt > m_updateRate)
 		{
 			// just pump so that the window is ok
@@ -252,8 +252,11 @@ void ant::IOgreApp::quit(int exitCode /*= 1*/)
 void ant::IOgreApp::initRenderer()
 {
 	ANT_LOG("IOgreApp", "Init Renderer");
-
+	
 	antOgre::RenderManager::startUp();
+
+	// Create window
+	antOgre::RenderManager::instance()->createRenderWindow("Shitty Window");
 
 	antOgre::RenderManager::instance()->getRenderWindow()->setActive(true);
 }
@@ -335,6 +338,7 @@ void ant::IOgreApp::registerEngineEvents(void)
 {
 	REGISTER_EVENT(EvtData_New_Actor);
 	REGISTER_EVENT(EvtData_Destroy_Actor);
+	REGISTER_EVENT(EvtData_New_RenderComponent);
 }
 
 IOgreApp * ant::IOgreApp::getApp()

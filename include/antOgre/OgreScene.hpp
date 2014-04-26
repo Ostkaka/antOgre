@@ -9,10 +9,12 @@ using namespace ant;
 
 namespace antOgre
 {
+	ANT_DECLARE_POINTER_TYPES(OgreScene)
+
 	class OgreScene
 	{
 		typedef std::map<ActorId, Ogre::SceneNode*> SceneActorMap;
-
+	public:
 		/// Default constructor
 		OgreScene(const std::string& name);
 
@@ -21,7 +23,7 @@ namespace antOgre
 
 		bool onUpdate(const ant::DeltaTime dt);
 
-		void onRender(void);
+		void onRender(DeltaTime fTime, DeltaTime fElapsedTime);
 
 		Ogre::SceneNode* findActor(ant::ActorId actor);
 
@@ -34,8 +36,7 @@ namespace antOgre
 		void modifiedRenderComponentDelegate(IEventDataStrongPtr eventData);
 		void destroyActorDelegate(IEventDataStrongPtr eventData);
 		void moveActorDelegate(IEventDataStrongPtr eventData);
-
-
+		
 		//////////////////////////////////////////////////////////////////////////
 		// Variables
 		//////////////////////////////////////////////////////////////////////////

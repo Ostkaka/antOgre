@@ -10,6 +10,7 @@
 
 #include <tinyxml.h>
 #include <actors\TransformComponent.hpp>
+#include <antOgre\BaseRenderComponent.hpp>
 
 using namespace ant;
 
@@ -19,6 +20,7 @@ ant::ActorFactory::ActorFactory( void )
 	
 	m_componentFactory.Register<BaseScriptComponent>(ActorComponent::getIdFromName(BaseScriptComponent::g_Name));
 	m_componentFactory.Register<TransformComponent>(ActorComponent::getIdFromName(TransformComponent::g_Name));
+	m_componentFactory.Register<antOgre::BaseEntityRenderComponent>(ActorComponent::getIdFromName(antOgre::BaseEntityRenderComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()
