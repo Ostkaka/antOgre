@@ -210,24 +210,21 @@ namespace ant
 		// EventManager
 		EventManager*				 m_eventManager;
 
-		// OIS Input Manager
-		OIS::InputManager*			m_pInputMgr;
-
 	private:
 		/// Static instance variables assigned at creation
 		static IOgreApp*        g_App;
 
 		/// Exit code that is returned upon existing the application
-		int						m_exitCode;
+		int						     m_exitCode;
 
 		/// TRUE if the app is still running
-		bool					m_running;
+		bool					     m_running;
 
 		/// True if the application is initialized
-		bool					m_initialized;
+		bool					     m_initialized;
 
 		/// Value that holds the update rate in seconds used for a fixed loop time
-		ant::DeltaTime m_updateRate;
+		ant::DeltaTime               m_updateRate;
 	};
 }
 

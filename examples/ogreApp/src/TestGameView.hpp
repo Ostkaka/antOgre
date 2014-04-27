@@ -2,6 +2,7 @@
 	#define TESTGAMEVIEW_HPP_
 
 #include <antOgre\OGREHumanView.hpp>
+#include "TestController.hpp"
 
 namespace antOgre
 {
@@ -39,7 +40,12 @@ namespace antOgre
 		// Variables
 		//////////////////////////////////////////////////////////////////////////
 	protected:
-		ant::Real               m_zoomFactor;
+		ant::Real                   m_zoomFactor;
+		TestControllerStrongPtr     m_controller;
+
+		// Main camera
+		Ogre::Camera *              m_camera;
+		Ogre::SceneNode*	        m_cameraNode;
 	};
 }
 

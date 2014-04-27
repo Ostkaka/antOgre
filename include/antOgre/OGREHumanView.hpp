@@ -52,13 +52,14 @@ namespace antOgre
 
 	protected:
 
-		GameViewId            m_viewId;
-		ActorId               m_actorId;
+		GameViewId                    m_viewId;
+		ActorId                       m_actorId;
 		antOgre::OgreSceneStrongPtr   m_scene;
-		ant::TimeStamp        m_currentTime;
-		ant::TimeStamp        m_lastDrawTime;
-		BaseGameState         m_BaseGameState;
-		Ogre::Camera*         m_cameraNode;
+		ant::TimeStamp                m_currentTime;
+		ant::TimeStamp                m_lastDrawTime;
+		BaseGameState                 m_BaseGameState;
+		Ogre::Camera*                 m_camera;
+		Ogre::SceneNode*              m_cameraNode;
 	};
 
 	ANT_INLINE GameViewId OGREHumanView::getId() const { return m_viewId; }

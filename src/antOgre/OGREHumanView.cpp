@@ -12,7 +12,22 @@ antOgre::OGREHumanView::OGREHumanView()
 
 	m_BaseGameState = GAME_STATE_INIT;
 
-	//m_cameraNode = antOgre::RenderManager::instance()->getOrCreateSceneManager("main")->createCamera(""); 
+	m_camera = m_scene->getSceneManager()->createCamera("mainCamera"); 
+
+	m_cameraNode = m_scene->getSceneManager()->getRootSceneNode()->createChildSceneNode("CamNode1");
+
+	m_cameraNode->attachObject(m_camera);
+
+	m_cameraNode->setPosition(0, 0, 250);
+
+	m_camera->lookAt(0, 0, 0);
+
+	m_camera->setNearClipDistance(5);
+
+	Ogre::Viewport* vp = antOgre::RenderManager::instance()->getRenderWindow()->addViewport(m_camera);
+
+	// Alter the camera aspect ratio to match the viewport
+	m_camera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 
 antOgre::OGREHumanView::~OGREHumanView()

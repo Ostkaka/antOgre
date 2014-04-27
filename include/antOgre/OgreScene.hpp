@@ -31,6 +31,8 @@ namespace antOgre
 
 		bool removeChild(ant::ActorId id);
 
+		Ogre::SceneManager* getSceneManager();
+
 		/// delegates
 		void newRenderComponentDelegate(IEventDataStrongPtr eventData);
 		void modifiedRenderComponentDelegate(IEventDataStrongPtr eventData);
@@ -44,6 +46,12 @@ namespace antOgre
 		Ogre::SceneManager* m_sceneMgr;
 		SceneActorMap       m_sceneActorMap;
 	};
+
+	ANT_INLINE Ogre::SceneManager* OgreScene::getSceneManager()
+	{
+		ANT_ASSERT(m_sceneMgr);
+		return m_sceneMgr; 
+	}
 }
 
 

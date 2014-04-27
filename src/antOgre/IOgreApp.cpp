@@ -17,6 +17,7 @@
 #include <OGRE\OgreSceneNode.h>
 #include <OGRE\OgreWindowEventUtilities.h>
 #include <antOgre\RenderManager.hpp>
+#include <ant\InputManager.hpp>
 
 using namespace ant;
 
@@ -28,7 +29,6 @@ IOgreApp* IOgreApp::g_App = NULL;
 ant::IOgreApp::IOgreApp(const std::string theTitle /*= "Ant Application"*/)
 : m_gameLogic(nullptr),
 m_eventManager(nullptr),
-m_pInputMgr(nullptr),
 m_running(false),
 m_updateRate(0.016),
 m_initialized(false),
@@ -145,6 +145,8 @@ bool ant::IOgreApp::init()
 
 	// Init renderer and application window
 	initRenderer();
+
+	initInputSystem();
 
 	setupResources();
 
@@ -264,18 +266,12 @@ void ant::IOgreApp::initRenderer()
 void ant::IOgreApp::processInput()
 {
 	// Capture events here!		
+	ant::InputManager::instance()->captureInput();
 }
 
 void IOgreApp::initInputSystem()
 {
-	ANT_ASSERT(antOgre::RenderManager::instance()->getRenderWindow());
-	size_t hWnd = 0;
-	OIS::ParamList paramList;
-	antOgre::RenderManager::instance()->getRenderWindow()->getCustomAttribute("WINDOW", &hWnd);
-
-	paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
-
-	m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
+	ant::InputManager::startUp();
 }
 
 void ant::IOgreApp::renderFrame(ant::DeltaTime fTime, ant::DeltaTime dt)

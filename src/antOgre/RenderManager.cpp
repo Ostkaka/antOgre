@@ -80,14 +80,11 @@ Ogre::RenderWindow* RenderManager::createRenderWindow(const std::string& title)
 
 	// Create one viewport, entire window // TODO - viewports and cameras should be created in the HumanView 
 	Ogre::Camera* camera = m_ogreRoot->getSceneManager("main")->createCamera("MainCamera");
-	m_viewport = m_renderWindow->addViewport(camera);
+
 
 	camera->setPosition(0, 0, 150);
 	camera->lookAt(0, 0, 0);
-	camera->setNearClipDistance(5);
 
-	// Alter the camera aspect ratio to match the viewport
-	camera->setAspectRatio(Ogre::Real(m_viewport->getActualWidth()) / Ogre::Real(m_viewport->getActualHeight()));
 
 	ANT_ASSERT(m_renderWindow);
 	return m_renderWindow;

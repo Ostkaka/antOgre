@@ -26,7 +26,7 @@ void antOgre::TestGameView::setControllerActor(ActorId actorId)
 
 	OGREHumanView::setControllerActor(actorId);
 
-	// TODO - inform controllers;
+	m_controller.reset(ANT_NEW TestController(m_cameraNode));
 }
 
 void antOgre::TestGameView::onAttach(GameViewId id, ActorId actorid)
