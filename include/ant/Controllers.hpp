@@ -3,6 +3,7 @@
 
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
+#include <ant/ant_std.hpp>
 
 namespace ant
 {

@@ -1,6 +1,7 @@
 #include "TestGameView.hpp"
 #include "TestEvents.hpp"
-#include <antOgre\OGREHumanView.hpp>
+#include <antOgre/OGREHumanView.hpp>
+#include <ant/InputManager.hpp>
 
 using namespace ant;
 
@@ -26,7 +27,7 @@ void antOgre::TestGameView::setControllerActor(ActorId actorId)
 
 	OGREHumanView::setControllerActor(actorId);
 
-	m_controller.reset(ANT_NEW TestController(m_cameraNode));
+	m_controller.reset(ANT_NEW TestController(node));
 }
 
 void antOgre::TestGameView::onAttach(GameViewId id, ActorId actorid)
@@ -51,6 +52,8 @@ bool antOgre::TestGameView::loadGameDelegate(TiXmlElement* levelData)
 	{
 		return false;
 	}
+
+	m_controller.reset(ANT_NEW TestController(m_cameraNode));
 
 	return true;
 }

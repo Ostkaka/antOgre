@@ -7,7 +7,7 @@
 namespace antOgre
 {
 	/**
-	* Test Game view TODO - should send in arguments that specify what scenegraph it should be coupled to
+	* Test Game view 
 	*/
 	class TestGameView : public OGREHumanView
 	{
@@ -42,10 +42,6 @@ namespace antOgre
 	protected:
 		ant::Real                   m_zoomFactor;
 		TestControllerStrongPtr     m_controller;
-
-		// Main camera
-		Ogre::Camera *              m_camera;
-		Ogre::SceneNode*	        m_cameraNode;
 	};
 }
 

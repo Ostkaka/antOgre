@@ -1,22 +1,19 @@
 #include <ant/InputManager.hpp>
-#include <antOgre\RenderManager.hpp>
+#include <antOgre/RenderManager.hpp>
 
 ant::InputManager* ant::InputManager::g_inputMgr = nullptr;
 
 ant::InputManager::InputManager()
 {
-
 }
 
 ant::InputManager::~InputManager()
 {
 	// Destroy devices
-
 	m_inputMgr->destroyInputObject(m_keyboard);
 	m_inputMgr->destroyInputObject(m_mouse);
 
 	// Destroy input system
-
 	OIS::InputManager::destroyInputSystem(m_inputMgr);
 
 	SAFE_DELETE(m_keyboard);
@@ -25,10 +22,7 @@ ant::InputManager::~InputManager()
 
 void ant::InputManager::startUp()
 {
-	ANT_ASSERT(g_inputMgr);
-
 	g_inputMgr = new InputManager();
-
 	g_inputMgr->init();
 }
 
@@ -39,6 +33,7 @@ void ant::InputManager::shutDown()
 
 void ant::InputManager::init()
 {
+	ANT_ASSERT(g_inputMgr);
 	ANT_ASSERT(antOgre::RenderManager::instance()->getRenderWindow());
 
 	size_t hWnd = 0;
@@ -53,7 +48,7 @@ void ant::InputManager::init()
 	// Create devices
 
 	m_keyboard = static_cast<OIS::Keyboard*>(m_inputMgr->createInputObject(OIS::OISKeyboard, true));
-	m_mouse = static_cast<OIS::Mouse*>(m_inputMgr->createInputObject(OIS::OISMouse, true));
+	m_mouse    = static_cast<OIS::Mouse*>(m_inputMgr->createInputObject(OIS::OISMouse, true));
 
 	m_objects.push_back(m_keyboard);
 	m_objects.push_back(m_mouse);
@@ -75,4 +70,5 @@ void ant::InputManager::captureInput()
 	{
 		it->capture();
 	}
+	m_keyboard->capture();
 }

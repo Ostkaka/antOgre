@@ -5,14 +5,14 @@ ant::TestController::TestController(Ogre::SceneNode * target)
 {
 	m_actorId = INVALID_ACTOR_ID;
 	m_target  = target;
+
+	ant::InputManager::instance()->AddListener(this);
 }
 
 ant::TestController::TestController(ActorId target)
 {
 	m_actorId = target;
 	m_target  = nullptr;
-
-	// Hook this up to the input systemm
 
 	ant::InputManager::instance()->AddListener(this);
 }
@@ -25,9 +25,9 @@ ant::TestController::~TestController()
 bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 {
 	bool moveForward = false;
-	bool moveLeft = false;
-	bool moveRight = false;
-	bool moveBack = false;
+	bool moveLeft    = false;
+	bool moveRight   = false;
+	bool moveBack    = false;
 
 	switch (arg.key)
 	{
@@ -52,7 +52,8 @@ bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 		Ogre::Vector3 inc(moveLeft ? 10 : (moveRight ? -10 : 0), 0, moveForward ? 10 : (moveBack ? -10 : 0));
 
 		Ogre::Vector3 pos = m_target->getPosition();
-		m_target->setPosition(pos + inc);			;
+		m_target->setPosition(pos + inc);
+		std::cout << "New pos: " << pos + inc << std::endl;
 	}
 
 	return true;
