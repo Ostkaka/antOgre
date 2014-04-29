@@ -40,6 +40,8 @@ namespace antOgre
 
 		virtual bool loadGameDelegate(TiXmlElement* levelData);
 
+		virtual void renderText(){}
+
 	private:
 
 		void registerAllDelegates();

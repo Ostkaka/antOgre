@@ -1,0 +1,13 @@
+<Actor type="Player" resource="actors\ogreHead">
+	<TransformComponent>
+		<Position x="0" y="0" z="-100"/>
+		<!--<YawPitchRoll x="0" y="0" z="1"/>	-->
+	</TransformComponent>
+	<BaseEntityRenderComponent>
+		<Entity>ogrehead.mesh</Entity>
+	</BaseEntityRenderComponent>
+	<BaseScriptComponent>
+        <ScriptObject constructor="AddPlayer" destructor="RemovePlayer" />
+        <ScriptData actorType="Player" state="standing"/>
+    </BaseScriptComponent>
+</Actor>

@@ -1,13 +1,7 @@
 <World>
-    <Script preLoad="lua\LevelInit.lua" postLoad="lua\LevelPostInit.lua"/>
-    <StaticActors>
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
-    	<Actor resource="actors\ogreHead.xml" /> 
+    <StaticActors>    	
+    	<Actor resource="actors\ogreHeadPlayer.xml" /> 
+        <Actor resource="actors\ogreHead.xml" /> 
    	</StaticActors>
+    <Script preLoad="lua\LevelInit.lua" postLoad="lua\LevelPostInit.lua"/>
 </World>

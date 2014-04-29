@@ -51,6 +51,8 @@ namespace ant
 	}
 
 #define ANT_VEC3_TO_OGRE_VEC3(vec3) Ogre::Vector3(vec3.x,vec3.y,vec3.z)
+
+#define OGRE_VEC3_TO_ANT_VEC3(vec3) ant::Vec3(vec3.x,vec3.y,vec3.z)
 }
 
 #endif

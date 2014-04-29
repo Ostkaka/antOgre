@@ -40,26 +40,6 @@ bool OgreScene::onUpdate(ant::DeltaTime const dt)
 
 void OgreScene::onRender(DeltaTime fTime, DeltaTime fElapsedTime)
 {
-	// Mess with the trans component here
-	// sync all actors transformation components with their scene nodes
-	int k = 0;
-	for (auto& i : m_sceneActorMap)
-	{
-		ActorStrongPtr actor = MakeStrongPtr(ant::IOgreApp::getApp()->getGameLogic()->getActor(i.first));
-		if (actor)
-		{
-			TransformComponentStrongPtr pTrans = MakeStrongPtr(actor->getComponent<TransformComponent>(TransformComponent::g_Name));
-			if (pTrans)
-			{
-				Real val = std::sin(fTime - ant::Real(k) * 0.200);
-				Vec3 pos = Vec3( (val ) * 50, 0, k * 50.0 -300.0);
-
-				pTrans->setPosition(pos);
-				k++;
-			}
-		}
-	}
-
 	// sync all actors transformation components with their scene nodes
 	for (auto& i : m_sceneActorMap )
 	{

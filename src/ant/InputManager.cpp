@@ -54,12 +54,12 @@ void ant::InputManager::init()
 	m_objects.push_back(m_mouse);
 }
 
-void ant::InputManager::AddListener(OIS::KeyListener* listener)
+void ant::InputManager::AddCallback(OIS::KeyListener* listener)
 {
 	m_keyboard->setEventCallback(listener);
 }
 
-void ant::InputManager::AddListener(OIS::MouseListener* listener)
+void ant::InputManager::AddCallback(OIS::MouseListener* listener)
 {
 	m_mouse->setEventCallback(listener);
 }

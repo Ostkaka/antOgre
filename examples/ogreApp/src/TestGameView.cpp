@@ -27,7 +27,13 @@ void antOgre::TestGameView::setControllerActor(ActorId actorId)
 
 	OGREHumanView::setControllerActor(actorId);
 
-	m_controller.reset(ANT_NEW TestController(node));
+	m_controller.reset(ANT_NEW TestController(actorId));
+	
+	//m_scene->getSceneManager()->getRootSceneNode()->removeChild(m_cameraNode);
+	//node->addChild(m_cameraNode);
+	m_cameraNode->detachObject(m_camera);
+	node->attachObject(m_camera);
+	m_camera->setPosition(0, 0, 100);
 }
 
 void antOgre::TestGameView::onAttach(GameViewId id, ActorId actorid)
@@ -37,7 +43,8 @@ void antOgre::TestGameView::onAttach(GameViewId id, ActorId actorid)
 
 void antOgre::TestGameView::onUpdate(DeltaTime dt)
 {
-	// Update controllers here. This is probably also where we should capture input!!
+	// Update controllers here. This is probably also where we should RESPOND to captured input
+	//std::cout << "Camera pos: " << m_cameraNode->getPosition() << std::endl;
 }
 
 void antOgre::TestGameView::setControllerActorDelegate(IEventDataStrongPtr eventPtr)
@@ -56,6 +63,11 @@ bool antOgre::TestGameView::loadGameDelegate(TiXmlElement* levelData)
 	m_controller.reset(ANT_NEW TestController(m_cameraNode));
 
 	return true;
+}
+
+void antOgre::TestGameView::renderText()
+{
+	// We should render the gui here
 }
 
 void antOgre::TestGameView::registerAllDelegates()

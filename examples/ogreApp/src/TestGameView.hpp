@@ -29,6 +29,8 @@ namespace antOgre
 
 		virtual bool loadGameDelegate(TiXmlElement* levelData) ANT_OVERRIDE;
 
+		virtual void renderText();
+
 	private:
 
 		/// Delegates

@@ -24,9 +24,9 @@ namespace ant
 
 		void captureInput();
 
-		void AddListener(OIS::KeyListener*   listener);
+		void AddCallback(OIS::KeyListener*   listener);
 
-		void AddListener(OIS::MouseListener* listener);
+		void AddCallback(OIS::MouseListener* listener);
 
 		static InputManager* instance();
 
