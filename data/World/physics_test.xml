@@ -8,6 +8,7 @@
         <Actor resource="actors\groundBox.xml"/> 
         <Actor resource="actors\groundBox2.xml"/> 
         <Actor resource="actors\basicSphere.xml" /> 
+        <Actor resource="actors\groundPlane.xml" /> 
    	</StaticActors>
     <Script preLoad="lua\LevelInit.lua" postLoad="lua\LevelPostInit.lua"/>
 </World>

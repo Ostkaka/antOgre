@@ -14,6 +14,7 @@ const char* antOgre::SkyRenderComponent::g_Name        = "SkyRenderComponent";
 const char* antOgre::LightRenderComponent::g_Name      = "LightRenderComponent";
 const char* antOgre::BoxRenderComponent::g_Name        = "BoxRenderComponent";
 const char* antOgre::SphereRenderComponent::g_Name     = "SphereRenderComponent";
+const char* antOgre::PlaneRenderComponent::g_Name      = "PlaneRenderComponent";
 
 int createEntities = 0;
 int createdLights  = 0;
@@ -313,6 +314,59 @@ bool antOgre::SphereRenderComponent::delegateInit(TiXmlElement* data)
 		double radius = 0;
 		box->Attribute("radius", &radius);
 		m_radius = radius;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// PlaneRenderComponent
+//////////////////////////////////////////////////////////////////////////
+antOgre::PlaneRenderComponent::PlaneRenderComponent() : m_size(0,0,0)
+{
+}
+
+SceneNode* antOgre::PlaneRenderComponent::createSceneNode(SceneManager* mgr)
+{
+	// How to create a box?
+	Ogre::Entity * entity = ogreUtils::createPlane(mgr);
+
+	Ogre::SceneNode * node = mgr->getRootSceneNode()->createChildSceneNode();
+	node->attachObject(entity);
+	
+	node->setScale(ANT_VEC3_TO_OGRE_VEC3(m_size) / BASE_PLANE_SIZE);
+
+	// Try to get the transform component here. Is this an ugly hack?
+	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
+	if (pTransformComponent)
+	{
+		node->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTransformComponent->getPosition()));
+	}
+
+	return node;
+}
+
+bool antOgre::PlaneRenderComponent::delegateInit(TiXmlElement* data)
+{
+	TiXmlElement* plane = data->FirstChildElement("Plane");
+
+	if (plane)
+	{
+
+		TiXmlElement* size = plane->FirstChildElement("Size");
+
+		if (size)
+		{
+			double x = 0;
+			double y = 0;
+			double z = 0;
+
+			size->Attribute("x", &x);
+			size->Attribute("y", &y);
+			size->Attribute("z", &z);
+
+			m_size = ant::Vec3(x, y, z);
+		}
 	}
 
 	return true;

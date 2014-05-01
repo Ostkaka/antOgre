@@ -25,6 +25,7 @@ ant::ActorFactory::ActorFactory( void )
 	m_componentFactory.Register<antOgre::SkyRenderComponent>(ActorComponent::getIdFromName(antOgre::SkyRenderComponent::g_Name));
 	m_componentFactory.Register<antOgre::BoxRenderComponent>(ActorComponent::getIdFromName(antOgre::BoxRenderComponent::g_Name));
 	m_componentFactory.Register<antOgre::SphereRenderComponent>(ActorComponent::getIdFromName(antOgre::SphereRenderComponent::g_Name));
+	m_componentFactory.Register<antOgre::PlaneRenderComponent>(ActorComponent::getIdFromName(antOgre::PlaneRenderComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()

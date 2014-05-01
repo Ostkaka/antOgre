@@ -204,6 +204,34 @@ namespace antOgre
 	public:
 		static const char *g_Name;
 	};
+
+	/**
+	* Render component responsible for creating a skybox
+	*/
+	class PlaneRenderComponent : public BaseOGRERenderComponent
+	{
+	public:
+		/// Default constructor
+		PlaneRenderComponent(void);
+
+		virtual const char *getName() const { return g_Name; }
+
+	protected:
+		// factory method to create the appropriate scene node
+		virtual Ogre::SceneNode* createSceneNode(Ogre::SceneManager* mgr) ANT_OVERRIDE;
+
+		//// Loads data to the scene node from the <SceneNode> tag
+		virtual bool delegateInit(TiXmlElement *data) ANT_OVERRIDE;
+
+		//////////////////////////////////////////////////////////////////////////
+		// Variables
+		//////////////////////////////////////////////////////////////////////////
+	protected:
+		ant::Vec3 m_size;
+
+	public:
+		static const char *g_Name;
+	};
 }
 
 #endif

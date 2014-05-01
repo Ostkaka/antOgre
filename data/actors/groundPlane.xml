@@ -1,0 +1,10 @@
+<Actor type="ground" resource="actors\groundBox">
+	<TransformComponent>
+		<Position x="0" y="0" z="-150"/>
+	</TransformComponent>
+	<PlaneRenderComponent>		
+		<Plane> 
+			<Size x="400" y="400" z="400"/>
+		</Plane>
+	</PlaneRenderComponent>
+</Actor>
