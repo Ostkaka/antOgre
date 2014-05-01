@@ -148,6 +148,62 @@ namespace antOgre
 		static const char *g_Name;
 	};
 
+
+	/**
+	* Render component responsible for creating a skybox
+	*/
+	class BoxRenderComponent : public BaseOGRERenderComponent
+	{
+	public:
+		/// Default constructor
+		BoxRenderComponent(void);
+
+		virtual const char *getName() const { return g_Name; }
+
+	protected:
+		// factory method to create the appropriate scene node
+		virtual Ogre::SceneNode* createSceneNode(Ogre::SceneManager* mgr) ANT_OVERRIDE;
+
+		//// Loads data to the scene node from the <SceneNode> tag
+		virtual bool delegateInit(TiXmlElement *data) ANT_OVERRIDE;
+
+		//////////////////////////////////////////////////////////////////////////
+		// Variables
+		//////////////////////////////////////////////////////////////////////////
+	protected:
+		ant::Vec3 m_halfVector;
+
+	public:
+		static const char *g_Name;
+	};
+
+	/**
+	* Render component responsible for creating a skybox
+	*/
+	class SphereRenderComponent : public BaseOGRERenderComponent
+	{
+	public:
+		/// Default constructor
+		SphereRenderComponent(void);
+
+		virtual const char *getName() const { return g_Name; }
+
+	protected:
+		// factory method to create the appropriate scene node
+		virtual Ogre::SceneNode* createSceneNode(Ogre::SceneManager* mgr) ANT_OVERRIDE;
+
+		//// Loads data to the scene node from the <SceneNode> tag
+		virtual bool delegateInit(TiXmlElement *data) ANT_OVERRIDE;
+
+		//////////////////////////////////////////////////////////////////////////
+		// Variables
+		//////////////////////////////////////////////////////////////////////////
+	protected:
+		ant::Real m_radius;
+
+	public:
+		static const char *g_Name;
+	};
 }
 
 #endif

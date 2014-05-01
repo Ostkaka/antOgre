@@ -1,0 +1,8 @@
+<Actor type="sphere" resource="actors\basicSphere">
+	<TransformComponent>
+		<Position x="50" y="0" z="40"/>
+	</TransformComponent>
+	<SphereRenderComponent>
+		<Sphere radius="10.0"/>
+	</SphereRenderComponent>
+</Actor>

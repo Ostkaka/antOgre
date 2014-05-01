@@ -2,7 +2,12 @@
     <StaticActors>    	
     	<Actor resource="actors\ogreHeadPlayer.xml" /> 
         <Actor resource="actors\ogreHead.xml" /> 
+        <Actor resource="actors\athene.xml" /> 
         <Actor resource="actors\basicLightActor.xml" /> 
+        <Actor resource="actors\skyplane.xml" /> 
+        <Actor resource="actors\groundBox.xml"/> 
+        <Actor resource="actors\groundBox2.xml"/> 
+        <Actor resource="actors\basicSphere.xml" /> 
    	</StaticActors>
     <Script preLoad="lua\LevelInit.lua" postLoad="lua\LevelPostInit.lua"/>
 </World>

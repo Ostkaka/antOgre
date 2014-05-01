@@ -22,6 +22,9 @@ ant::ActorFactory::ActorFactory( void )
 	m_componentFactory.Register<TransformComponent>(ActorComponent::getIdFromName(TransformComponent::g_Name));
 	m_componentFactory.Register<antOgre::BaseEntityRenderComponent>(ActorComponent::getIdFromName(antOgre::BaseEntityRenderComponent::g_Name));
 	m_componentFactory.Register<antOgre::LightRenderComponent>(ActorComponent::getIdFromName(antOgre::LightRenderComponent::g_Name));
+	m_componentFactory.Register<antOgre::SkyRenderComponent>(ActorComponent::getIdFromName(antOgre::SkyRenderComponent::g_Name));
+	m_componentFactory.Register<antOgre::BoxRenderComponent>(ActorComponent::getIdFromName(antOgre::BoxRenderComponent::g_Name));
+	m_componentFactory.Register<antOgre::SphereRenderComponent>(ActorComponent::getIdFromName(antOgre::SphereRenderComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()

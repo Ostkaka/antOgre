@@ -4,16 +4,23 @@
 #include <ant/Events.hpp>
 #include <actors/TransformComponent.hpp>
 #include <ant/templates.hpp>
+#include <antOgre/Utils.hpp>
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreEntity.h>
 
 const char* antOgre::BaseEntityRenderComponent::g_Name = "BaseEntityRenderComponent";
-const char* antOgre::SkyRenderComponent::g_Name = "SkyRenderComponent";
-const char* antOgre::LightRenderComponent::g_Name = "LightRenderComponent";
+const char* antOgre::SkyRenderComponent::g_Name        = "SkyRenderComponent";
+const char* antOgre::LightRenderComponent::g_Name      = "LightRenderComponent";
+const char* antOgre::BoxRenderComponent::g_Name        = "BoxRenderComponent";
+const char* antOgre::SphereRenderComponent::g_Name     = "SphereRenderComponent";
 
 int createEntities = 0;
 int createdLights  = 0;
+
+ant::Real BASE_CUBE_SIZE   = 50.0;
+ant::Real BASE_SPHERE_SIZE = 50.0;
+ant::Real BASE_PLANE_SIZE  = 200.0;
 
 antOgre::BaseOGRERenderComponent::BaseOGRERenderComponent()
 {
@@ -91,9 +98,7 @@ Ogre::SceneNode* antOgre::BaseEntityRenderComponent::createSceneNode(Ogre::Scene
 	// Try to get the transform component here. Is this an ugly hack?
 	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
 	
-	createEntities++;
-	
-	std::string generatename = m_entityName + ToStr(createEntities);
+	std::string generatename = m_entityName + ToStr(createEntities++);
 
 	Ogre::Entity* entity = mgr->createEntity(generatename, m_entityName);
 	Ogre::SceneNode* node = mgr->getRootSceneNode()->createChildSceneNode(generatename + std::string("Node"));
@@ -132,7 +137,14 @@ antOgre::SkyRenderComponent::SkyRenderComponent()
 
 Ogre::SceneNode* antOgre::SkyRenderComponent::createSceneNode(Ogre::SceneManager* mgr)
 {
-	return nullptr;
+	Ogre::Plane plane;
+	plane.d = 1000;
+	plane.normal = Ogre::Vector3::NEGATIVE_UNIT_Y;
+
+	mgr->setSkyDome(true, m_textureName, 5, 8);
+
+	// Just return an empty scene node
+	return mgr->getRootSceneNode()->createChildSceneNode();
 }
 
 bool antOgre::SkyRenderComponent::delegateInit(TiXmlElement* data)
@@ -213,5 +225,95 @@ bool antOgre::LightRenderComponent::delegateInit(TiXmlElement* data)
 		}
 	}
 	
+	return true;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// BoxRenderComponent
+//////////////////////////////////////////////////////////////////////////
+
+antOgre::BoxRenderComponent::BoxRenderComponent(void) : m_halfVector(0, 0, 0)
+{
+}
+
+Ogre::SceneNode* antOgre::BoxRenderComponent::createSceneNode(Ogre::SceneManager* mgr)
+{
+	// How to create a box?
+	Ogre::Entity * entity = ogreUtils::createCube(mgr);
+
+	Ogre::SceneNode * node = mgr->getRootSceneNode()->createChildSceneNode();
+	node->attachObject(entity);	
+	node->setScale(m_halfVector.x / BASE_CUBE_SIZE, m_halfVector.y / BASE_CUBE_SIZE, m_halfVector.z / BASE_CUBE_SIZE);
+	
+	// Try to get the transform component here. Is this an ugly hack?
+	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
+	if (pTransformComponent)
+	{
+		node->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTransformComponent->getPosition()));
+	}
+
+	return node;
+}
+
+bool antOgre::BoxRenderComponent::delegateInit(TiXmlElement* data)
+{
+	TiXmlElement* box = data->FirstChildElement("Box");
+
+	if (box)
+	{
+		double x = 0;
+		double y = 0;
+		double z = 0;
+
+		box->Attribute("x", &x);
+		box->Attribute("y", &y);
+		box->Attribute("z", &z);
+
+		m_halfVector = ant::Vec3(x, y, z);
+	}
+
+	return true;	
+}
+
+//////////////////////////////////////////////////////////////////////////
+// SphereRenderComponent
+//////////////////////////////////////////////////////////////////////////
+
+antOgre::SphereRenderComponent::SphereRenderComponent() : m_radius(0)
+{
+}
+
+SceneNode* antOgre::SphereRenderComponent::createSceneNode(SceneManager* mgr)
+{
+	// How to create a box?
+	Ogre::Entity * entity = ogreUtils::createSphere(mgr);
+
+	Ogre::SceneNode * node = mgr->getRootSceneNode()->createChildSceneNode();
+	node->attachObject(entity);
+	ant::Real r = m_radius / BASE_SPHERE_SIZE;
+	node->scale(r, r, r);
+
+	// Try to get the transform component here. Is this an ugly hack?
+	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
+	if (pTransformComponent)
+	{
+		node->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTransformComponent->getPosition()));
+	}
+
+	return node;
+}
+
+bool antOgre::SphereRenderComponent::delegateInit(TiXmlElement* data)
+{
+	TiXmlElement* box = data->FirstChildElement("Sphere");
+
+	if (box)
+	{
+		double radius = 0;
+		box->Attribute("radius", &radius);
+		m_radius = radius;
+	}
+
 	return true;
 }

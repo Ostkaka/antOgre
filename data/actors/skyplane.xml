@@ -1,0 +1,7 @@
+<Actor type="Sky" resource="actors\skyplane">
+	<SkyRenderComponent>
+		<Texture>
+			Examples/CloudySky
+		</Texture>
+	</SkyRenderComponent>
+</Actor>

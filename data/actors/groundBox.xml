@@ -1,0 +1,9 @@
+<Actor type="ground" resource="actors\groundBox">
+	<TransformComponent>
+		<Position x="0" y="0" z="0"/>
+	</TransformComponent>
+	<BoxRenderComponent>
+		<!--<Box x="25" y="25" z="25"/>-->
+		<Box x="10" y="10" z="10"/>
+	</BoxRenderComponent>
+</Actor>
