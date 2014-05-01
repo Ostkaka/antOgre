@@ -4,12 +4,14 @@
 #include <ant\templates.hpp>
 #include <actors\TransformComponent.hpp>
 
+ant::Real MOVE_INC = 5.0;
+
 ant::TestController::TestController(Ogre::SceneNode * target)
 {
 	m_actorId = INVALID_ACTOR_ID;
 	m_target  = target;
 
-	ant::InputManager::instance()->AddCallback(this);
+	init();
 }
 
 ant::TestController::TestController(ActorId target)
@@ -17,7 +19,7 @@ ant::TestController::TestController(ActorId target)
 	m_actorId = target;
 	m_target  = nullptr;
 
-	ant::InputManager::instance()->AddCallback(this);
+	init();
 }
 
 ant::TestController::~TestController()
@@ -25,13 +27,18 @@ ant::TestController::~TestController()
 	//ant::InputManager::instance()->(this);
 }
 
+void ant::TestController::init()
+{
+	moveForward = false;
+	moveLeft    = false;
+	moveRight   = false;
+	moveBack    = false;
+
+	ant::InputManager::instance()->AddCallback(this);
+}
+
 bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 {
-	bool moveForward = false;
-	bool moveLeft    = false;
-	bool moveRight   = false;
-	bool moveBack    = false;
-
 	switch (arg.key)
 	{
 	case OIS::KeyCode::KC_W:
@@ -52,8 +59,37 @@ bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 	default:
 		break;
 	}
+		
+	return true;
+}
 
-	Ogre::Vector3 inc(moveLeft ? -10 : (moveRight ? 10 : 0), 0, moveForward ? -10 : (moveBack ? 10 : 0));
+bool ant::TestController::keyReleased(OIS::KeyEvent const& arg)
+{
+	// Do nothing
+	switch (arg.key)
+	{
+	case OIS::KeyCode::KC_W:
+		moveForward = false;
+		break;
+	case OIS::KeyCode::KC_D:
+		moveRight = false;
+		break;
+	case OIS::KeyCode::KC_A:
+		moveLeft = false;
+		break;
+	case OIS::KeyCode::KC_S:
+		moveBack = false;
+		break;
+	default:
+		break;
+	}
+
+	return true;
+}
+
+void ant::TestController::update()
+{
+	Ogre::Vector3 inc(moveLeft ? -MOVE_INC : (moveRight ? MOVE_INC : 0), 0, moveForward ? -MOVE_INC : (moveBack ? MOVE_INC : 0));
 
 	if (m_actorId == INVALID_ACTOR_ID && m_target != nullptr)
 	{
@@ -63,7 +99,7 @@ bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 	else if (m_actorId != INVALID_ACTOR_ID)
 	{
 		// Get actor transform component
-		ActorStrongPtr str =  MakeStrongPtr(IOgreApp::getApp()->getGameLogic()->getActor(m_actorId));
+		ActorStrongPtr str = MakeStrongPtr(IOgreApp::getApp()->getGameLogic()->getActor(m_actorId));
 		TransformComponentStrongPtr p = MakeStrongPtr(str->getComponent<TransformComponent>(TransformComponent::g_Name));
 		if (p)
 		{
@@ -71,12 +107,4 @@ bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 			p->setPosition(pos);
 		}
 	}
-		
-	return true;
-}
-
-bool ant::TestController::keyReleased(OIS::KeyEvent const& arg)
-{
-	// Do nothing
-	return true;
 }

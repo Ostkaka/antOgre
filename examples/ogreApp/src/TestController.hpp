@@ -24,12 +24,24 @@ namespace ant
 
 		virtual bool keyReleased(const OIS::KeyEvent &arg) ANT_OVERRIDE;
 
+		void update();
+
+	private:
+
+		void init();
+
 		//////////////////////////////////////////////////////////////////////////
 		// Variables
 		//////////////////////////////////////////////////////////////////////////
 	protected:
 		Ogre::SceneNode * m_target;
 		ActorId           m_actorId;
+
+		/// Buttons
+		bool moveForward;
+		bool moveLeft;
+		bool moveRight;
+		bool moveBack;
 	};
 }
 

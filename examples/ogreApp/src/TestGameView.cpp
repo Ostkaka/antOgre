@@ -45,6 +45,7 @@ void antOgre::TestGameView::onUpdate(DeltaTime dt)
 {
 	// Update controllers here. This is probably also where we should RESPOND to captured input
 	//std::cout << "Camera pos: " << m_cameraNode->getPosition() << std::endl;
+	m_controller->update();
 }
 
 void antOgre::TestGameView::setControllerActorDelegate(IEventDataStrongPtr eventPtr)
