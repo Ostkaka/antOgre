@@ -50,6 +50,13 @@ namespace ant
 		m_transform[2][3] = pos.z;
 	}
 
+	ANT_INLINE ant::Vec3 TransformComponent::getPosition()
+	{
+		// Try to extract the position from the matrix
+		ant::Vec3 vec3 = ant::Vec3(m_transform[0][3], m_transform[1][3], m_transform[2][3]);
+		return vec3;
+	}
+
 #define ANT_VEC3_TO_OGRE_VEC3(vec3) Ogre::Vector3(vec3.x,vec3.y,vec3.z)
 
 #define OGRE_VEC3_TO_ANT_VEC3(vec3) ant::Vec3(vec3.x,vec3.y,vec3.z)

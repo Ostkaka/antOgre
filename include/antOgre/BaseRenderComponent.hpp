@@ -83,6 +83,71 @@ namespace antOgre
 		static const char *g_Name;
 	};
 
+	/**
+	* Render component responsible for creating a skybox 
+	*/
+	class SkyRenderComponent : public BaseOGRERenderComponent
+	{
+	public:
+		/// Default constructor
+		SkyRenderComponent(void);
+
+		virtual const char *getName() const { return g_Name; }
+
+	protected:
+		// factory method to create the appropriate scene node
+		virtual Ogre::SceneNode* createSceneNode(Ogre::SceneManager* mgr) ANT_OVERRIDE;
+
+		//// Loads data to the scene node from the <SceneNode> tag
+		virtual bool delegateInit(TiXmlElement *data) ANT_OVERRIDE;
+
+		//////////////////////////////////////////////////////////////////////////
+		// Variables
+		//////////////////////////////////////////////////////////////////////////
+	protected:
+		std::string m_textureName;
+
+	public:
+		static const char *g_Name;
+	};
+
+	/**
+	* Class that handles a light
+	*/
+	class LightRenderComponent : public BaseOGRERenderComponent
+	{
+	public:
+
+		struct LightProperties
+		{
+			float	m_Attenuation[3];  /* Attenuation coefficients */
+			float	m_Range;
+			float	m_Falloff;
+			float	m_Theta;
+			float	m_Phi;
+		};
+
+		LightRenderComponent(void);
+
+		virtual const char *getName() const { return g_Name; }
+
+	protected:
+		// factory method to create the appropriate scene node
+		virtual Ogre::SceneNode* createSceneNode(Ogre::SceneManager* mgr) ANT_OVERRIDE;
+
+		//// Loads data to the scene node from the <SceneNode> tag
+		virtual bool delegateInit(TiXmlElement *data) ANT_OVERRIDE;
+
+		//////////////////////////////////////////////////////////////////////////
+		// Variables
+		//////////////////////////////////////////////////////////////////////////
+	protected:
+		std::string     m_textureName;
+		LightProperties m_Props;
+	public:
+		static const char *g_Name;
+	};
+
 }
 
 #endif

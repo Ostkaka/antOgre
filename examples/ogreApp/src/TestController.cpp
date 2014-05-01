@@ -53,7 +53,7 @@ bool ant::TestController::keyPressed(OIS::KeyEvent const& arg)
 		break;
 	}
 
-	Ogre::Vector3 inc(moveLeft ? 10 : (moveRight ? -10 : 0), 0, moveForward ? 10 : (moveBack ? -10 : 0));
+	Ogre::Vector3 inc(moveLeft ? -10 : (moveRight ? 10 : 0), 0, moveForward ? -10 : (moveBack ? 10 : 0));
 
 	if (m_actorId == INVALID_ACTOR_ID && m_target != nullptr)
 	{

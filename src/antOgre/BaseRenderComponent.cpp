@@ -9,8 +9,11 @@
 #include <OGRE/OgreEntity.h>
 
 const char* antOgre::BaseEntityRenderComponent::g_Name = "BaseEntityRenderComponent";
+const char* antOgre::SkyRenderComponent::g_Name = "SkyRenderComponent";
+const char* antOgre::LightRenderComponent::g_Name = "LightRenderComponent";
 
 int createEntities = 0;
+int createdLights  = 0;
 
 antOgre::BaseOGRERenderComponent::BaseOGRERenderComponent()
 {
@@ -100,7 +103,6 @@ Ogre::SceneNode* antOgre::BaseEntityRenderComponent::createSceneNode(Ogre::Scene
 	if (pTransformComponent)
 	{
 		ant::Vec3 pos = pTransformComponent->getPosition();
-
 		node->setPosition(pos.x, pos.y, pos.z);
 	}
 	
@@ -118,5 +120,98 @@ bool antOgre::BaseEntityRenderComponent::delegateInit(TiXmlElement* data)
 		m_entityName = entityNode->FirstChild()->Value();
 	}
 
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// SkyRenderComponent
+//////////////////////////////////////////////////////////////////////////
+antOgre::SkyRenderComponent::SkyRenderComponent()
+{
+}
+
+Ogre::SceneNode* antOgre::SkyRenderComponent::createSceneNode(Ogre::SceneManager* mgr)
+{
+	return nullptr;
+}
+
+bool antOgre::SkyRenderComponent::delegateInit(TiXmlElement* data)
+{
+	TiXmlElement * pTexture = data->FirstChildElement("Texture");
+	if (pTexture)
+	{
+		m_textureName = pTexture->FirstChild()->Value();
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// LightRenderComponent
+//////////////////////////////////////////////////////////////////////////
+antOgre::LightRenderComponent::LightRenderComponent(void)
+{
+}
+
+Ogre::SceneNode* antOgre::LightRenderComponent::createSceneNode(Ogre::SceneManager* mgr)
+{
+	// Try to get the transform component here. Is this an ugly hack?
+	ant::TransformComponentStrongPtr pTransformComponent = MakeStrongPtr(m_pOwner->getComponent<ant::TransformComponent>(ant::TransformComponent::g_Name));
+
+	std::string lightname = "light_" + ToStr(createdLights++);
+
+	// Create a Light and set its position
+	Ogre::Light* light     = mgr->createLight(lightname);
+	Ogre::SceneNode * node = mgr->getRootSceneNode()->createChildSceneNode();
+
+	node->attachObject(light);	
+
+	if (pTransformComponent)
+	{
+		light->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTransformComponent->getPosition()));
+		std::cout << ANT_VEC3_TO_OGRE_VEC3(pTransformComponent->getPosition()) << std::endl;
+	}
+	
+	// TODO - fix synching of the properties!
+	return node;
+}
+
+bool antOgre::LightRenderComponent::delegateInit(TiXmlElement* data)
+{
+	TiXmlElement* pLight = data->FirstChildElement("Light");
+
+	if (pLight)
+	{
+		double temp;
+		TiXmlElement* pAttenuationNode = NULL;
+		pAttenuationNode = pLight->FirstChildElement("Attenuation");
+		if (pAttenuationNode)
+		{
+			double temp;
+			pAttenuationNode->Attribute("const", &temp);
+			m_Props.m_Attenuation[0] = (float)temp;
+
+			pAttenuationNode->Attribute("linear", &temp);
+			m_Props.m_Attenuation[1] = (float)temp;
+
+			pAttenuationNode->Attribute("exp", &temp);
+			m_Props.m_Attenuation[2] = (float)temp;
+		}
+
+		TiXmlElement* pShapeNode = NULL;
+		pShapeNode = pLight->FirstChildElement("Shape");
+		if (pShapeNode)
+		{
+			pShapeNode->Attribute("range", &temp);
+			m_Props.m_Range = (float)temp;
+			pShapeNode->Attribute("falloff", &temp);
+			m_Props.m_Falloff = (float)temp;
+			pShapeNode->Attribute("theta", &temp);
+			m_Props.m_Theta = (float)temp;
+			pShapeNode->Attribute("phi", &temp);
+			m_Props.m_Phi = (float)temp;
+		}
+	}
+	
 	return true;
 }

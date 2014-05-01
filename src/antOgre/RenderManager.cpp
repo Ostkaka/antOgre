@@ -66,7 +66,7 @@ void RenderManager::startUp()
 
 void RenderManager::shutDown()
 {
-
+	SAFE_DELETE(g_renderManager);
 }
 
 Ogre::RenderWindow* RenderManager::createRenderWindow(const std::string& title)
@@ -81,10 +81,8 @@ Ogre::RenderWindow* RenderManager::createRenderWindow(const std::string& title)
 	// Create one viewport, entire window // TODO - viewports and cameras should be created in the HumanView 
 	Ogre::Camera* camera = m_ogreRoot->getSceneManager("main")->createCamera("MainCamera");
 
-
 	camera->setPosition(0, 0, 150);
 	camera->lookAt(0, 0, 0);
-
 
 	ANT_ASSERT(m_renderWindow);
 	return m_renderWindow;

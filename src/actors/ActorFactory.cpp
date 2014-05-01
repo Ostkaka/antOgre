@@ -21,11 +21,11 @@ ant::ActorFactory::ActorFactory( void )
 	m_componentFactory.Register<BaseScriptComponent>(ActorComponent::getIdFromName(BaseScriptComponent::g_Name));
 	m_componentFactory.Register<TransformComponent>(ActorComponent::getIdFromName(TransformComponent::g_Name));
 	m_componentFactory.Register<antOgre::BaseEntityRenderComponent>(ActorComponent::getIdFromName(antOgre::BaseEntityRenderComponent::g_Name));
+	m_componentFactory.Register<antOgre::LightRenderComponent>(ActorComponent::getIdFromName(antOgre::LightRenderComponent::g_Name));
 }
 
 ant::ActorFactory::~ActorFactory()
 {
-
 }
 
 ant::ActorStrongPtr ant::ActorFactory::createActor(const char* actorResource, TiXmlElement* overrides, const Mat4 * initialTransform, const ActorId serversActorId)

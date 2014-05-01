@@ -15,10 +15,6 @@ OgreScene::OgreScene(const std::string& sceneName)
 	pEventMgr->addListener(MakeDelegate(this, &OgreScene::newRenderComponentDelegate), EvtData_New_RenderComponent::sk_EventType);
 	pEventMgr->addListener(MakeDelegate(this, &OgreScene::destroyActorDelegate), EvtData_Destroy_Actor::sk_EventType);
 	//pEventMgr->addListener(MakeDelegate(this, &OgreScene::modifiedRenderComponentDelegate), EvtData_Modified_SFMLRender_Component::sk_EventType);
-
-	// Create a Light and set its position
-	Ogre::Light* light = m_sceneMgr->createLight("MainLight");
-	light->setPosition(20.0f, 80.0f, 50.0f);
 }
 
 OgreScene::~OgreScene()
