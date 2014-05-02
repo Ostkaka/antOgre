@@ -3,6 +3,7 @@
 
 #include <ant/core_types.hpp>
 #include <actors/ActorComponent.hpp>
+#include <OGRE\OgreQuaternion.h>
 
 namespace ant
 {
@@ -25,6 +26,8 @@ namespace ant
 		
 		// TODO - fix the get/set position stuff
 		ant::Vec3 getPosition();
+		ant::Vec3 getYawPitchRoll();
+		ant::Quat getQuaternion();
 
 		void setPosition(Vec3 pos);
 
@@ -45,21 +48,36 @@ namespace ant
 
 	ANT_INLINE void TransformComponent::setPosition(Vec3 pos)
 	{		
-		m_transform[0][3] = pos.x;
-		m_transform[1][3] = pos.y;
-		m_transform[2][3] = pos.z;
+		m_transform[3][0] = pos.x;
+		m_transform[3][1] = pos.y;
+		m_transform[3][2] = pos.z;
 	}
 
 	ANT_INLINE ant::Vec3 TransformComponent::getPosition()
 	{
 		// Try to extract the position from the matrix
-		ant::Vec3 vec3 = ant::Vec3(m_transform[0][3], m_transform[1][3], m_transform[2][3]);
+		ant::Vec3 vec3 = ant::Vec3(m_transform[3][0], m_transform[3][1], m_transform[3][2]);
 		return vec3;
 	}
 
-#define ANT_VEC3_TO_OGRE_VEC3(vec3) Ogre::Vector3(vec3.x,vec3.y,vec3.z)
+	ANT_INLINE ant::Vec3 TransformComponent::getYawPitchRoll()
+	{
+		// Try to extract the position from the matrix
+		//ant::Vec3 vec3 = ant::Vec3(m_transform[0][3], m_transform[1][3], m_transform[2][3]);
+		//glm::quat q = glm::quat(
 
+		return Vec3(1.0);
+	}
+
+	ANT_INLINE ant::Quat TransformComponent::getQuaternion()
+	{	
+		return ant::Quat(m_transform);
+	}
+
+#define ANT_VEC3_TO_OGRE_VEC3(vec3) Ogre::Vector3(vec3.x,vec3.y,vec3.z)
 #define OGRE_VEC3_TO_ANT_VEC3(vec3) ant::Vec3(vec3.x,vec3.y,vec3.z)
+#define OGRE_QUAT_TO_ANT_QUAT(q) ant::Quat(q.w,q.x,q.y,q.z)
+#define ANT_QUAT_TO_OGRE_QUAT(q) Ogre::Quaternion(q.w,q.x,q.y,q.z)
 }
 
 #endif

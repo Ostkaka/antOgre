@@ -34,11 +34,11 @@ bool TransformComponent::init(TiXmlElement* pData)
 		yawPitchRoll = Vec3(yaw, pitch, roll);
 	}
 
-	setPosition(position);
+	Mat4 translation = glm::translate(ant::Mat4(1.0f), position);
 
 	Mat4 rotation = glm::rotate(Mat4(1.0f), yawPitchRoll.x, Vec3(1.0, 0, 0)) * glm::rotate(Mat4(1.0f), yawPitchRoll.y, Vec3(0, 1.0, 0)) * glm::rotate(Mat4(1.0f), yawPitchRoll.z, Vec3(0, 0, 1.0));
 
-	m_transform *= rotation;
+	m_transform = translation * rotation;
 
 	return true;
 }

@@ -1,6 +1,6 @@
 <Actor type="Light" resource="actors\basicLightActor">
 	<TransformComponent>
-		<Position x="0" y="0" z="100"/>
+		<Position x="0" y="100" z="300"/>
 	</TransformComponent>
 	<LightRenderComponent>
 		<Color r="1.0" g="1.0" b="1.0" a="1.0" />

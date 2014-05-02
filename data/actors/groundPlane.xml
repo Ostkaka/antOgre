@@ -1,6 +1,7 @@
 <Actor type="ground" resource="actors\groundBox">
 	<TransformComponent>
-		<Position x="0" y="0" z="-150"/>
+		<Position x="0" y="-50" z="0"/>
+		<YawPitchRoll x="-1.57" y="0" z="0"/>	
 	</TransformComponent>
 	<PlaneRenderComponent>		
 		<Plane> 

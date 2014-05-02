@@ -19,6 +19,8 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 //define the resource dir
 //#define _RELEASE_GAME
@@ -48,6 +50,7 @@ namespace ant
 	typedef glm::mat4 Mat4;
 	typedef glm::vec3 Vec3;
 	typedef glm::vec4 Vec4;
+	typedef glm::quat Quat;
 	
 	// TODO format forward declarations
 	// Forward declarations for new framework

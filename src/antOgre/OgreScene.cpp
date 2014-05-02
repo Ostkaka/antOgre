@@ -45,7 +45,8 @@ void OgreScene::onRender(DeltaTime fTime, DeltaTime fElapsedTime)
 			TransformComponentStrongPtr pTrans = MakeStrongPtr(actor->getComponent<TransformComponent>(TransformComponent::g_Name));
 			if (pTrans)
 			{
-				i.second->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTrans->getPosition()));				
+				i.second->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTrans->getPosition()));
+				i.second->setOrientation(ANT_QUAT_TO_OGRE_QUAT(pTrans->getQuaternion()));
 			}
 		}
 	}
