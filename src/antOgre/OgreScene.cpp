@@ -46,7 +46,7 @@ void OgreScene::onRender(DeltaTime fTime, DeltaTime fElapsedTime)
 			if (pTrans)
 			{
 				i.second->setPosition(ANT_VEC3_TO_OGRE_VEC3(pTrans->getPosition()));
-				i.second->setOrientation(ANT_QUAT_TO_OGRE_QUAT(pTrans->getQuaternion()));
+				i.second->setOrientation(ANT_QUAT_TO_OGRE_QUAT(pTrans->getRotation()));
 			}
 		}
 	}

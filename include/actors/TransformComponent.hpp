@@ -25,9 +25,8 @@ namespace ant
 		virtual const char* getName() const ANT_OVERRIDE { return g_Name; }
 		
 		// TODO - fix the get/set position stuff
-		ant::Vec3 getPosition();
-		ant::Vec3 getYawPitchRoll();
-		ant::Quat getQuaternion();
+		ant::Vec3 getPosition();		
+		ant::Quat getRotation();
 
 		void setPosition(Vec3 pos);
 
@@ -60,16 +59,7 @@ namespace ant
 		return vec3;
 	}
 
-	ANT_INLINE ant::Vec3 TransformComponent::getYawPitchRoll()
-	{
-		// Try to extract the position from the matrix
-		//ant::Vec3 vec3 = ant::Vec3(m_transform[0][3], m_transform[1][3], m_transform[2][3]);
-		//glm::quat q = glm::quat(
-
-		return Vec3(1.0);
-	}
-
-	ANT_INLINE ant::Quat TransformComponent::getQuaternion()
+	ANT_INLINE ant::Quat TransformComponent::getRotation()
 	{	
 		return ant::Quat(m_transform);
 	}

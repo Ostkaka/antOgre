@@ -96,6 +96,22 @@ ExternalProject_Add(
 
 SET_PROPERTY(TARGET zlib PROPERTY FOLDER "external")
 
+# Add bullet
+ExternalProject_Add(
+    bullet
+    GIT_REPOSITORY https://github.com/bulletphysics/bullet3.git
+    TIMEOUT 10  
+    # Force separate output paths for debug and release builds to allow easy
+    # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${INSTALLED_DIR} -DINSTALL_LIBS=ON -BUILD_BULLET3=OFF
+    # Wrap download, configure and build steps in a script to log output
+    # Disable install step    
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON)
+
+SET_PROPERTY(TARGET bullet PROPERTY FOLDER "external")
+
 ADD_DEPENDENCIES(ogre glm)
 
 ADD_DEPENDENCIES(ogre zlib)
