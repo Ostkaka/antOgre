@@ -9,7 +9,6 @@
 
 namespace ant
 {
-	
 	/**
 	 * Typedefs
 	 */
@@ -48,7 +47,7 @@ namespace ant
 		virtual std::string getName(void) const = 0;
 
 		// Serialization
-		ANT_DECLARE_ABSTRACT_SERIALIZABLE();
+		ANT_DECLARE_ABSTRACT_SERIALIZABLE()
 	};
 
 	/**
@@ -68,7 +67,7 @@ namespace ant
 		ant::TimeStamp getTimeStamp(void) const { return m_timeStamp; }
 
 		// Serializing 
-		ANT_DECLARE_SERIALIZABLE();
+		ANT_DECLARE_SERIALIZABLE
 
 	protected:
 		/// Timestamp of when the event was created

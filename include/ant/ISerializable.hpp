@@ -20,11 +20,11 @@ namespace ant
 }
 
 // Call this in subclasses to define the serialization interface
-#define ANT_DECLARE_SERIALIZABLE () \
+#define ANT_DECLARE_SERIALIZABLE \
 	virtual void serialize(std::ostrstream& out) const;  \
 	virtual void deserialize(std::istrstream& in);
 
-#define ANT_DECLARE_ABSTRACT_SERIALIZABLE () \
+#define ANT_DECLARE_ABSTRACT_SERIALIZABLE() \
 	virtual void serialize(std::ostrstream& out) const = 0;  \
 	virtual void deserialize(std::istrstream& in) = 0;
 #endif
